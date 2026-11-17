@@ -1,0 +1,25 @@
+{
+  "arithmetic": "Exact rational and integer arithmetic using SymPy",
+  "groups": {
+    "thinning_weights": 546,
+    "normalization": 78,
+    "exact_amplification": 78,
+    "uniform_subsampling_weights": 819,
+    "mixture_representation": 91,
+    "arbitrary_signed_mobius_expansion": 7,
+    "binomial_inverse": 40,
+    "binomial_inverse_normalization": 40,
+    "binomial_inverse_amplification": 40,
+    "parity_inverse": 40,
+    "parity_variance": 40,
+    "tank_inverse": 120,
+    "tank_inverse_normalization": 120,
+    "tank_inverse_amplification": 120,
+    "binary_signed_inverse": 1,
+    "binary_negative_entry": 1,
+    "binary_amplification": 1
+  },
+  "total_checks": 2182,
+  "all_passed": true,
+  "scope": "Finite corroboration of identities, not universal proof or novelty verification"
+}

@@ -1,0 +1,439 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,booktabs,xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\setlength{\emergencystretch}{2em}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\E}{\mathbb E}\newcommand{\PP}{\mathbb P}
+\newcommand{\R}{\mathbb R}\newcommand{\N}{\mathbb N}
+\newcommand{\dd}{\,\mathrm d}\newcommand{\ind}{\mathbf1}
+\newcommand{\Pois}{\operatorname{Pois}}
+\DeclareMathOperator{\Cov}{Cov}
+\title{Additive Cumulants and Computable Fixed-Sample Calibration\\
+\large A research continuation of the discovery-inversion and transfer drafts}
+\author{Christopher D. Long}
+\date{November 16, 2026\\Research note, version 0.1}
+\begin{document}\maketitle
+\begin{abstract}
+We give explicit sufficient integrability conditions for the additive cumulant
+identity underlying the discovery-inversion draft. We then compute the transfer
+draft's dominated-deletion calibrators by polynomial products, including the
+lost-species correction needed for two-sided novelty prediction. Retaining the
+full-count term gives an explicit logarithmic threshold cost. Its common data
+score also permits candidate-dependent optimization of the Poisson effort,
+without a multiple-testing penalty and while preserving convexity in the
+relaxed population measure. These are proof-level extensions and numerical
+research prototypes; we do not claim prior-art clearance, shortest intervals,
+or conditional prediction coverage.
+\end{abstract}
+
+\section{Status and notation}
+The baselines are the recovered November 12 drafts: discovery inversion
+version 0.2 \cite{LongDiscovery} and transfer and generation version 0.1
+\cite{LongTransfer}. The former already contains joint cumulants, direct
+realized-target calibration, a mixed-sign Hill analysis, fourth-moment and
+truncation repairs, and a perspective-based Chernoff minimax equality.
+This note does not reclassify those results as new.
+
+Let $p_i>0$, $\sum_i p_i=1$, with finitely or countably many disjoint species,
+and set $\mu_p=\sum_i p_i\delta_{p_i}$. At Poisson effort $t$, the independent
+counts are $X_i\sim\Pois(tp_i)$ and
+$\Phi_r=\sum_i\ind\{X_i=r\}$, $r\ge1$.
+For a finite direction $\lambda\in\R^d$, put $\lambda_0=0$ and
+$\lambda_j=0$ for $j>d$. Write
+\[
+ b_r^t(x)=e^{-tx}(tx)^r/r!,\qquad
+ K_\lambda^t(\nu)=\int \kappa_\lambda^t(x)\,\dd\nu(x),\quad
+ \kappa_\lambda^t(x)=x^{-1}\log\!\left(1+
+ \sum_{r=1}^d b_r^t(x)(e^{\lambda_r}-1)\right).
+\]
+The continuous extension is $\kappa_\lambda^t(0)=t(e^{\lambda_1}-1)$,
+with $\lambda_1=0$ when $d=0$. The relaxed class is
+$\mathcal P([0,1])$ unless additional restrictions are stated.
+An atom at zero is a relaxation device, not a literal zero-probability species.
+Total richness $\int x^{-1}\dd\nu$ still requires additional control near zero.
+
+Cumulant additivity for independent summands is classical; the abundance-measure
+notation exposes its linear dependence on the population.
+Poisson process foundations are described in \cite{LastPenrose}.
+Moment recovery predates this program, notably Harris \cite{Harris} and
+Daley--Smith \cite{DaleySmith}; generalized Chebyshev-system geometry is treated
+by Karlin--Studden and Pinelis \cite{KarlinStudden,Pinelis}.
+Positive transfer and deficiency belong to classical comparison of experiments
+\cite{Blackwell,Torgersen}. These facts are foundations, not novelty claims.
+
+\section{The master identity with sufficient hypotheses}
+Let $W_i$ be independent with law $Q_{p_i}$ and let
+$\phi(x,W)\in\R^h$ be measurable. Any assertion below involving a kernel on
+a relaxed class additionally assumes that its integral there is defined;
+the theorem itself concerns the actual measure $\mu_p$.
+
+\begin{theorem}[Additive cumulant identity]\label{thm:master}
+Write $\phi_i=\phi(p_i,W_i)$. For finitely many species, assume the
+moment generating functions in the following display are finite.
+For countably many species, sufficient conditions at a specified
+$\theta\in\R^h$ are
+\[
+ \sum_i\E\|\phi_i\|<\infty,\qquad
+ \E\exp\!\left(\sum_i|\theta^\top\phi_i|\right)<\infty.
+\]
+Then $Z=\sum_i\phi_i$ exists absolutely almost surely and
+\begin{equation}\label{eq:master}
+ \log\E e^{\theta^\top Z}
+ =\sum_i\log\E_{p_i}e^{\theta^\top\phi(p_i,W)}
+ =\int x^{-1}\log\E_x e^{\theta^\top\phi(x,W)}\,\dd\mu_p(x),
+\end{equation}
+where the log series is absolutely convergent.
+If, for some $\epsilon>0$,
+\[
+ \E\exp\!\left(\epsilon\sum_i\|\phi_i\|\right)<\infty,
+\]
+then the identity holds in a neighborhood of zero, and every joint cumulant
+is obtained by differentiating the kernel and integrating:
+\[
+ \operatorname{cum}(Z_{j_1},\ldots,Z_{j_r})
+ =\int x^{-1}\operatorname{cum}_x
+       (\phi_{j_1}(x,W),\ldots,\phi_{j_r}(x,W))\,\dd\mu_p(x).
+\]
+These are sufficient, not necessary, conditions.
+\end{theorem}
+\begin{proof}
+Absolute summability follows from Tonelli. For finite partial sums,
+independence gives the product identity. Their exponentials are dominated by
+the assumed integrable exponential, so dominated convergence identifies its
+limit with the moment generating function of $Z$.
+Put $V_i=\theta^\top\phi_i$. Jensen and monotonicity give
+\[
+ -\E|V_i|\le \log\E e^{V_i}\le \log\E e^{|V_i|}.
+\]
+The sums of the right-hand bounds are bounded by
+$\log\E e^{\sum_i|V_i|}$, using independence and monotone convergence.
+This proves absolute convergence of the log series. Its integral form is the
+definition of $\mu_p$.
+
+For differentiation, exponential domination gives summability of
+$\E(e^{c\|\phi_i\|}-1)$ for every $0<c\le\epsilon$, since
+$\sum_i(e^{c\|\phi_i\|}-1)\le e^{c\sum_i\|\phi_i\|}-1$.
+On a sufficiently small complex polydisc about zero, the individual moment
+generating functions therefore differ from one by a summable sequence,
+uniformly. Discarding finitely many factors if necessary makes these
+differences less than $1/2$, so their analytic logarithms converge normally.
+The remaining finite factors have nonzero moment generating functions in a
+possibly smaller neighborhood of zero. Termwise differentiation is now valid.
+\end{proof}
+
+For finitely many fingerprint coordinates, missing mass
+$M_t=\sum_i p_i\ind\{X_i=0\}$, and future novelty
+$Y=\sum_i\ind\{X_i=0,X_i'>0\}$ at independent effort $u$,
+the sum of the per-species norms is bounded by a constant times
+$1+K+L$, where $K=\sum_iX_i\sim\Pois(t)$ and
+$L=\sum_iX_i'\sim\Pois(u)$. Thus the neighborhood condition holds
+without a minimum probability.
+The joint kernels are
+\begin{align*}
+ \kappa_{\lambda,\eta}^{t,M}(x)
+ &=x^{-1}\log\!\left(1+\sum_r b_r^t(x)(e^{\lambda_r}-1)
+                 +e^{-tx}(e^{\eta x}-1)\right),\\
+ \kappa_{\lambda,\eta}^{t,u,Y}(x)
+ &=x^{-1}\log\!\left(1+\sum_r b_r^t(x)(e^{\lambda_r}-1)
+                 +e^{-tx}(1-e^{-ux})(e^\eta-1)\right).
+\end{align*}
+Their zero-rate limits are respectively
+$t(e^{\lambda_1}-1)+\eta$ and
+$t(e^{\lambda_1}-1)+u(e^\eta-1)$.
+Means, covariances, affine prediction risks, and higher cumulants now follow
+by differentiation. Untruncated long-horizon Good--Toulmin coefficients
+do not satisfy the required exponential integrability in general.
+The companion's separate moment and truncation arguments remain necessary.
+
+For fixed directions $(\lambda_j,\eta_j)$ and nonnegative deterministic
+weights with $\sum_j w_j\le1$, the region
+\[
+ \left\{(\nu,z):
+ \sum_j w_j\exp\!\left(\lambda_j^\top\Phi+\eta_jz
+                    -\int\kappa_j\,\dd\nu\right)\le1/\alpha\right\}
+\]
+is convex and covers the actual pair with probability at least $1-\alpha$.
+This is the existing joint-calibration theorem with explicit sufficient
+hypotheses supplied above. Projection onto a scalar $z$ gives an interval,
+possibly empty or with unattained endpoints. Coverage is joint under the
+specified experiment; it is not conditional on the observed sample.
+Fixed-time validity alone does not imply validity at arbitrary stopping times.
+
+\section{Computing dominated deletion}
+Let $S_n$ consist of $n$ iid single-label draws, and let the positive
+observed counts be $X_1,\ldots,X_D$.
+For an indexed subset $I\subseteq[n]$, let $S_I$ denote its sub-sample.
+Set $\pi_t(k)=e^{-t}t^k/k!$.
+The transfer draft defines
+\begin{equation}\label{eq:H}
+ H_{\lambda,n}^t(S_n)=
+ \sum_{k=0}^n\frac{\pi_t(k)}{\binom nk}
+      \sum_{|I|=k} e^{\lambda^\top\Phi(S_I)}.
+\end{equation}
+The e-value at candidate $\nu$ is
+$H_{\lambda,n}^t(S_n)e^{-K_\lambda^t(\nu)}$.
+The retained Poisson weights must not be renormalized.
+
+\begin{proposition}[Polynomial deletion algorithm]\label{prop:poly}
+Define
+\[
+ P_\lambda(z)=\prod_{i=1}^D
+      \left(\sum_{j=0}^{X_i}\binom{X_i}{j}e^{\lambda_j}z^j\right).
+\]
+Then $[z^k]P_\lambda=\sum_{|I|=k}e^{\lambda^\top\Phi(S_I)}$.
+Sequential dense convolution computes all coefficients using
+$O(n^2)$ arithmetic operations and $O(n)$ storage.
+\end{proposition}
+\begin{proof}
+Selecting $j$ of the $X_i$ occurrences of species $i$ can be done in
+$\binom{X_i}{j}$ ways, and contributes $e^{\lambda_j}$ to the score.
+Multiplication sums independently over all species.
+If $s_i=\sum_{h<i}X_h$, the convolution work is bounded by a constant times
+$\sum_i(s_i+1)(X_i+1)=O(n^2)$, since $D\le n$ for $n>0$.
+The empty sample has polynomial one.
+\end{proof}
+This is an arithmetic complexity statement, not a bit complexity or
+rounding-error guarantee. The implementation uses log-domain convolution;
+exact rational weights $e^{\lambda_j}$ are available in the verifier.
+
+\subsection{Two-sided prediction and the lost-species coordinate}
+For $m$ future draws let $Y$ be the number of labels unseen in $S_n$
+but seen in the future sample. For the ordinary-draw case $B=1$,
+the transfer draft's pathwise novelty sandwich gives the score
+\begin{equation}\label{eq:Hjoint}
+ H_{\lambda,\eta;n,m}^{t,u}(S_n)=
+ \sum_{k=0}^n\sum_{\ell=0}^m
+ \frac{\pi_t(k)\pi_u(\ell)}{\binom nk}
+ \sum_{|I|=k}\exp\!\left\{
+ \lambda^\top\Phi(S_I)-\eta_+(m-\ell)
+                         -\eta_-\min(d_I,\ell)\right\},
+\end{equation}
+where $d_I$ counts species observed in $S_n$ but absent from $S_I$,
+$\eta_+=\max(\eta,0)$, and $\eta_-=\max(-\eta,0)$.
+Multiplying by
+$\exp\{\eta y-K_{\lambda,\eta}^{t,u,Y}(\nu)\}$ gives a valid joint e-value.
+
+\begin{proposition}[Bivariate deletion algorithm]\label{prop:bivariate}
+Let
+\[
+ A_{k,r}=[z^kw^r]\prod_{i=1}^D
+ \left(w+\sum_{j=1}^{X_i}\binom{X_i}{j}e^{\lambda_j}z^j\right).
+\]
+Then $A_{k,r}=\sum_{|I|=k,d_I=r}e^{\lambda^\top\Phi(S_I)}$, and
+\[
+ H_{\lambda,\eta;n,m}^{t,u}
+ =\sum_{k,r}\frac{\pi_t(k)A_{k,r}}{\binom nk}
+       \sum_{\ell=0}^m\pi_u(\ell)
+       e^{-\eta_+(m-\ell)-\eta_-\min(r,\ell)}.
+\]
+Dense convolution uses $O(Dn^2)$ arithmetic operations and $O(nD)$
+storage, with an additional $O(mD)$ operations for the inner weights.
+When $\eta\ge0$, the correction is independent of $r$, so the
+univariate algorithm suffices, with an additional $O(m)$ operations.
+For $D=0$ the formula is interpreted directly.
+\end{proposition}
+\begin{proof}
+A species is lost precisely when its selected count is zero, which contributes
+the factor $w$. Otherwise it contributes its positive count and score.
+Coefficient extraction and the indicated finite sums give the identity.
+At each convolution stage there are at most $D+1$ lost-species coordinates;
+the preceding univariate work bound gives the stated bound.
+\end{proof}
+These formulas do not establish the same complexity for arbitrary overlapping
+features or dependent batches. Their inputs are ordinary single-label counts.
+
+\section{The statistical cost of retaining full counts}
+Write $E^P_\nu(S_n)=\sum_jw_j
+ e^{\lambda_j^\top\Phi(S_n)-K_{\lambda_j}^t(\nu)}$
+for the Poisson-calibrated formula evaluated at a fixed sample.
+It need not itself be an e-value under the fixed-size law.
+Let $E^D_\nu$ be its dominated-deletion counterpart.
+
+\begin{proposition}[Deterministic threshold comparison]\label{prop:cost}
+For a common effort $t$ and fixed nonnegative weights,
+\[
+ E^D_\nu(S_n)\ge\pi_t(n)E^P_\nu(S_n).
+\]
+Consequently,
+\[
+ \{E^D_\nu\le1/\alpha\}
+ \subseteq\{E^P_\nu\le1/(\alpha\pi_t(n))\}.
+\]
+At $t=n\ge1$, the additional log threshold is
+\[
+ -\log\pi_n(n)=n-n\log n+\log(n!)
+ =\tfrac12\log(2\pi n)+\frac1{12n}+O(n^{-3}).
+\]
+For joint prediction with common efforts $(t,u)$ the factor is
+$\pi_t(n)\pi_u(m)$, and the log costs add.
+\end{proposition}
+\begin{proof}
+Retain $k=n$ in \eqref{eq:H}. For prediction also retain $\ell=m$
+in \eqref{eq:Hjoint}; then $d_I=0$ and both sandwich corrections vanish.
+All omitted terms are nonnegative. Stirling's expansion gives the formula.
+\end{proof}
+Thus no confidence-level penalty does not mean no power cost.
+The comparison is a deterministic region inclusion relative to the stated
+formula with an enlarged threshold. It is not a universal comparison of
+power, interval width, or statistical efficiency across experiments.
+
+\section{Effort optimization for a common fixed-count score}
+The full-count term admits a useful optimization that the full deletion
+statistic does not automatically admit.
+
+\begin{theorem}[Common-score normalization]\label{thm:common}
+Let $V$ be a random vector under a fixed-count experiment with count
+vector $\boldsymbol n$. Suppose that for every effort
+$\boldsymbol t\in T$, a Poisson experiment has the same conditional law
+of $V$ given its count vector $\boldsymbol n$, and
+\[
+ \E_{\mu,\boldsymbol t}e^{\theta^\top V}
+       =e^{K_{\theta,\boldsymbol t}(\mu)},\qquad
+ c_{\boldsymbol t}=\PP_{\boldsymbol t}\{
+                 \boldsymbol K=\boldsymbol n\}>0
+\]
+does not depend on the population. Here the vector $V$ can include
+realized targets as well as observed statistics.
+For each candidate measure define
+\[
+ B_\theta(\nu)=\inf_{\boldsymbol t\in T}
+       \{K_{\theta,\boldsymbol t}(\nu)-\log c_{\boldsymbol t}\}.
+\]
+Assume this is finite on the candidate class and measurable, and that
+$K_{\theta,\boldsymbol t}$ is affine in $\nu$. Then
+\[
+ e_\nu(V)=\exp\{\theta^\top V-B_\theta(\nu)\}
+\]
+is an e-value at the true population under the fixed-count experiment.
+Moreover $B_\theta$ is concave and $e_\nu$ is jointly convex in the
+candidate measure and any scalar target coordinates substituted into $V$.
+A fixed mixture over directions therefore yields a convex,
+single-level confidence region.
+On $\mathcal P([0,1])$, a finite nonempty effort grid with finite continuous
+kernels suffices for all the stated regularity conditions.
+\end{theorem}
+\begin{proof}
+Positivity and conditioning imply, for every $\boldsymbol t$,
+\[
+ c_{\boldsymbol t}\,
+ \E_{\mu,\boldsymbol n}e^{\theta^\top V}
+ \le e^{K_{\theta,\boldsymbol t}(\mu)}.
+\]
+The expectation on the left apart from $c_{\boldsymbol t}$ is the same
+for all efforts. Taking the infimum of its deterministic upper bounds yields
+$\E_{\mu,\boldsymbol n}e^{\theta^\top V}\le e^{B_\theta(\mu)}$.
+Dividing proves the e-value assertion. An infimum of affine functionals is
+concave. Hence $\theta^\top V-B_\theta(\nu)$ is convex in the candidate
+variables; exponentiation and fixed nonnegative mixtures preserve convexity.
+Markov's inequality proves coverage.
+\end{proof}
+
+For one window, $c_t=\pi_t(n)$ and $V=(\Phi,M_n)$ or simply $\Phi$.
+For two independent windows, $c_{t,u}=\pi_t(n)\pi_u(m)$ and
+$V=(\Phi,Y)$, with the joint novelty kernel above.
+Conditioning independent Poisson processes on their total counts gives the
+corresponding iid sample laws; this is exactly the hypothesis needed here.
+Optimization is candidate-dependent but does not select a data direction:
+the common score is fixed throughout.
+
+On a finite grid the optimized e-value is the maximum of the
+full-count e-values over that grid, yet remains valid because these e-values
+are deterministic multiples of the same random variable.
+Arbitrary maxima of e-values are not valid.
+In particular, maximizing $H_{\lambda,n}^t(S_n)e^{-K_\lambda^t(\nu)}$
+over $t$ changes the data score and is not justified by this proof.
+The optimized full-count and a fixed-effort full-deletion e-value may be
+combined using preassigned mixture weights. A maximum of those two objects
+has no such automatic justification.
+
+For $p=(0.5,0.3,0.2)$, $n=4$, and $\lambda=(2,-1)$, a declared grid
+$t=0.05,0.10,\ldots,10$ selects $t=5.55$. Compared with $t=n$,
+the log e-value increases by approximately $0.1368547442493213$ for every
+sample at this candidate population. This is a finite-grid calculation,
+not a claim that $5.55$ is the continuous optimum or that the resulting
+intervals are optimal.
+
+\section{Verification and next questions}
+The accompanying verifier compares both polynomial products with direct
+enumeration of indexed subsets using rational score weights, then checks
+fixed-count e-value expectations by finite-population enumeration.
+It reports 2150 checks, maximum relative numerical discrepancy below
+$10^{-15}$ on the coefficient checks, and no expectation above one in the
+tested calibration cases. Numerical corroboration is separate from the
+proofs, and this does not certify floating-point behavior for large samples.
+The numerical implementation uses logarithms to reduce overflow and
+underflow; continuum moment optimization still requires its own certificates.
+
+The immediate statistical question is whether a fixed mixture of optimized
+full-count and deletion calibration materially improves projected interval
+widths at moderate sample sizes. This should be tested on matched targets,
+sampling designs, and parameter restrictions. Wu--Yang's support estimation
+uses a minimum-mass class \cite{WuYang}. Painsky's intervals address individual
+unobserved probabilities \cite{Painsky}; the recent maximum-unseen-probability
+work uses a Bernoulli-product model \cite{Colombi}. These cannot be treated as
+interchangeable missing-mass or richness benchmarks.
+
+The remaining unification has a precise boundary: Poisson independence
+supplies additive cumulants, positive or dominated kernels transport
+calibration, and signed kernels transport expectation identities but can
+amplify variation. Fixed-size calibration therefore survives, although its
+log moment generating function need not be linear in $\mu$.
+Overlapping-feature higher cumulants require joint incidence information.
+The exact tank game remains a finite decision problem and a dual-certificate
+example. Tag--retag and inverse-coupon problems still require their specific
+stopping, sampling, and heterogeneity assumptions to be spelled out before
+the framework supplies a sharp interval.
+
+\begin{thebibliography}{99}\raggedright
+\bibitem{LongDiscovery} C. D. Long.
+\emph{Shape-Constrained Discovery-Rate Inversion}.
+Internal research draft, version 0.2, November 12, 2026.
+Repository file \texttt{manuscripts/discovery\_rate\_inversion.tex}.
+\bibitem{LongTransfer} C. D. Long.
+\emph{Certified Transfer and Generation in Partial-Population Inference}.
+Internal research draft, version 0.1, November 12, 2026.
+Repository file \texttt{manuscripts/transfer\_generation.tex}.
+\bibitem{LastPenrose} G. Last and M. Penrose.
+\emph{Lectures on the Poisson Process}. Cambridge University Press, 2017.
+\href{https://doi.org/10.1017/9781316104477}{doi:10.1017/9781316104477}.
+\bibitem{Harris} B. Harris.
+Determining bounds on integrals with applications to cataloging problems.
+\emph{Ann. Math. Statist.} \textbf{30}(2) (1959), 521--548.
+\href{https://doi.org/10.1214/aoms/1177706266}{doi:10.1214/aoms/1177706266}.
+\bibitem{DaleySmith} T. Daley and A. D. Smith.
+Better lower bounds for missing species: improved non-parametric moment-based
+estimation for large experiments.
+\href{https://arxiv.org/abs/1605.03294v3}{arXiv:1605.03294v3}, 2019 revision.
+\bibitem{KarlinStudden} S. Karlin and W. J. Studden.
+\emph{Tchebycheff Systems: With Applications in Analysis and Statistics}.
+Interscience, 1966.
+\bibitem{Pinelis} I. Pinelis.
+Tchebycheff systems and extremal problems for generalized moments: a brief survey.
+\href{https://arxiv.org/abs/1107.3493}{arXiv:1107.3493}, 2011.
+\bibitem{Blackwell} D. Blackwell.
+Equivalent comparisons of experiments.
+\emph{Ann. Math. Statist.} \textbf{24}(2) (1953), 265--272.
+\href{https://doi.org/10.1214/aoms/1177729032}{doi:10.1214/aoms/1177729032}.
+\bibitem{Torgersen} E. Torgersen.
+\emph{Comparison of Statistical Experiments}. Cambridge University Press, 1991.
+\bibitem{WuYang} Y. Wu and P. Yang.
+Chebyshev polynomials, moment matching, and optimal estimation of the unseen.
+\emph{Ann. Statist.} \textbf{47}(2) (2019), 857--883.
+\href{https://doi.org/10.1214/17-AOS1665}{doi:10.1214/17-AOS1665}.
+\bibitem{Painsky} A. Painsky.
+Confidence intervals for parameters of unobserved events.
+\emph{J. Amer. Statist. Assoc.} \textbf{120}(549) (2025), 226--236.
+\href{https://doi.org/10.1080/01621459.2024.2314318}{doi:10.1080/01621459.2024.2314318}.
+\bibitem{Colombi} A. Colombi, M. Beraha, A. Painsky, and S. Favaro.
+Confidence intervals for maximum unseen probabilities, with application to
+sequential sampling design.
+\href{https://arxiv.org/abs/2601.20320}{arXiv:2601.20320}, 2026.
+\end{thebibliography}
+\end{document}

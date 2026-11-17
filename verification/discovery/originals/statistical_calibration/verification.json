@@ -1,0 +1,398 @@
+{
+  "scope": "Exact finite-distribution enumeration, with floating-point arithmetic; no Monte Carlo.",
+  "counts": {
+    "populations_and_efforts": 24,
+    "mgf_directions": 576,
+    "integer_tank_coverage": 465,
+    "tank_minimality_witnesses": 225,
+    "two_point_minimax": 31,
+    "prediction_error_mgf_enumerations": 18
+  },
+  "maximum_numerical_identity_errors": {
+    "mgf_identity": 3.552713678800501e-15,
+    "measure_kernel_identity": 3.552713678800501e-15,
+    "variance_identity": 3.3306690738754696e-16,
+    "evalue_mean_identity": 4.440892098500626e-16,
+    "missing_mass_variance": 6.661338147750939e-16,
+    "prediction_error_mgf": 7.993605777301127e-15
+  },
+  "minimum_coverage_across_24_test_cases": {
+    "exact_mgf_mixture_coverage": 0.9972891679701361,
+    "poisson_envelope_mixture_coverage": 0.9991472117786278,
+    "deviance_box_coverage": 0.9990845110534827
+  },
+  "tank_largest_exact_noncoverage": "1/20",
+  "two_point_maximum_lp_gap": 1.1102230246251565e-16,
+  "finite_confidence_game": {
+    "parameter_range": [
+      3,
+      12
+    ],
+    "sample_size": 3,
+    "alpha": 0.05,
+    "exact_rational_optimum": "697/140",
+    "rational_primal_dual_verified": true,
+    "randomization_allowed": true,
+    "empty_intervals_allowed": true,
+    "minimum_coverage": 0.9499999999999998,
+    "optimal_worst_expected_length": 4.978571428571428,
+    "dual_value": 4.978571428571428,
+    "numerical_duality_gap": 0.0
+  },
+  "cases": [
+    {
+      "p": [
+        0.5,
+        0.3,
+        0.2
+      ],
+      "t": 0.5,
+      "fingerprint_states": 10,
+      "exact_mgf_mixture_coverage": 0.9999989338328247,
+      "poisson_envelope_mixture_coverage": 0.9999989338328247,
+      "deviance_box_coverage": 0.9996125578850996,
+      "poisson_envelope_evalue_expectation": 0.8749496171091151
+    },
+    {
+      "p": [
+        0.5,
+        0.3,
+        0.2
+      ],
+      "t": 3.0,
+      "fingerprint_states": 10,
+      "exact_mgf_mixture_coverage": 1.0000000000000002,
+      "poisson_envelope_mixture_coverage": 1.0000000000000002,
+      "deviance_box_coverage": 1.0000000000000002,
+      "poisson_envelope_evalue_expectation": 0.6364040924951305
+    },
+    {
+      "p": [
+        0.5,
+        0.3,
+        0.2
+      ],
+      "t": 15.0,
+      "fingerprint_states": 10,
+      "exact_mgf_mixture_coverage": 0.9999690273900491,
+      "poisson_envelope_mixture_coverage": 0.9999690273900491,
+      "deviance_box_coverage": 0.9999690273900491,
+      "poisson_envelope_evalue_expectation": 0.8279212840963638
+    },
+    {
+      "p": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "t": 0.5,
+      "fingerprint_states": 15,
+      "exact_mgf_mixture_coverage": 0.9998101268140381,
+      "poisson_envelope_mixture_coverage": 0.9998506171038978,
+      "deviance_box_coverage": 0.9995693308827857,
+      "poisson_envelope_evalue_expectation": 0.8883291186390568
+    },
+    {
+      "p": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "t": 3.0,
+      "fingerprint_states": 15,
+      "exact_mgf_mixture_coverage": 0.9996884794659029,
+      "poisson_envelope_mixture_coverage": 0.9996884794659029,
+      "deviance_box_coverage": 0.9996884794659029,
+      "poisson_envelope_evalue_expectation": 0.6333869195125554
+    },
+    {
+      "p": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "t": 15.0,
+      "fingerprint_states": 15,
+      "exact_mgf_mixture_coverage": 0.9991918314985666,
+      "poisson_envelope_mixture_coverage": 0.9999395066211899,
+      "deviance_box_coverage": 0.9999395066211899,
+      "poisson_envelope_evalue_expectation": 0.7643353488409859
+    },
+    {
+      "p": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "t": 0.5,
+      "fingerprint_states": 66,
+      "exact_mgf_mixture_coverage": 0.9991472117786278,
+      "poisson_envelope_mixture_coverage": 0.9991472117786278,
+      "deviance_box_coverage": 0.9990845110534827,
+      "poisson_envelope_evalue_expectation": 0.9298239376136128
+    },
+    {
+      "p": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "t": 3.0,
+      "fingerprint_states": 66,
+      "exact_mgf_mixture_coverage": 0.9974072419807389,
+      "poisson_envelope_mixture_coverage": 0.9992157369840875,
+      "deviance_box_coverage": 0.9996067611225853,
+      "poisson_envelope_evalue_expectation": 0.7090743136830835
+    },
+    {
+      "p": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "t": 15.0,
+      "fingerprint_states": 66,
+      "exact_mgf_mixture_coverage": 0.9973021439198112,
+      "poisson_envelope_mixture_coverage": 0.9999826122699063,
+      "deviance_box_coverage": 0.9999693674294113,
+      "poisson_envelope_evalue_expectation": 0.4585368152902104
+    },
+    {
+      "p": [
+        0.7,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "t": 0.5,
+      "fingerprint_states": 15,
+      "exact_mgf_mixture_coverage": 0.9999662477863869,
+      "poisson_envelope_mixture_coverage": 0.999973279751223,
+      "deviance_box_coverage": 0.9998156280051715,
+      "poisson_envelope_evalue_expectation": 0.8741393166346969
+    },
+    {
+      "p": [
+        0.7,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "t": 3.0,
+      "fingerprint_states": 15,
+      "exact_mgf_mixture_coverage": 0.9999899962532361,
+      "poisson_envelope_mixture_coverage": 0.9999899962532361,
+      "deviance_box_coverage": 0.9999899962532361,
+      "poisson_envelope_evalue_expectation": 0.6865389805067543
+    },
+    {
+      "p": [
+        0.7,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "t": 15.0,
+      "fingerprint_states": 15,
+      "exact_mgf_mixture_coverage": 0.9999759901779502,
+      "poisson_envelope_mixture_coverage": 1.0,
+      "deviance_box_coverage": 1.0,
+      "poisson_envelope_evalue_expectation": 0.5958123207535021
+    },
+    {
+      "p": [
+        1.0
+      ],
+      "t": 0.5,
+      "fingerprint_states": 3,
+      "exact_mgf_mixture_coverage": 0.9999999999999999,
+      "poisson_envelope_mixture_coverage": 0.9999999999999999,
+      "deviance_box_coverage": 0.9999999999999999,
+      "poisson_envelope_evalue_expectation": 0.8502571986065023
+    },
+    {
+      "p": [
+        1.0
+      ],
+      "t": 3.0,
+      "fingerprint_states": 3,
+      "exact_mgf_mixture_coverage": 1.0,
+      "poisson_envelope_mixture_coverage": 1.0,
+      "deviance_box_coverage": 1.0,
+      "poisson_envelope_evalue_expectation": 0.8542452602429311
+    },
+    {
+      "p": [
+        1.0
+      ],
+      "t": 15.0,
+      "fingerprint_states": 3,
+      "exact_mgf_mixture_coverage": 1.0,
+      "poisson_envelope_mixture_coverage": 1.0,
+      "deviance_box_coverage": 0.999960997454136,
+      "poisson_envelope_evalue_expectation": 0.9999999944894847
+    },
+    {
+      "p": [
+        0.8087489357976374,
+        0.10417412481595487,
+        0.08707693938640779
+      ],
+      "t": 0.5,
+      "fingerprint_states": 10,
+      "exact_mgf_mixture_coverage": 0.9999999362417665,
+      "poisson_envelope_mixture_coverage": 0.9999999362417665,
+      "deviance_box_coverage": 0.999879181801343,
+      "poisson_envelope_evalue_expectation": 0.8651274892374136
+    },
+    {
+      "p": [
+        0.8087489357976374,
+        0.10417412481595487,
+        0.08707693938640779
+      ],
+      "t": 3.0,
+      "fingerprint_states": 10,
+      "exact_mgf_mixture_coverage": 0.9997558214148662,
+      "poisson_envelope_mixture_coverage": 1.0,
+      "deviance_box_coverage": 1.0,
+      "poisson_envelope_evalue_expectation": 0.7219561539339703
+    },
+    {
+      "p": [
+        0.8087489357976374,
+        0.10417412481595487,
+        0.08707693938640779
+      ],
+      "t": 15.0,
+      "fingerprint_states": 10,
+      "exact_mgf_mixture_coverage": 1.0,
+      "poisson_envelope_mixture_coverage": 1.0,
+      "deviance_box_coverage": 1.0,
+      "poisson_envelope_evalue_expectation": 0.6548110187360405
+    },
+    {
+      "p": [
+        0.3303993106289438,
+        0.07992318076823253,
+        0.04768810045949585,
+        0.06197643134979515,
+        0.48001297679353266
+      ],
+      "t": 0.5,
+      "fingerprint_states": 21,
+      "exact_mgf_mixture_coverage": 0.9999020725655255,
+      "poisson_envelope_mixture_coverage": 0.9999209476625729,
+      "deviance_box_coverage": 0.9996077603919077,
+      "poisson_envelope_evalue_expectation": 0.8814156483714612
+    },
+    {
+      "p": [
+        0.3303993106289438,
+        0.07992318076823253,
+        0.04768810045949585,
+        0.06197643134979515,
+        0.48001297679353266
+      ],
+      "t": 3.0,
+      "fingerprint_states": 21,
+      "exact_mgf_mixture_coverage": 0.9995168255865708,
+      "poisson_envelope_mixture_coverage": 0.9999747657166579,
+      "deviance_box_coverage": 0.9999700614713039,
+      "poisson_envelope_evalue_expectation": 0.6444751291684132
+    },
+    {
+      "p": [
+        0.3303993106289438,
+        0.07992318076823253,
+        0.04768810045949585,
+        0.06197643134979515,
+        0.48001297679353266
+      ],
+      "t": 15.0,
+      "fingerprint_states": 21,
+      "exact_mgf_mixture_coverage": 0.9993900271763159,
+      "poisson_envelope_mixture_coverage": 0.999992263432783,
+      "deviance_box_coverage": 0.999992263432783,
+      "poisson_envelope_evalue_expectation": 0.6271854395146844
+    },
+    {
+      "p": [
+        0.020390842181441163,
+        0.07054254343200897,
+        0.059734395649553004,
+        0.2288885428988214,
+        0.018786265169610614,
+        0.05817993114887849,
+        0.49231142029380365,
+        0.0511660592258827
+      ],
+      "t": 0.5,
+      "fingerprint_states": 45,
+      "exact_mgf_mixture_coverage": 0.9997735278922955,
+      "poisson_envelope_mixture_coverage": 0.9998099816930769,
+      "deviance_box_coverage": 0.9996164034906042,
+      "poisson_envelope_evalue_expectation": 0.8909372211442697
+    },
+    {
+      "p": [
+        0.020390842181441163,
+        0.07054254343200897,
+        0.059734395649553004,
+        0.2288885428988214,
+        0.018786265169610614,
+        0.05817993114887849,
+        0.49231142029380365,
+        0.0511660592258827
+      ],
+      "t": 3.0,
+      "fingerprint_states": 45,
+      "exact_mgf_mixture_coverage": 0.9993159033642705,
+      "poisson_envelope_mixture_coverage": 0.9999480510708014,
+      "deviance_box_coverage": 0.9999480510708014,
+      "poisson_envelope_evalue_expectation": 0.6573026031896231
+    },
+    {
+      "p": [
+        0.020390842181441163,
+        0.07054254343200897,
+        0.059734395649553004,
+        0.2288885428988214,
+        0.018786265169610614,
+        0.05817993114887849,
+        0.49231142029380365,
+        0.0511660592258827
+      ],
+      "t": 15.0,
+      "fingerprint_states": 45,
+      "exact_mgf_mixture_coverage": 0.9972891679701361,
+      "poisson_envelope_mixture_coverage": 0.9997702944376521,
+      "deviance_box_coverage": 0.9999816566741603,
+      "poisson_envelope_evalue_expectation": 0.5696523799915496
+    }
+  ]
+}

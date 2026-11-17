@@ -1,0 +1,25 @@
+{
+  "exact_certificate_checks": 593,
+  "optimal_value": "697/140",
+  "minimum_exact_coverage": "19/20",
+  "parameter_risks": [
+    "143/70",
+    "369/112",
+    "697/140",
+    "397/80",
+    "697/140",
+    "1033/224",
+    "531/112",
+    "697/140",
+    "1499/385",
+    "2441/770"
+  ],
+  "symbolic_operator_identities": 3,
+  "additional_hill_checks": 250,
+  "hill_q_2_25_reversed_order": [
+    2.5977110884959904,
+    2.595255603946212,
+    2.5873517666824357
+  ],
+  "interpretation": "Rational verification, symbolic identities, and floating-point examples are separately identified."
+}

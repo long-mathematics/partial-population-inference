@@ -1,0 +1,277 @@
+{
+  "version": "0.2-support-clipped",
+  "parameters": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "coverage": "19/20",
+  "optimal_value": "697/140",
+  "rule": {
+    "3": [
+      {
+        "interval": [
+          3,
+          5
+        ],
+        "probability": "13/14"
+      },
+      {
+        "interval": [
+          3,
+          7
+        ],
+        "probability": "3/140"
+      },
+      {
+        "interval": [
+          5,
+          7
+        ],
+        "probability": "1/20"
+      }
+    ],
+    "4": [
+      {
+        "interval": [
+          4,
+          6
+        ],
+        "probability": "23/84"
+      },
+      {
+        "interval": [
+          4,
+          8
+        ],
+        "probability": "7/15"
+      },
+      {
+        "interval": [
+          4,
+          9
+        ],
+        "probability": "22/105"
+      },
+      {
+        "interval": [
+          5,
+          10
+        ],
+        "probability": "1/20"
+      }
+    ],
+    "5": [
+      {
+        "interval": [
+          5,
+          7
+        ],
+        "probability": "137/840"
+      },
+      {
+        "interval": [
+          5,
+          12
+        ],
+        "probability": "211/280"
+      },
+      {
+        "interval": [
+          6,
+          12
+        ],
+        "probability": "1/12"
+      }
+    ],
+    "6": [
+      {
+        "interval": [
+          6,
+          9
+        ],
+        "probability": "41/350"
+      },
+      {
+        "interval": [
+          6,
+          10
+        ],
+        "probability": "21/100"
+      },
+      {
+        "interval": [
+          6,
+          11
+        ],
+        "probability": "11/40"
+      },
+      {
+        "interval": [
+          6,
+          12
+        ],
+        "probability": "547/1400"
+      },
+      {
+        "interval": [
+          7,
+          12
+        ],
+        "probability": "1/140"
+      }
+    ],
+    "7": [
+      {
+        "interval": [
+          7,
+          12
+        ],
+        "probability": "1"
+      }
+    ],
+    "8": [
+      {
+        "interval": [
+          8,
+          12
+        ],
+        "probability": "1"
+      }
+    ],
+    "9": [
+      {
+        "interval": [
+          9,
+          12
+        ],
+        "probability": "1"
+      }
+    ],
+    "10": [
+      {
+        "interval": [
+          10,
+          12
+        ],
+        "probability": "1"
+      }
+    ],
+    "11": [
+      {
+        "interval": [
+          11,
+          12
+        ],
+        "probability": "1"
+      }
+    ],
+    "12": [
+      {
+        "interval": [
+          12,
+          12
+        ],
+        "probability": "1"
+      }
+    ]
+  },
+  "parameter_results": [
+    {
+      "N": 3,
+      "coverage": "19/20",
+      "risk": "143/70"
+    },
+    {
+      "N": 4,
+      "coverage": "19/20",
+      "risk": "369/112"
+    },
+    {
+      "N": 5,
+      "coverage": "19/20",
+      "risk": "697/140"
+    },
+    {
+      "N": 6,
+      "coverage": "19/20",
+      "risk": "397/80"
+    },
+    {
+      "N": 7,
+      "coverage": "19/20",
+      "risk": "697/140"
+    },
+    {
+      "N": 8,
+      "coverage": "19/20",
+      "risk": "1033/224"
+    },
+    {
+      "N": 9,
+      "coverage": "19/20",
+      "risk": "1369/336"
+    },
+    {
+      "N": 10,
+      "coverage": "19/20",
+      "risk": "1657/480"
+    },
+    {
+      "N": 11,
+      "coverage": "19/20",
+      "risk": "167/60"
+    },
+    {
+      "N": 12,
+      "coverage": "19/20",
+      "risk": "167/80"
+    }
+  ],
+  "dual": {
+    "risk_weights": {
+      "3": "0",
+      "4": "0",
+      "5": "0",
+      "6": "0",
+      "7": "1",
+      "8": "0",
+      "9": "0",
+      "10": "0",
+      "11": "0",
+      "12": "0"
+    },
+    "coverage_weights": {
+      "3": "1/35",
+      "4": "4/35",
+      "5": "2/7",
+      "6": "4/7",
+      "7": "1",
+      "8": "8/5",
+      "9": "12/5",
+      "10": "24/7",
+      "11": "33/7",
+      "12": "44/7"
+    },
+    "observation_weights": {
+      "3": "-1/35",
+      "4": "-3/35",
+      "5": "-6/35",
+      "6": "-2/7",
+      "7": "-3/7",
+      "8": "-3",
+      "9": "-16/5",
+      "10": "-108/35",
+      "11": "-18/7",
+      "12": "-11/7"
+    }
+  },
+  "exact_rational_constraints_checked": 603
+}

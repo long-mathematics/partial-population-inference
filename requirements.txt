@@ -1,0 +1,4 @@
+# Numerical versions used for the November 16, 2026 audit.
+numpy==2.3.5
+scipy==1.17.0
+sympy==1.14.0

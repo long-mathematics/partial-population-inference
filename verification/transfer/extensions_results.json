@@ -1,0 +1,657 @@
+{
+  "all_passed": true,
+  "total_checks": 6168,
+  "groups": {
+    "hypergeometric_rank": 33,
+    "hypergeometric_factorial": 116,
+    "hypergeometric_reduction": 116,
+    "binomial_size_reduction": 116,
+    "reduction_stochastic": 116,
+    "without_to_with_range_classification": 232,
+    "cross_design_signed_factor": 6,
+    "cross_design_signed_norm": 6,
+    "cross_design_positive_obstruction_LP": 6,
+    "count_coupling_rows": 120,
+    "count_coupling_columns": 120,
+    "count_coupling_exact_optimum": 120,
+    "count_coupling_transport_LP": 120,
+    "rectification_row_cost": 4,
+    "signed_e_nonnegative_repair": 36,
+    "poisson_pgf_factor": 1,
+    "pathwise_novelty_sandwich": 4096,
+    "novelty_upper_coefficient_attained": 1,
+    "novelty_lower_coefficient_attained": 1,
+    "joint_H_dominates_full_count_term": 592,
+    "joint_fixed_count_evalue": 36,
+    "joint_full_dominates_single_term": 36,
+    "constant_joint_evalue_retained_mass": 9,
+    "finite_grid_dual_feasible": 4,
+    "finite_grid_duality_value": 4,
+    "batch_proportional_rate": 40,
+    "batch_normalization": 40,
+    "batch_subprobability_mass": 40,
+    "batch_prediction_joint_obstruction": 1
+  },
+  "details": {
+    "random_count_laws": 120,
+    "joint_evalue_enumerations": {
+      "cases": 36,
+      "largest_expectation": 0.8062182152219917,
+      "constant_case_max_error": 1.887379141862766e-15,
+      "cases_detail": [
+        {
+          "population": [
+            1.0
+          ],
+          "n": 2,
+          "m": 2,
+          "t": 1.4,
+          "u": 1.1,
+          "lambda": [
+            0.0,
+            0.0
+          ],
+          "eta": 0.0,
+          "expectation": 0.7504949339184444
+        },
+        {
+          "population": [
+            1.0
+          ],
+          "n": 2,
+          "m": 2,
+          "t": 1.4,
+          "u": 1.1,
+          "lambda": [
+            0.7,
+            -0.4
+          ],
+          "eta": 0.6,
+          "expectation": 0.39469824624575695
+        },
+        {
+          "population": [
+            1.0
+          ],
+          "n": 2,
+          "m": 2,
+          "t": 1.4,
+          "u": 1.1,
+          "lambda": [
+            -0.5,
+            0.8
+          ],
+          "eta": -0.9,
+          "expectation": 0.7639056341945984
+        },
+        {
+          "population": [
+            1.0
+          ],
+          "n": 2,
+          "m": 2,
+          "t": 1.4,
+          "u": 1.1,
+          "lambda": [
+            1.1,
+            -0.2
+          ],
+          "eta": -1.3,
+          "expectation": 0.8062182152219917
+        },
+        {
+          "population": [
+            1.0
+          ],
+          "n": 3,
+          "m": 2,
+          "t": 2.2,
+          "u": 1.5,
+          "lambda": [
+            0.0,
+            0.0
+          ],
+          "eta": 0.0,
+          "expectation": 0.6627306093884276
+        },
+        {
+          "population": [
+            1.0
+          ],
+          "n": 3,
+          "m": 2,
+          "t": 2.2,
+          "u": 1.5,
+          "lambda": [
+            0.7,
+            -0.4
+          ],
+          "eta": 0.6,
+          "expectation": 0.3992765950071608
+        },
+        {
+          "population": [
+            1.0
+          ],
+          "n": 3,
+          "m": 2,
+          "t": 2.2,
+          "u": 1.5,
+          "lambda": [
+            -0.5,
+            0.8
+          ],
+          "eta": -0.9,
+          "expectation": 0.6875631648397843
+        },
+        {
+          "population": [
+            1.0
+          ],
+          "n": 3,
+          "m": 2,
+          "t": 2.2,
+          "u": 1.5,
+          "lambda": [
+            1.1,
+            -0.2
+          ],
+          "eta": -1.3,
+          "expectation": 0.7052558674366135
+        },
+        {
+          "population": [
+            1.0
+          ],
+          "n": 4,
+          "m": 1,
+          "t": 3.0,
+          "u": 0.8,
+          "lambda": [
+            0.0,
+            0.0
+          ],
+          "eta": 0.0,
+          "expectation": 0.659378500460481
+        },
+        {
+          "population": [
+            1.0
+          ],
+          "n": 4,
+          "m": 1,
+          "t": 3.0,
+          "u": 0.8,
+          "lambda": [
+            0.7,
+            -0.4
+          ],
+          "eta": 0.6,
+          "expectation": 0.4918680781352795
+        },
+        {
+          "population": [
+            1.0
+          ],
+          "n": 4,
+          "m": 1,
+          "t": 3.0,
+          "u": 0.8,
+          "lambda": [
+            -0.5,
+            0.8
+          ],
+          "eta": -0.9,
+          "expectation": 0.6863485080080828
+        },
+        {
+          "population": [
+            1.0
+          ],
+          "n": 4,
+          "m": 1,
+          "t": 3.0,
+          "u": 0.8,
+          "lambda": [
+            1.1,
+            -0.2
+          ],
+          "eta": -1.3,
+          "expectation": 0.6906913139579113
+        },
+        {
+          "population": [
+            0.3,
+            0.7
+          ],
+          "n": 2,
+          "m": 2,
+          "t": 1.4,
+          "u": 1.1,
+          "lambda": [
+            0.0,
+            0.0
+          ],
+          "eta": 0.0,
+          "expectation": 0.7504949339184441
+        },
+        {
+          "population": [
+            0.3,
+            0.7
+          ],
+          "n": 2,
+          "m": 2,
+          "t": 1.4,
+          "u": 1.1,
+          "lambda": [
+            0.7,
+            -0.4
+          ],
+          "eta": 0.6,
+          "expectation": 0.4206189345937221
+        },
+        {
+          "population": [
+            0.3,
+            0.7
+          ],
+          "n": 2,
+          "m": 2,
+          "t": 1.4,
+          "u": 1.1,
+          "lambda": [
+            -0.5,
+            0.8
+          ],
+          "eta": -0.9,
+          "expectation": 0.5485875496129898
+        },
+        {
+          "population": [
+            0.3,
+            0.7
+          ],
+          "n": 2,
+          "m": 2,
+          "t": 1.4,
+          "u": 1.1,
+          "lambda": [
+            1.1,
+            -0.2
+          ],
+          "eta": -1.3,
+          "expectation": 0.6841161402803393
+        },
+        {
+          "population": [
+            0.3,
+            0.7
+          ],
+          "n": 3,
+          "m": 2,
+          "t": 2.2,
+          "u": 1.5,
+          "lambda": [
+            0.0,
+            0.0
+          ],
+          "eta": 0.0,
+          "expectation": 0.6627306093884274
+        },
+        {
+          "population": [
+            0.3,
+            0.7
+          ],
+          "n": 3,
+          "m": 2,
+          "t": 2.2,
+          "u": 1.5,
+          "lambda": [
+            0.7,
+            -0.4
+          ],
+          "eta": 0.6,
+          "expectation": 0.39279980147769117
+        },
+        {
+          "population": [
+            0.3,
+            0.7
+          ],
+          "n": 3,
+          "m": 2,
+          "t": 2.2,
+          "u": 1.5,
+          "lambda": [
+            -0.5,
+            0.8
+          ],
+          "eta": -0.9,
+          "expectation": 0.5116987712795368
+        },
+        {
+          "population": [
+            0.3,
+            0.7
+          ],
+          "n": 3,
+          "m": 2,
+          "t": 2.2,
+          "u": 1.5,
+          "lambda": [
+            1.1,
+            -0.2
+          ],
+          "eta": -1.3,
+          "expectation": 0.6506670227983337
+        },
+        {
+          "population": [
+            0.3,
+            0.7
+          ],
+          "n": 4,
+          "m": 1,
+          "t": 3.0,
+          "u": 0.8,
+          "lambda": [
+            0.0,
+            0.0
+          ],
+          "eta": 0.0,
+          "expectation": 0.6593785004604809
+        },
+        {
+          "population": [
+            0.3,
+            0.7
+          ],
+          "n": 4,
+          "m": 1,
+          "t": 3.0,
+          "u": 0.8,
+          "lambda": [
+            0.7,
+            -0.4
+          ],
+          "eta": 0.6,
+          "expectation": 0.4946617364311511
+        },
+        {
+          "population": [
+            0.3,
+            0.7
+          ],
+          "n": 4,
+          "m": 1,
+          "t": 3.0,
+          "u": 0.8,
+          "lambda": [
+            -0.5,
+            0.8
+          ],
+          "eta": -0.9,
+          "expectation": 0.6171205194089076
+        },
+        {
+          "population": [
+            0.3,
+            0.7
+          ],
+          "n": 4,
+          "m": 1,
+          "t": 3.0,
+          "u": 0.8,
+          "lambda": [
+            1.1,
+            -0.2
+          ],
+          "eta": -1.3,
+          "expectation": 0.6863357112338137
+        },
+        {
+          "population": [
+            0.5,
+            0.3,
+            0.2
+          ],
+          "n": 2,
+          "m": 2,
+          "t": 1.4,
+          "u": 1.1,
+          "lambda": [
+            0.0,
+            0.0
+          ],
+          "eta": 0.0,
+          "expectation": 0.750494933918445
+        },
+        {
+          "population": [
+            0.5,
+            0.3,
+            0.2
+          ],
+          "n": 2,
+          "m": 2,
+          "t": 1.4,
+          "u": 1.1,
+          "lambda": [
+            0.7,
+            -0.4
+          ],
+          "eta": 0.6,
+          "expectation": 0.44467418576872736
+        },
+        {
+          "population": [
+            0.5,
+            0.3,
+            0.2
+          ],
+          "n": 2,
+          "m": 2,
+          "t": 1.4,
+          "u": 1.1,
+          "lambda": [
+            -0.5,
+            0.8
+          ],
+          "eta": -0.9,
+          "expectation": 0.44637521937505803
+        },
+        {
+          "population": [
+            0.5,
+            0.3,
+            0.2
+          ],
+          "n": 2,
+          "m": 2,
+          "t": 1.4,
+          "u": 1.1,
+          "lambda": [
+            1.1,
+            -0.2
+          ],
+          "eta": -1.3,
+          "expectation": 0.43244037218091114
+        },
+        {
+          "population": [
+            0.5,
+            0.3,
+            0.2
+          ],
+          "n": 3,
+          "m": 2,
+          "t": 2.2,
+          "u": 1.5,
+          "lambda": [
+            0.0,
+            0.0
+          ],
+          "eta": 0.0,
+          "expectation": 0.6627306093884257
+        },
+        {
+          "population": [
+            0.5,
+            0.3,
+            0.2
+          ],
+          "n": 3,
+          "m": 2,
+          "t": 2.2,
+          "u": 1.5,
+          "lambda": [
+            0.7,
+            -0.4
+          ],
+          "eta": 0.6,
+          "expectation": 0.40270080144576165
+        },
+        {
+          "population": [
+            0.5,
+            0.3,
+            0.2
+          ],
+          "n": 3,
+          "m": 2,
+          "t": 2.2,
+          "u": 1.5,
+          "lambda": [
+            -0.5,
+            0.8
+          ],
+          "eta": -0.9,
+          "expectation": 0.42041997125788294
+        },
+        {
+          "population": [
+            0.5,
+            0.3,
+            0.2
+          ],
+          "n": 3,
+          "m": 2,
+          "t": 2.2,
+          "u": 1.5,
+          "lambda": [
+            1.1,
+            -0.2
+          ],
+          "eta": -1.3,
+          "expectation": 0.5671855433219193
+        },
+        {
+          "population": [
+            0.5,
+            0.3,
+            0.2
+          ],
+          "n": 4,
+          "m": 1,
+          "t": 3.0,
+          "u": 0.8,
+          "lambda": [
+            0.0,
+            0.0
+          ],
+          "eta": 0.0,
+          "expectation": 0.6593785004604823
+        },
+        {
+          "population": [
+            0.5,
+            0.3,
+            0.2
+          ],
+          "n": 4,
+          "m": 1,
+          "t": 3.0,
+          "u": 0.8,
+          "lambda": [
+            0.7,
+            -0.4
+          ],
+          "eta": 0.6,
+          "expectation": 0.49721857435742794
+        },
+        {
+          "population": [
+            0.5,
+            0.3,
+            0.2
+          ],
+          "n": 4,
+          "m": 1,
+          "t": 3.0,
+          "u": 0.8,
+          "lambda": [
+            -0.5,
+            0.8
+          ],
+          "eta": -0.9,
+          "expectation": 0.5218411222994399
+        },
+        {
+          "population": [
+            0.5,
+            0.3,
+            0.2
+          ],
+          "n": 4,
+          "m": 1,
+          "t": 3.0,
+          "u": 0.8,
+          "lambda": [
+            1.1,
+            -0.2
+          ],
+          "eta": -1.3,
+          "expectation": 0.6516716799169139
+        }
+      ],
+      "interpretation": "Finite-population exact-law enumeration with floating-point exponentials; not a universal coverage proof."
+    },
+    "grid_dual": {
+      "nodes": 163,
+      "cases": [
+        {
+          "case": "transferred",
+          "target_sign": 1.0,
+          "primal_value": 3.0,
+          "dual_value": 3.0,
+          "gap": 0.0
+        },
+        {
+          "case": "transferred",
+          "target_sign": -1.0,
+          "primal_value": -0.0,
+          "dual_value": 0.0,
+          "gap": 0.0
+        },
+        {
+          "case": "manufactured_feasible",
+          "target_sign": 1.0,
+          "primal_value": 1.6844489030452519,
+          "dual_value": 1.6844489030452519,
+          "gap": 0.0
+        },
+        {
+          "case": "manufactured_feasible",
+          "target_sign": -1.0,
+          "primal_value": -1.4263961270029002,
+          "dual_value": -1.4263961270029004,
+          "gap": 2.220446049250313e-16
+        }
+      ],
+      "warning": "Finite grid corroboration only. A grid maximum is not a certified continuum upper bound."
+    }
+  },
+  "scope": "Exact finite algebra or explicitly marked floating-point enumeration. Proofs and novelty are separate."
+}

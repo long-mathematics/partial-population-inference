@@ -1,0 +1,5 @@
+{
+  "numerical_variance_checks": 27,
+  "max_scaled_error": 1.3890221594372133e-14,
+  "note": "Finite series through r=200 compared with the analytic generating-function identity. Numerical corroboration, not an error-bound proof."
+}

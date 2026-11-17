@@ -1,0 +1,22 @@
+[
+  {
+    "source": "supplied discovery v0.1",
+    "bytes": 79075,
+    "sha256": "7805a13ad318d14fbb91c796db1c92e202fd90c7d53f8b0904e2b4963870137a"
+  },
+  {
+    "source": "recovered discovery v0.2",
+    "bytes": 108935,
+    "sha256": "542c9fbdf8fcf199c5b2c59dbe1dfa7f1db11a5df63ea5219e8b4a4813ca558c"
+  },
+  {
+    "source": "supplied transfer v0.1",
+    "bytes": 71871,
+    "sha256": "78678dfef9d2ac02293c631c4f69cb6cf49c40cb90e8c6074191c2a3b7a213d2"
+  },
+  {
+    "source": "recovered transfer v0.1",
+    "bytes": 71871,
+    "sha256": "78678dfef9d2ac02293c631c4f69cb6cf49c40cb90e8c6074191c2a3b7a213d2"
+  }
+]

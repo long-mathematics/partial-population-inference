@@ -1,0 +1,111 @@
+{
+  "scope": "Exact arithmetic for the finite game; other checks explicitly numerical or symbolic.",
+  "finite_game": {
+    "checks": 603,
+    "optimal_value": "697/140",
+    "risks": [
+      {
+        "N": 3,
+        "coverage": "19/20",
+        "risk": "143/70"
+      },
+      {
+        "N": 4,
+        "coverage": "19/20",
+        "risk": "369/112"
+      },
+      {
+        "N": 5,
+        "coverage": "19/20",
+        "risk": "697/140"
+      },
+      {
+        "N": 6,
+        "coverage": "19/20",
+        "risk": "397/80"
+      },
+      {
+        "N": 7,
+        "coverage": "19/20",
+        "risk": "697/140"
+      },
+      {
+        "N": 8,
+        "coverage": "19/20",
+        "risk": "1033/224"
+      },
+      {
+        "N": 9,
+        "coverage": "19/20",
+        "risk": "1369/336"
+      },
+      {
+        "N": 10,
+        "coverage": "19/20",
+        "risk": "1657/480"
+      },
+      {
+        "N": 11,
+        "coverage": "19/20",
+        "risk": "167/60"
+      },
+      {
+        "N": 12,
+        "coverage": "19/20",
+        "risk": "167/80"
+      }
+    ],
+    "arithmetic": "exact rational"
+  },
+  "joint_transforms": {
+    "enumerated_comparisons": 360,
+    "max_absolute_error": 8.881784197001252e-16,
+    "symbolic_zero_limits": 3
+  },
+  "moments": {
+    "max_enumeration_error": 4.440892098500626e-16,
+    "V": 2.9298220949070046,
+    "K4": -3.2754373848515455,
+    "M4": 22.47613513856426,
+    "counterexample": {
+      "chebyshev": 20.017866946715277,
+      "fourth_moment": 89.92114005215814,
+      "threshold_beta": 0.0001227987595719413
+    }
+  },
+  "recovery": {
+    "hill_order_comparisons": 600,
+    "intermediate_families": {
+      "two": {
+        "min": {
+          "node": 0.11939101359372609,
+          "value": 0.30332316834766476
+        },
+        "max": {
+          "node": 0.300844887865135,
+          "value": 0.3040511087181251
+        }
+      },
+      "three": {
+        "min": {
+          "node": 0.41910161657646566,
+          "value": 0.30343831121124665
+        },
+        "max": {
+          "node": 0.300844887865135,
+          "value": 0.3040511087180675
+        }
+      }
+    },
+    "grid_min": 0.30332317108923396,
+    "grid_max": 0.30405110635220606,
+    "grid_absolute_discrepancy": 2.741569193887017e-09,
+    "note": "Numerical corroboration only. Analytic zero-counting proves family exhaustiveness."
+  },
+  "truncation_perspective": {
+    "truncation_comparisons": 36,
+    "max_absolute_error": 1.494030593685025e-16,
+    "perspective_identity": "symbolically verified",
+    "one_sided_exponential_inequality_examples": 909
+  }
+}

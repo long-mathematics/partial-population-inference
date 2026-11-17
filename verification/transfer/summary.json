@@ -1,0 +1,13 @@
+{
+  "all_passed": true,
+  "retained_exact_checks": 2182,
+  "extension_checks": 6168,
+  "total_checks": 8350,
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "sympy": "1.14.0"
+  },
+  "scope": "Exact finite algebra and explicit numerical corroboration, not formal verification or a novelty certificate."
+}
