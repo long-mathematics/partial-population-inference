@@ -1,0 +1,246 @@
+{
+  "sources": [
+    {
+      "package": "VGAM",
+      "revision": "2c0cbb3623638c6a2832ff797b78400b0d322938",
+      "upstream_path": "DESCRIPTION",
+      "url": "https://raw.githubusercontent.com/cran/VGAM/2c0cbb3623638c6a2832ff797b78400b0d322938/DESCRIPTION",
+      "path": "data/documentation/VGAM/DESCRIPTION",
+      "bytes": 2189,
+      "sha256": "2310251214bae224780df38e02f332c84a885156ab238abe686b8ed09caf90a9"
+    },
+    {
+      "package": "VGAM",
+      "revision": "2c0cbb3623638c6a2832ff797b78400b0d322938",
+      "upstream_path": "data/corbet.rda",
+      "url": "https://raw.githubusercontent.com/cran/VGAM/2c0cbb3623638c6a2832ff797b78400b0d322938/data/corbet.rda",
+      "path": "data/raw/VGAM/corbet.rda",
+      "bytes": 244,
+      "sha256": "615148462f35233e3a77bd28346283240d1ab2781fcd68d011f26d1ba85945d9"
+    },
+    {
+      "package": "VGAM",
+      "revision": "2c0cbb3623638c6a2832ff797b78400b0d322938",
+      "upstream_path": "man/corbet.Rd",
+      "url": "https://raw.githubusercontent.com/cran/VGAM/2c0cbb3623638c6a2832ff797b78400b0d322938/man/corbet.Rd",
+      "path": "data/documentation/VGAM/corbet.Rd",
+      "bytes": 1631,
+      "sha256": "feea93806983ef2197fdee4a6e7bfc3425239e6e4e95bcfe61976b1b4c66a92e"
+    },
+    {
+      "package": "sads",
+      "revision": "9e98a39613bd331d15b8bab4c6049c2b4f8c2ab5",
+      "upstream_path": "DESCRIPTION",
+      "url": "https://raw.githubusercontent.com/cran/sads/9e98a39613bd331d15b8bab4c6049c2b4f8c2ab5/DESCRIPTION",
+      "path": "data/documentation/sads/DESCRIPTION",
+      "bytes": 1399,
+      "sha256": "b4121f30dfc95392ff0fc7055f28815c503d5983a3c40cfec8a6e9177b2e68f2"
+    },
+    {
+      "package": "sads",
+      "revision": "9e98a39613bd331d15b8bab4c6049c2b4f8c2ab5",
+      "upstream_path": "data/birds.rda",
+      "url": "https://raw.githubusercontent.com/cran/sads/9e98a39613bd331d15b8bab4c6049c2b4f8c2ab5/data/birds.rda",
+      "path": "data/raw/sads/birds.rda",
+      "bytes": 249,
+      "sha256": "b91ef8eb5abc6631f8cc90741bc52e80e0e80b627cf75d6ad415243a06367879"
+    },
+    {
+      "package": "sads",
+      "revision": "9e98a39613bd331d15b8bab4c6049c2b4f8c2ab5",
+      "upstream_path": "data/moths.rda",
+      "url": "https://raw.githubusercontent.com/cran/sads/9e98a39613bd331d15b8bab4c6049c2b4f8c2ab5/data/moths.rda",
+      "path": "data/raw/sads/moths.rda",
+      "bytes": 276,
+      "sha256": "df6af55671612c6b2e51583ec1d3748b3479cc2de099986e3e05f5ba1aa5226c"
+    },
+    {
+      "package": "sads",
+      "revision": "9e98a39613bd331d15b8bab4c6049c2b4f8c2ab5",
+      "upstream_path": "man/birds.Rd",
+      "url": "https://raw.githubusercontent.com/cran/sads/9e98a39613bd331d15b8bab4c6049c2b4f8c2ab5/man/birds.Rd",
+      "path": "data/documentation/sads/birds.Rd",
+      "bytes": 876,
+      "sha256": "af5fac56a497d6a2df6579e282b5f8bb2323e456d1db1085b175229674393911"
+    },
+    {
+      "package": "sads",
+      "revision": "9e98a39613bd331d15b8bab4c6049c2b4f8c2ab5",
+      "upstream_path": "man/moths.Rd",
+      "url": "https://raw.githubusercontent.com/cran/sads/9e98a39613bd331d15b8bab4c6049c2b4f8c2ab5/man/moths.Rd",
+      "path": "data/documentation/sads/moths.Rd",
+      "bytes": 932,
+      "sha256": "9d17d8edc2785e261fc80b9eee03f4862db041c346b2e1753e30ac4e03052126"
+    },
+    {
+      "package": "vcdExtra",
+      "revision": "12b74c2d5415ee17244e1b629cc746d3aa903d23",
+      "upstream_path": "DESCRIPTION",
+      "url": "https://raw.githubusercontent.com/cran/vcdExtra/12b74c2d5415ee17244e1b629cc746d3aa903d23/DESCRIPTION",
+      "path": "data/documentation/vcdExtra/DESCRIPTION",
+      "bytes": 4100,
+      "sha256": "bb65882ebf96e0b6b60b6607c64a17709ad579b6001e5b09d7d32d4a778ba368"
+    },
+    {
+      "package": "vcdExtra",
+      "revision": "12b74c2d5415ee17244e1b629cc746d3aa903d23",
+      "upstream_path": "data/ShakeWords.RData",
+      "url": "https://raw.githubusercontent.com/cran/vcdExtra/12b74c2d5415ee17244e1b629cc746d3aa903d23/data/ShakeWords.RData",
+      "path": "data/raw/vcdExtra/ShakeWords.RData",
+      "bytes": 546,
+      "sha256": "29f8b6eb7836611e82079ab3cedbe8ec1b093c3cf40224a2faa0b0343bc3bde3"
+    },
+    {
+      "package": "vcdExtra",
+      "revision": "12b74c2d5415ee17244e1b629cc746d3aa903d23",
+      "upstream_path": "man/ShakeWords.Rd",
+      "url": "https://raw.githubusercontent.com/cran/vcdExtra/12b74c2d5415ee17244e1b629cc746d3aa903d23/man/ShakeWords.Rd",
+      "path": "data/documentation/vcdExtra/ShakeWords.Rd",
+      "bytes": 1644,
+      "sha256": "65ecfa8284affb3ad4865f245969fa26d8f2d05df1302a89ca0d63315d34d77b"
+    },
+    {
+      "package": "vegan",
+      "revision": "f4d55cd559f36f0ea17ee0c64926b0007a2108bf",
+      "upstream_path": "DESCRIPTION",
+      "url": "https://raw.githubusercontent.com/cran/vegan/f4d55cd559f36f0ea17ee0c64926b0007a2108bf/DESCRIPTION",
+      "path": "data/documentation/vegan/DESCRIPTION",
+      "bytes": 3600,
+      "sha256": "8e2c404b57d9a2bce680b5a99c57b775c9500756b73185d8a4d9182fa543ec56"
+    },
+    {
+      "package": "vegan",
+      "revision": "f4d55cd559f36f0ea17ee0c64926b0007a2108bf",
+      "upstream_path": "data/BCI.rda",
+      "url": "https://raw.githubusercontent.com/cran/vegan/f4d55cd559f36f0ea17ee0c64926b0007a2108bf/data/BCI.rda",
+      "path": "data/raw/vegan/BCI.rda",
+      "bytes": 8759,
+      "sha256": "9730c9a9db6eb455ae97c61c863a2ca6a074f7d00a3062b9a3a9a873158a5fd1"
+    },
+    {
+      "package": "vegan",
+      "revision": "f4d55cd559f36f0ea17ee0c64926b0007a2108bf",
+      "upstream_path": "man/BCI.Rd",
+      "url": "https://raw.githubusercontent.com/cran/vegan/f4d55cd559f36f0ea17ee0c64926b0007a2108bf/man/BCI.Rd",
+      "path": "data/documentation/vegan/BCI.Rd",
+      "bytes": 5815,
+      "sha256": "c16bb3833ab001d437d4c728e7a5b952b5e39094df4c4e8ea05e6c0915a0216c"
+    },
+    {
+      "package": "Rcapture",
+      "revision": "b536c826402072e23db2772e61e4e48d64bddb4d",
+      "upstream_path": "DESCRIPTION",
+      "url": "https://raw.githubusercontent.com/cran/Rcapture/b536c826402072e23db2772e61e4e48d64bddb4d/DESCRIPTION",
+      "path": "data/documentation/Rcapture/DESCRIPTION",
+      "bytes": 851,
+      "sha256": "3dbd1c1ed80492f00e2d3e676ef172d1df5defe7af6eaff119718ce034b83229"
+    },
+    {
+      "package": "Rcapture",
+      "revision": "b536c826402072e23db2772e61e4e48d64bddb4d",
+      "upstream_path": "data/hare.rda",
+      "url": "https://raw.githubusercontent.com/cran/Rcapture/b536c826402072e23db2772e61e4e48d64bddb4d/data/hare.rda",
+      "path": "data/raw/Rcapture/hare.rda",
+      "bytes": 203,
+      "sha256": "a9bca19390d044536309fdd4f5eb0c3fc6acfcab844c8738823d49c781f0f4b1"
+    },
+    {
+      "package": "Rcapture",
+      "revision": "b536c826402072e23db2772e61e4e48d64bddb4d",
+      "upstream_path": "man/hare.Rd",
+      "url": "https://raw.githubusercontent.com/cran/Rcapture/b536c826402072e23db2772e61e4e48d64bddb4d/man/hare.Rd",
+      "path": "data/documentation/Rcapture/hare.Rd",
+      "bytes": 1821,
+      "sha256": "721e52d235bf134d13066a5ab84570553f5bd2352cd719943c4d94785387f970"
+    },
+    {
+      "package": "RMark",
+      "revision": "19346cd28eaa4febc80fe3452ea1fef962c74691",
+      "upstream_path": "DESCRIPTION",
+      "url": "https://raw.githubusercontent.com/cran/RMark/19346cd28eaa4febc80fe3452ea1fef962c74691/DESCRIPTION",
+      "path": "data/documentation/RMark/DESCRIPTION",
+      "bytes": 3196,
+      "sha256": "80f005227066170874542f48b6f35f327081499c09a71d91bf08471933634aad"
+    },
+    {
+      "package": "RMark",
+      "revision": "19346cd28eaa4febc80fe3452ea1fef962c74691",
+      "upstream_path": "data/edwards.eberhardt.rda",
+      "url": "https://raw.githubusercontent.com/cran/RMark/19346cd28eaa4febc80fe3452ea1fef962c74691/data/edwards.eberhardt.rda",
+      "path": "data/raw/RMark/edwards.eberhardt.rda",
+      "bytes": 2922,
+      "sha256": "daa533584288edb26cd34759dd0dae73960eddc99db463abd16780abb9061810"
+    },
+    {
+      "package": "RMark",
+      "revision": "19346cd28eaa4febc80fe3452ea1fef962c74691",
+      "upstream_path": "man/edwards.eberhardt.Rd",
+      "url": "https://raw.githubusercontent.com/cran/RMark/19346cd28eaa4febc80fe3452ea1fef962c74691/man/edwards.eberhardt.Rd",
+      "path": "data/documentation/RMark/edwards.eberhardt.Rd",
+      "bytes": 3596,
+      "sha256": "6907626d91fd2135d0ef9267ca0e0dc60e870b01c0bb1315553d5c07324c6544"
+    },
+    {
+      "package": "Petersen",
+      "revision": "1f402dcd12686a3f9cf183a26f16e878d44396da",
+      "upstream_path": "DESCRIPTION",
+      "url": "https://raw.githubusercontent.com/cran/Petersen/1f402dcd12686a3f9cf183a26f16e878d44396da/DESCRIPTION",
+      "path": "data/documentation/Petersen/DESCRIPTION",
+      "bytes": 1390,
+      "sha256": "20cd5736abb7243cc80406994e34a3919e227c784c89abe9a7d97d5eaf2835d5"
+    },
+    {
+      "package": "Petersen",
+      "revision": "1f402dcd12686a3f9cf183a26f16e878d44396da",
+      "upstream_path": "data/data_rodli.rda",
+      "url": "https://raw.githubusercontent.com/cran/Petersen/1f402dcd12686a3f9cf183a26f16e878d44396da/data/data_rodli.rda",
+      "path": "data/raw/Petersen/data_rodli.rda",
+      "bytes": 183,
+      "sha256": "ee9bfb65a20fedd3dbb5ff0a2584caaddbf2dcd329a5b1438938e13c2c898e80"
+    },
+    {
+      "package": "Petersen",
+      "revision": "1f402dcd12686a3f9cf183a26f16e878d44396da",
+      "upstream_path": "man/data_rodli.Rd",
+      "url": "https://raw.githubusercontent.com/cran/Petersen/1f402dcd12686a3f9cf183a26f16e878d44396da/man/data_rodli.Rd",
+      "path": "data/documentation/Petersen/data_rodli.Rd",
+      "bytes": 1076,
+      "sha256": "c3f8277f5650c424d5cd6cdda72a863a7f67cfee11c2a899660bd09462465f2b"
+    },
+    {
+      "package": "McCreaMorgan",
+      "path": "data/raw/McCreaMorgan/schnabel_Tab3.1.xlsx",
+      "url": "https://www.capturerecapture.co.uk/datasets/schnabel_Tab3.1.xlsx",
+      "bytes": 11007,
+      "sha256": "23acd9af9f6a48d59c5ea75e6ec9211becfcb7d6a75e2936bcd3b33ee3cb663f",
+      "source": "McCrea and Morgan (2014), Table 3.1; source webpage requests attribution to original collectors."
+    },
+    {
+      "package": "fishmethods",
+      "revision": "cb5c9ac846820a632c16df9a7645bf6578ece6fb",
+      "upstream_path": "DESCRIPTION",
+      "url": "https://raw.githubusercontent.com/cran/fishmethods/cb5c9ac846820a632c16df9a7645bf6578ece6fb/DESCRIPTION",
+      "path": "data/documentation/fishmethods/DESCRIPTION",
+      "bytes": 667,
+      "sha256": "ea64c8e794bc019cdc50824f124eec126be8908cf042c1c5230162b975a59edb"
+    },
+    {
+      "package": "fishmethods",
+      "revision": "cb5c9ac846820a632c16df9a7645bf6578ece6fb",
+      "upstream_path": "data/Gerking.rda",
+      "url": "https://raw.githubusercontent.com/cran/fishmethods/cb5c9ac846820a632c16df9a7645bf6578ece6fb/data/Gerking.rda",
+      "path": "data/raw/fishmethods/Gerking.rda",
+      "bytes": 192,
+      "sha256": "619c1a7b8116e6e0175cb991e41b0ea6fe637347949422549c2c8ee41e6572cf"
+    },
+    {
+      "package": "fishmethods",
+      "revision": "cb5c9ac846820a632c16df9a7645bf6578ece6fb",
+      "upstream_path": "man/Gerking.Rd",
+      "url": "https://raw.githubusercontent.com/cran/fishmethods/cb5c9ac846820a632c16df9a7645bf6578ece6fb/man/Gerking.Rd",
+      "path": "data/documentation/fishmethods/Gerking.Rd",
+      "bytes": 748,
+      "sha256": "544d682b0694c6711e742a9d7c1a7018447059ec9b93642f927fd5d46d14091e"
+    }
+  ]
+}

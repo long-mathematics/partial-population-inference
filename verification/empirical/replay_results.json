@@ -1,0 +1,14 @@
+{
+  "source_files": 27,
+  "continuum_tables": 16,
+  "real_data_certificates": 12,
+  "simulation_certificates": 1438,
+  "verified_primal_witnesses": 2880,
+  "endpoint_solver_statuses": {
+    "optimal": 2880,
+    "failed; certified one-direction bound": 20
+  },
+  "paired_cases": 3200,
+  "summary_rows": 64,
+  "status": "all source hashes, continuum certificates, simulated truths and reported summaries verified"
+}
