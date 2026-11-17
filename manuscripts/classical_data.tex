@@ -702,11 +702,11 @@ CVXPY 1.9.3, CLARABEL 0.11.1, and python-flint 0.9.0. Exact versions are
 recorded in \texttt{requirements-empirical.txt}. Standard TeX tools build the
 paper; its tables and figure are generated from the checked JSON results.
 
-\begin{verbatim}
+\begin{samepage}\begin{verbatim}
 python -m pip install -r requirements-empirical.txt
 make check
 make pdf
-\end{verbatim}
+\end{verbatim}\end{samepage}
 To regenerate data transformations and simulations, rather than replay saved
 certificates, run the extraction, classical analysis, coverage study, and
 table-generation scripts described in the verification guide. The projection

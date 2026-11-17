@@ -30,9 +30,9 @@
     },
     {
       "source": "manuscripts/classical_data.tex",
-      "source_sha256": "7511e0960f496be380b63daea92e8449fe2618521c2e70b777db69d6384840bd",
+      "source_sha256": "1ea0d48d77899fa9ea5fe1910d3253f4765562e16bcdadfc05efbd93cacaadb0",
       "pdf": "pdf/classical_data.pdf",
-      "pdf_sha256": "a8caa081ed2e9123bca2f9c295d9276dea8fd3103650e67e13ffea9542a4b9fc",
+      "pdf_sha256": "1bc25629efff7a1f05d3b6274eb0ed2282d54aa11a30043a3a24b6ef9d551193",
       "dependencies": {
         "manuscripts/generated/abundance.tex": "0af3cbe2637748fd4a0bff4a8d486ed6664a46ebe2e5db92a567cc4162dcd7b8",
         "manuscripts/generated/collection.tex": "240889e9c027f11da7d0f092dc413726e0b374fbf1f163116625f32843850e0a",
