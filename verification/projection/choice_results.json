@@ -1,0 +1,9 @@
+{
+  "checks": 18,
+  "exact_removal_coverages": [
+    "1",
+    "1",
+    "1"
+  ],
+  "scope": "known-removal martingale expectations and interval inversion; normal-formula reproduction; custom-score continuum replay"
+}

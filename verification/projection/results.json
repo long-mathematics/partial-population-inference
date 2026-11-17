@@ -1,0 +1,83 @@
+{
+  "checks": 119,
+  "max_enumerated_e_expectation_upper": 0.3445306263035182,
+  "exact_coverages": [
+    {
+      "n": 2,
+      "target": "missing_mass",
+      "population": [
+        "1/2",
+        "1/3",
+        "1/6"
+      ],
+      "coverage": "1"
+    },
+    {
+      "n": 2,
+      "target": "missing_mass",
+      "population": [
+        "1/4",
+        "3/4"
+      ],
+      "coverage": "1"
+    },
+    {
+      "n": 2,
+      "target": "discoveries",
+      "population": [
+        "1/2",
+        "1/3",
+        "1/6"
+      ],
+      "coverage": "1"
+    },
+    {
+      "n": 2,
+      "target": "discoveries",
+      "population": [
+        "1/4",
+        "3/4"
+      ],
+      "coverage": "1"
+    },
+    {
+      "n": 4,
+      "target": "missing_mass",
+      "population": [
+        "1/2",
+        "1/3",
+        "1/6"
+      ],
+      "coverage": "1"
+    },
+    {
+      "n": 4,
+      "target": "missing_mass",
+      "population": [
+        "1/4",
+        "3/4"
+      ],
+      "coverage": "1"
+    },
+    {
+      "n": 4,
+      "target": "discoveries",
+      "population": [
+        "1/2",
+        "1/3",
+        "1/6"
+      ],
+      "coverage": "1"
+    },
+    {
+      "n": 4,
+      "target": "discoveries",
+      "population": [
+        "1/4",
+        "3/4"
+      ],
+      "coverage": "1"
+    }
+  ],
+  "scope": "finite-law corroboration plus continuum and tamper checks; analytic proof supplies general coverage"
+}

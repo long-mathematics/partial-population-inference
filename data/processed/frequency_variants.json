@@ -1,0 +1,27 @@
+{
+  "status": "Source-version sensitivity, not silent corrections to the preserved workbook",
+  "variants": [
+    {
+      "dataset": "Taxicabs A",
+      "alternative_frequency": [142, 81, 49, 7, 3, 1, 0, 0, 0, 0],
+      "source": "Ridout (2007), software notes p. 2; Anan, Bohning and Maruotti (2017), published Tables 5 and 6",
+      "url": "https://www.kent.ac.uk/smsas/personal/msr/webfiles/estimateN/estimateN.pdf",
+      "corroboration_url": "https://www.personal.soton.ac.uk/dab1f10/Uncertainty%20estimation%20in%20heterogeneous%20capture%20recapture%20count%20data.pdf",
+      "reference_population": 420
+    },
+    {
+      "dataset": "Taxicabs B",
+      "alternative_frequency": [104, 67, 51, 12, 6, 1, 0, 0, 0, 0],
+      "source": "Chen thesis, Kent repository 50775, standard-dataset table citing Carothers (1973), p. 127; secondary transcription retained as an alternative",
+      "url": "https://kar.kent.ac.uk/50775/1/218Chen_Yu.pdf",
+      "reference_population": 420
+    },
+    {
+      "dataset": "Golftees",
+      "alternative_frequency": [46, 28, 21, 13, 23, 14, 6, 11],
+      "source": "Anan, Bohning and Maruotti (2017), published Tables 5 and 6, citing Borchers et al.",
+      "url": "https://www.personal.soton.ac.uk/dab1f10/Uncertainty%20estimation%20in%20heterogeneous%20capture%20recapture%20count%20data.pdf",
+      "reference_population": 250
+    }
+  ]
+}

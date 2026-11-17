@@ -1,0 +1,10 @@
+{
+  "source": "Miller, Sharma and Yang (2024), The German Tank Problem with Multiple Factories, PUMP 7, 231-257, Figure 1 on p. 232; attributed there to Ruggles and Brodie (1947)",
+  "url": "https://par.nsf.gov/servlets/purl/10580624",
+  "status": "Visually checked secondary reproduction of historical aggregate estimates; no raw serials, sample sizes or selection rules supplied",
+  "rows": [
+    {"month": "June 1940", "intelligence_estimate": 1000, "statistical_estimate": 169, "german_records": 122},
+    {"month": "June 1941", "intelligence_estimate": 1550, "statistical_estimate": 244, "german_records": 271},
+    {"month": "August 1942", "intelligence_estimate": 1550, "statistical_estimate": 327, "german_records": 342}
+  ]
+}

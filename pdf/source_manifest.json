@@ -4,25 +4,52 @@
       "source": "manuscripts/discovery_rate_inversion.tex",
       "source_sha256": "fbe7642ae43470257a4a80bb6956a991ac6a812eb8ad37288cdbcaf28117907f",
       "pdf": "pdf/discovery_rate_inversion.pdf",
-      "pdf_sha256": "0a179ba2669edaa529800eb541c2d1af59fb8cdf1d87cdc59927119e0f390304"
+      "pdf_sha256": "0a179ba2669edaa529800eb541c2d1af59fb8cdf1d87cdc59927119e0f390304",
+      "dependencies": {}
     },
     {
       "source": "manuscripts/transfer_generation.tex",
       "source_sha256": "e90a5a57ae3907f9ac5d962b0ff2681377c43d0cd03a7b356894f7dcd9f85a7b",
       "pdf": "pdf/transfer_generation.pdf",
-      "pdf_sha256": "b049ae2f3ce924b6640a346cc76b14202f03defcd8921cc03bdc19454ef3c0c9"
+      "pdf_sha256": "b049ae2f3ce924b6640a346cc76b14202f03defcd8921cc03bdc19454ef3c0c9",
+      "dependencies": {}
     },
     {
       "source": "research/master_identity_and_deletion.tex",
       "source_sha256": "0b30fddc7d7f56f2d62fb17f5f0f56b783beafd1560264d1723f2ad6f800d1ce",
       "pdf": "pdf/master_identity_and_deletion.pdf",
-      "pdf_sha256": "3907fd17f7ffb2622eb7b35b49ee63bc52c29b2a776ae037322e3404e75ea2a2"
+      "pdf_sha256": "3907fd17f7ffb2622eb7b35b49ee63bc52c29b2a776ae037322e3404e75ea2a2",
+      "dependencies": {}
     },
     {
       "source": "manuscripts/capture_recapture.tex",
       "source_sha256": "dc410e0673c4da685afbab8b0ebaf760592cfc5149e8d0cf49435aa0fe383422",
       "pdf": "pdf/capture_recapture.pdf",
-      "pdf_sha256": "22885a1428e6867684d2ce00ab425faf7063e7a635ce40e8f02374c1345ff083"
+      "pdf_sha256": "22885a1428e6867684d2ce00ab425faf7063e7a635ce40e8f02374c1345ff083",
+      "dependencies": {}
+    },
+    {
+      "source": "manuscripts/classical_data.tex",
+      "source_sha256": "7511e0960f496be380b63daea92e8449fe2618521c2e70b777db69d6384840bd",
+      "pdf": "pdf/classical_data.pdf",
+      "pdf_sha256": "a8caa081ed2e9123bca2f9c295d9276dea8fd3103650e67e13ffea9542a4b9fc",
+      "dependencies": {
+        "manuscripts/generated/abundance.tex": "0af3cbe2637748fd4a0bff4a8d486ed6664a46ebe2e5db92a567cc4162dcd7b8",
+        "manuscripts/generated/collection.tex": "240889e9c027f11da7d0f092dc413726e0b374fbf1f163116625f32843850e0a",
+        "manuscripts/generated/coverage_width.pdf": "b9bd5caf8c113401881dd638e90e76836b8ad00dd22ca0bfefd153f4195cdf19",
+        "manuscripts/generated/future.tex": "78333fda8e62a3df8f1e94ba840c63259bbc09181245700413c22677a7ee5c63",
+        "manuscripts/generated/histories.tex": "9be777aed0c77f3e75f80af28c6bb731ea7c5bec019299a799845785404f5ba5",
+        "manuscripts/generated/missing_mass.tex": "895a37a8e4d4810dacee4aa8253f78f411a78f37ec0df3445f587d48f95db5ff",
+        "manuscripts/generated/normal_choices.tex": "6325d3ecc1d2f6be0b3e1a1e601e0683bef4162e16b1213e138e18abdf201c74",
+        "manuscripts/generated/simulation_discoveries.tex": "5df906f37ab18ff383fa3195bd728d3c68f4d14e775dfbfafe4d8f61b2838e36",
+        "manuscripts/generated/simulation_missing_mass.tex": "a75984ca19cf618f26f4ae747c75a55334bdbcbb5cbd876c9cc21d802c291820",
+        "manuscripts/generated/source_sensitivity.tex": "0c2d04c3551c9036e4f6f25dcfdf2f56bcd1e854b05f9d76d762fa1bfe731e79",
+        "manuscripts/generated/wartime.tex": "abab117552401bd19d30d1d6812a016486d34b4f292060aa58230259d2aa10f2",
+        "verification/empirical/classical_results.json": "8a46dd8447220986d0bd292aa50588f69363c10ee50978b9b5245e560962e97e",
+        "verification/empirical/coverage_width.json": "91d3d94a884263e9f806db1d30c48e537a910a1187a073ffe27eced3f48b4d85",
+        "data/processed/wartime_comparison.json": "cfce306f6a4fb222997c21069d6225280e2dabd0aeef34cca9a9f631bcb72d35",
+        "data/processed/frequency_variants.json": "8711dcf36d69949e354559132bf1f437b06500f29cd52c0c8b196300a06b7da7"
+      }
     }
   ]
 }

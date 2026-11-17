@@ -4,15 +4,32 @@ The central objective remains a transfer-and-generation theory: state which expe
 
 ## 1. Certified projected intervals
 
-Implement optimization of the joint convex regions over positive measures, first on fixed finite grids with explicit approximation error. A grid optimizer alone is not a continuum certificate. Develop dual inequalities with interval arithmetic or an analytic sign certificate, and compare relaxed solutions with integer-realizable populations.
+The [classical-data manuscript](../manuscripts/classical_data.tex) and
+[projection implementation](../src/partial_population/projection.py) now
+provide continuum-certified outer intervals for a specified eight-direction,
+fixed-effort region. Entropy duality and interval arithmetic certify endpoints;
+feasible relaxed measures provide explicit optimization-gap bounds. Saved
+certificates replay independently of the conic optimizer. Integer-realizable
+population optimization remains open.
 
 Evaluate a preassigned mixture of effort-optimized full-count and fixed-effort deletion calibration. The continuation theorem optimizes normalizers for a common score; arbitrary data-selected directions or maxima of full-deletion e-values require separate justification.
 
-Deliverable: reproducible missing-mass and fixed-horizon novelty intervals, with independently checked coverage calculations on finite populations and certified optimization error.
+Completed first deliverable: reproducible missing-mass and fixed-horizon
+novelty intervals, finite-law checks, saved continuum certificates and
+optimization-gap reports where witnesses are available. Improve efficiency
+without confusing a stronger theoretical region with the region actually
+implemented. Normal approximations and custom scores are selectable choices
+with their own assumptions, rather than being excluded by the framework.
 
-## 2. Matched comparisons and one real dataset
+## 2. Matched comparisons and classical data
 
-Choose one documented ecological or vocabulary dataset with a stable source and permissible redistribution. Preserve the original data and transformation script. Specify sampling design before selecting a benchmark. Use simulation from known populations to assess coverage and width; one real dataset does not reveal repeated-sampling coverage.
+The first paired study and multi-dataset manuscript are now implemented:
+four specified populations, two sample sizes, 200 replicates each, 64
+coverage/width summaries, and five abundance datasets plus classical capture
+series. The [audit](../audit/EMPIRICAL.md) records assumptions and source
+discrepancies. Known sunfish removals and disputed taxi/golf-tee frequencies
+are handled explicitly. The historical serial-number record still lacks an
+authenticated raw sample and sampling rule; no substitute is invented.
 
 Compare richness estimates on a common minimum-mass class with Chao and Wu–Yang as appropriate. Compare prediction with smoothed Good–Toulmin and Eriksson under their stated regimes. Treat individual unseen probability and maximum unseen probability as distinct targets when discussing Painsky and Colombi et al. Do not compare point-estimator error bounds with confidence-interval width without constructing a matching inferential task.
 

@@ -6,6 +6,12 @@ This project studies missing mass, species discovery, population size, and infer
 
 **Status:** active research drafts with reproducible computational checks.
 
+The [classical-data study](manuscripts/classical_data.tex) now includes certified
+continuum projections, selectable Good–Turing normal calibrations, paired
+coverage/width comparisons, source-version sensitivity, and known-removal
+capture inference. The [implementation audit](audit/EMPIRICAL.md) states the
+guarantees and limitations of each choice.
+
 ## Classical estimators and applications
 
 | Estimator or method | Inferential target | Treatment in this repository |
@@ -39,6 +45,7 @@ The assumptions depend on the experiment and target. Some richness and envelope 
 | [Transfer and generation](manuscripts/transfer_generation.tex) | [PDF](https://github.com/long-mathematics/partial-population-inference/raw/refs/heads/main/pdf/transfer_generation.pdf) | Positive, signed, and dominated transfers; random-effort deficiency; fixed-size calibration and prediction; batch extraction. |
 | [Additive cumulants and fixed-sample computation](research/master_identity_and_deletion.tex) | [PDF](https://github.com/long-mathematics/partial-population-inference/raw/refs/heads/main/pdf/master_identity_and_deletion.pdf) | Integrability conditions; polynomial deletion algorithms; threshold costs; effort-optimized full-count calibration. |
 | [Capture–recapture](manuscripts/capture_recapture.tex) | [PDF](https://github.com/long-mathematics/partial-population-inference/raw/refs/heads/main/pdf/capture_recapture.pdf) | Classical estimators; exact recovery and transfers; fixed-size and sequential intervals; repeated captures; independent-history calibration. |
+| [Classical data: discovery, recapture, and serial numbers](manuscripts/classical_data.tex) | [PDF](https://github.com/long-mathematics/partial-population-inference/raw/refs/heads/main/pdf/classical_data.pdf) | Certified continuum endpoints; normal calibration choices; 64 paired comparison summaries; ecological and vocabulary data; sunfish removals; conflicting taxi frequencies; historical serial-data availability. |
 
 Each paper develops the mathematics first and places its detailed comparison with prior work near the end, with brief citations at the points of use. See also the [literature audit](audit/LITERATURE.md), [mathematical and computational audit](audit/AUDIT.md), and [source provenance](provenance/SOURCES.md).
 
@@ -47,24 +54,47 @@ Each paper develops the mathematics first and places its detailed comparison wit
 Use Python 3.12 or later:
 
 ```sh
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-empirical.txt
 make check
 ```
 
 To run an individual verification suite, use `make check-discovery`, `make check-transfer`, `make check-new`, or `make check-capture`. The suites include exact rational certificates, symbolic identities, and numerical checks.
 
-To build all four PDFs, install a TeX distribution with `latexmk` and the packages declared in the sources, then run:
+To build all five PDFs, install a TeX distribution with `latexmk` and the packages declared in the sources, then run:
 
 ```sh
 make pdf
 ```
 
-PDFs are written to `build/`, and the build checks the logs for errors, unresolved references, and layout warnings. Run `make publish-pdfs` to refresh the downloadable copies in [pdf/](pdf/README.md). CI checks their source hashes and independently rebuilds all four papers; it also retains PDFs as build artifacts.
+PDFs are written to `build/`, and the build checks the logs for errors, unresolved references, and layout warnings. Run `make publish-pdfs` to refresh the downloadable copies in [pdf/](pdf/README.md). CI checks their source and dependency hashes and independently rebuilds all five papers; it also retains PDFs as build artifacts.
 
-[src/partial_population/deletion.py](src/partial_population/deletion.py) implements log-domain population and prediction deletion scores and common-score effort optimization. The population polynomial takes O(n²) arithmetic operations and O(n) storage. This is research code; certified projection and numerical error bounds remain [development goals](research/ROADMAP.md).
+[src/partial_population/deletion.py](src/partial_population/deletion.py) implements log-domain population and prediction deletion scores and common-score effort optimization. The population polynomial takes O(n²) arithmetic operations and O(n) storage.
+
+[projection.py](src/partial_population/projection.py) provides interval-arithmetic
+outer projections for a fixed eight-direction region, with feasible witnesses
+when available. [approximations.py](src/partial_population/approximations.py)
+reproduces fixed-count and Poisson Good–Turing normal intervals and exposes a
+general normal calibrator with declared target, variance, bias allowance, and
+assumptions. [removals.py](src/partial_population/removals.py) handles known
+removals through the changing hypergeometric kernel. These are choices within
+the framework: certification is not required to reproduce a classical
+approximation, and an approximation does not inherit a finite-sample guarantee.
+
+```sh
+PYTHONPATH=src python scripts/project_interval.py --n 1000 --fingerprint 50 --output build/example
+PYTHONPATH=src python scripts/project_interval.py --verify build/example
+PYTHONPATH=src python scripts/project_interval.py --n 1000 --fingerprint 50 20 --normal fixed_n --output build/normal
+```
+
+See the [projection guide](verification/projection/README.md),
+[empirical replay guide](verification/empirical/README.md), and
+[dataset provenance and terms](data/README.md). `make check-projection` tests
+finite laws and calibration choices; `make check-empirical` replays all stored
+certificates and paired cases without conic optimization. The original theory
+suites can still use the smaller `requirements.txt` installation.
 
 [src/partial_population/capture_recapture.py](src/partial_population/capture_recapture.py) supplies exact rational estimators, tail inversion with unbounded population search, signed transfers, and sequential e-values. See the [capture verification guide](verification/capture/README.md) and [audit](audit/CAPTURE_RECAPTURE.md) for the covered designs and limitations.
 
 ## Author and citation
 
-Christopher D. Long. Please cite the relevant manuscript and its version; repository citation metadata is in [CITATION.cff](CITATION.cff). Original code and text are released under the [MIT license](LICENSE).
+Christopher D. Long. Please cite the relevant manuscript and its version; repository citation metadata is in [CITATION.cff](CITATION.cff). Original code and text are released under the [MIT license](LICENSE). Third-party data retain their [source terms](data/README.md).
