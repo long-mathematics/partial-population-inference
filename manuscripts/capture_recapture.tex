@@ -252,8 +252,9 @@ For $0<\alpha<1$ define
  L_\alpha(j)=\min\{N:F_N(j)>\alpha\},\qquad
  U_\alpha(j)=\sup\{N:G_N(j)>\alpha\}.
 \end{equation}
-Both sets incorporate the actual support: retained $N$ satisfy
-$N\ge a+b-j$. The upper endpoint is an integer or $+\infty$.
+The lower acceptance set automatically enforces the observed support
+$N\ge a+b-j$. Removing impossible candidates from the upper acceptance set
+does not change its supremum. The upper endpoint is an integer or $+\infty$.
 \begin{theorem}[Coverage and one-sided sharpness]\label{thm:limits}
 The limits in \eqref{eq:limits} are nonincreasing in $j$, and
 \[

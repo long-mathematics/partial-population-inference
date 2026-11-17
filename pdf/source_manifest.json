@@ -20,9 +20,9 @@
     },
     {
       "source": "manuscripts/capture_recapture.tex",
-      "source_sha256": "7e08b67357313a6133b3087a0442cad5ea9d2ba379c884400423ed0e37f7eaa6",
+      "source_sha256": "dc410e0673c4da685afbab8b0ebaf760592cfc5149e8d0cf49435aa0fe383422",
       "pdf": "pdf/capture_recapture.pdf",
-      "pdf_sha256": "90bed34f296d3b68ef0539d01a328641ddc587ea7b81968748da7b77bb906b90"
+      "pdf_sha256": "22885a1428e6867684d2ce00ab425faf7063e7a635ce40e8f02374c1345ff083"
     }
   ]
 }
