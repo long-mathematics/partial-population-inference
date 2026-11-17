@@ -4,7 +4,7 @@ Research on missing mass, species discovery, population size, and the transfer o
 
 The organizing question is when sampling kernels turn additive observations into recoverable population functionals and valid confidence regions. Poisson independence supplies linear cumulant functionals of the abundance measure. Positive and dominated transfers carry calibration to other experiments; signed transfers carry expectations and expose instability. The German tank problem supplies an exact finite decision example. Tag–retag and inverse-coupon inference are part of the research agenda, with their experiment-specific assumptions still to be developed here.
 
-**Status:** internal research drafts and computational verification. This repository does not establish publication priority, universal minimaxity, or formal proof-assistant verification.
+**Status:** research drafts and computational verification; not peer-reviewed publications. This repository does not establish publication priority, universal minimaxity, or formal proof-assistant verification.
 
 ## Manuscripts and current results
 
