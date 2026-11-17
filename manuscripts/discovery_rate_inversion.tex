@@ -14,7 +14,7 @@
 \usepackage{fancyhdr,aliascnt}
 \pagestyle{fancy}\fancyhf{}
 \fancyhead[L]{\small Shape-constrained discovery-rate inversion}
-\fancyhead[R]{\small Consolidated draft}
+\fancyhead[R]{\small Revised draft v0.2}
 \fancyfoot[C]{\thepage}
 \setlength{\headheight}{14pt}
 \setlength{\emergencystretch}{2em}
@@ -65,17 +65,17 @@
 \title{\textbf{Shape-Constrained Discovery-Rate Inversion}\\[5pt]
 \large A sampling calculus, recovery geometry,\\and finite-sample statistical calibration}
 \author{Christopher D. Long}
-\date{November 12, 2026\\[3pt]\small Consolidated research draft, version 0.1}
+\date{November 12, 2026\\[3pt]\small Revised research draft, version 0.2}
 \begin{document}
 \maketitle
 \begin{abstract}
-Partial-population inference includes unseen-species prediction, missing-mass estimation, diversity estimation, capture--recapture, and ordered-support estimation. We organize these problems by sampling operations, target-directed recovery, and statistical calibration. A feature-incidence formulation makes coverage counts and sample maxima instances of one sampling calculus. Thinning gives a polynomial whose expansions at zero and one are collision counts and occupancy frequencies. Exchangeability identifies its discrete derivatives, and Poissonization converts differences into derivatives. For the inverse problem, convex moment geometry yields sharp bounds, contact certificates, and deterministic minimax recovery. An explicit two-measure construction bounds an entire discovery-rate curve given normalization, a rate, and its derivative; an exponential-polynomial argument extends this to even derivative blocks at several times. We distinguish these relaxed bounds from realizable populations, whose atom masses satisfy integer-multiplicity constraints. Exact occupancy cumulants are linear in the size-biased abundance measure, enabling convex finite-sample confidence regions. Separate error transforms handle realized missing mass and future random discoveries. Statistical optimality is certified only under stated criteria: we include a monotone optimal tank upper limit and an exact rational finite decision-game certificate. The presentation synthesizes classical ingredients and proves the stated specializations; it does not claim priority for the general framework. An audit identifies domain restrictions, strengthens the Hill-diversity range, and shows why exponential calibration fails for unsmoothed long-horizon Good--Toulmin extrapolation.
+Partial-population inference includes unseen-species prediction, missing-mass estimation, diversity estimation, capture--recapture, and ordered-support estimation. We organize these problems through sampling operations, target-directed recovery, and statistical calibration. A feature-incidence calculus treats coverage counts and maxima together: thinning generates a polynomial whose expansions at zero and one encode collisions and occupancy frequencies, while Poissonization converts discovery differences into derivatives. Convex moment geometry yields sharp relaxed bounds and contact certificates. Two canonical measures bound an entire discovery-rate curve from normalization, a rate, and its derivative; even derivative blocks give higher-order envelopes. We characterize the exceptional Hill orders by two one-dimensional families and distinguish relaxed measures from integer-realizable populations. Joint per-species cumulants give convex regions for a population measure and a realized or future random target at a single confidence level. Direct prediction of future discoveries remains exponentially calibratable even when the full Good--Toulmin error is not; variance, fourth-moment, and truncation alternatives are given. A perspective transformation makes projected Chernoff optimization a minimax equality on compact convex classes. Exact optimality is asserted only for specified models and criteria, including a support-clipped finite tank interval rule with a rational primal--dual certificate. Classical components are attributed, and the stated specializations are proved without claiming a universal estimator compiler or general statistical minimax theorem.
 \end{abstract}
 \noindent\textbf{Keywords.} Species sampling; thinning; moment problems; Chebyshev systems; missing mass; confidence regions; population realizability; optimal recovery.
 \medskip
 \noindent\textbf{Status.} Internally audited mathematical draft. Computational checks are supplementary, not proofs or formal verification. Novelty and independent peer review remain separate tasks.
 \clearpage
-\begingroup\small
+\begingroup\footnotesize
 \tableofcontents
 \endgroup
 \clearpage
@@ -87,17 +87,22 @@ The organizing question is not which estimator to use, but which population func
 \]
 We keep four distinctions throughout: expected versus realized targets; exact moment information versus sampled information; positive mixing measures versus actual populations; and sharp projection of a confidence region versus globally optimal confidence procedures.
 
+\subsection{Assumptions are target-specific}\label{subsec:assumptions}
+An actual population is a finite or countable vector $p_i>0$ with $\sum_i p_i=1$. No positive minimum probability is imposed globally. The sample-reduction identities use exchangeability; per-species cumulant factorization uses independent Poisson counts. The compact envelope and integer-realizability results in \cref{sec:envelopes,sec:realizability} explicitly assume a known interval $0<a\le p_i\le b\le1$. This restriction ensures finiteness and compactness for support size and negative-order diversity. More general rare-species restrictions are possible, but are not interchangeable without proof.
+
+In contrast, the finite-horizon discovery kernels, missing-mass kernels, and finite-coefficient joint cumulants extend continuously to zero. Their relaxed calibration can use all of $\Prob([0,1])$; an atom at zero in that relaxation is not an actual species. Unrestricted finite honest upper support bounds are impossible by \cref{prop:infiniteupper}. Minimum-mass support estimation, such as the class $p_i\ge1/k$ studied by Wu and Yang \cite{WuYang2019}, is therefore a distinct statistical problem rather than a harmless technical specialization.
+
 \subsection{Historical position}
 Good's frequency formulas and Good--Toulmin prediction are foundational \cite{Good1953,GoodToulmin1956}. Moment bounds for cataloging problems go back to Harris \cite{Harris1959}; Efron and Thisted used extrapolation and linear programming for unseen vocabulary \cite{EfronThisted1976}. Chao's richness inequality and higher-order moment approaches are prior art \cite{Chao1984,DaleySmith2016}. Discovery-rate representations of diversity profiles also precede this work \cite{ChaoJost2015}.
 
-Poisson thinning and marking are standard \cite{LastPenrose2017}. Moment duality and extremal representations belong to classical convex and Chebyshev-system theory \cite{BertsimasPopescu2005,Pinelis2011}. Optimal recovery and statistical testing duality already connect approximating a target with constructing estimators and lower bounds \cite{Donoho1994,PolyanskiyWu2019}. Modern unseen-species prediction, occupancy concentration, and sequential calibration supply further baselines \cite{Orlitsky2016,BenHamou2017,Howard2021,Wasserman2020}. Eriksson's September 2026 version explicitly treats prediction, bounded-set incidence data, and optimality questions \cite{Eriksson2026}. The present draft should not be read as claiming the first unified statistical treatment of these topics.
+Poisson thinning and marking are standard \cite{LastPenrose2017}. Moment duality and extremal representations belong to classical convex and Chebyshev-system theory \cite{BertsimasPopescu2005,KarlinStudden1966,Pinelis2011}. Optimal recovery and statistical testing duality already connect approximating a target with constructing estimators and lower bounds \cite{Donoho1994,PolyanskiyWu2026,PolyanskiyWu2019}. Modern unseen-species prediction, occupancy concentration, and sequential calibration supply further baselines \cite{Orlitsky2016,BenHamou2017,Howard2021,Wasserman2020}. Eriksson's September 2026 version explicitly treats prediction, bounded-set incidence data, and optimality questions \cite{Eriksson2026}. The published general theory of Polyanskiy and Wu \cite{PolyanskiyWu2026} is distinguished from their combined preprint with unseen-population applications \cite{PolyanskiyWu2019}. The present draft should not be read as claiming the first unified statistical treatment of these topics.
 
 Our aim is an explicit and reproducible synthesis across observation mechanisms. The most developed specializations are the common discovery-rate envelopes, their population-realizability restriction, and their interface with exact cumulant calibration. We do not establish a universal estimator compiler or a general minimax theorem for arbitrary partial-observation models.
 
-\subsection{Main results and audit changes}
-The sampling results are \cref{thm:mobius,thm:differences,thm:covariance}. The recovery results are \cref{thm:momentdual,thm:minimax,thm:twonode,thm:evenblocks}. Calibration is based on \cref{thm:cumulant,thm:calibration,thm:missingci,thm:prediction}. Exact model-specific optimality appears in \cref{thm:tankupper,prop:finitegame}.
+\subsection{Main results}
+The sampling results are \cref{thm:mobius,thm:differences,thm:covariance}. The recovery results are \cref{thm:momentdual,thm:minimax,thm:twonode,thm:evenblocks}. Joint calibration is based on \cref{thm:jointcalibration}, with explicit kernels in \cref{sec:errors}; population-only calibration is its specialization in \cref{thm:calibration}. The contact classification and Chernoff minimax identity are \cref{thm:intermediatehill,thm:chernoffminimax}. Exact model-specific optimality appears in \cref{thm:tankupper,prop:finitegame}.
 
-Two substantive additions emerged during consolidation. First, the common Hill-diversity order extends from $0\le q\le2$ to $q\ge3$, while $2<q<3$ can have the opposite order (\cref{cor:hill}). Second, full unsmoothed Good--Toulmin extrapolation beyond the observed horizon has no nonzero exponential moments, even for a one-species population (\cref{prop:gtmgf}). Therefore the later Chernoff constructions require the stated finite truncation, bounded coefficients, or a separately proved exponential-integrability condition.
+The common Hill-diversity ordering holds for all real $q\le2$ and $q\ge3$ on a positive compact rate interval, while $2<q<3$ requires a sign test or the contact optimization in \cref{thm:intermediatehill}. Full unsmoothed Good--Toulmin extrapolation beyond the observed horizon can have no nonzero exponential moments (\cref{prop:gtmgf}). This limits exponential calibration of that estimator's error, not direct calibration of the future discovery count. The statistical sections retain both joint-region and explicit split-budget alternatives, without asserting uniform superiority of either.
 
 \section{Sampling units, features, and information}\label{sec:model}
 A sampling unit has a mark $z$ in a measurable space $\mathcal Z$. A feature is a measurable subset $A\subseteq\mathcal Z$; a unit reveals $A$ if its mark belongs to $A$. Let $w_A\ge0$ be a known weight. For a sample $S=(z_1,\ldots,z_n)$, set
@@ -248,6 +253,8 @@ Differentiating \eqref{eq:coveragepoly} at $s=1$ gives the Poissonized Good--Tur
  \E\widehat U_{t,u}=F(t+u)-F(t).
 \end{equation}
 For finitely many features the expectation identity holds for every finite $u\ge0$. For ordinary countable species it also holds: if $K\sim\Pois(t)$ is total count, the absolute statistic is bounded by $K\max(1,u/t)^K$, which has finite expectation. The classical formulas and their regularization are discussed in \cite{Good1953,GoodToulmin1956,Orlitsky2016}.
+
+The symmetry-based uniqueness theorem in \cite[Proposition 11, Definition 12, and Theorem 14]{Eriksson2026} is an important distinction from this algebraic derivation. In the near-future regime $u/t\le1$, the specified class combines the synchronous-expeditions property (additivity across disjoint populations) with atemporality (dependence on the effort ratio and data, not the absolute effort). Within that class Good--Toulmin is the unique rule with rate better than the null estimator under the paper's criterion. This is not uniqueness among all relabeling-invariant estimators. Effort-dependent regularization or restricted population models need separate comparisons. We cite the verified September 9, 2026 version; its prediction and incidence results are prior art, not consequences claimed for the first time here.
 
 For fixed-size samples, the corresponding identity is instead
 \[
@@ -518,14 +525,14 @@ Define
  D_q(\nu)=\left(\int x^{q-1}\dd\nu\right)^{1/(1-q)}\quad(q\ne1),
  \qquad D_1(\nu)=\exp\left(-\int\log x\dd\nu\right).
 \]
-These coincide with Hill diversities on actual populations.
+These coincide with Hill diversities on actual populations. Negative orders are mathematically well-defined here because $a>0$; this extension does not assert robustness to arbitrarily rare species.
 
 \begin{corollary}[Hill-diversity envelopes]\label{cor:hill}
-For $q\in[0,2]\cup[3,\infty)$,
+For every real $q\in(-\infty,2]\cup[3,\infty)$,
 \begin{equation}\label{eq:hille}
  D_q(\nu_-)\le D_q(\nu)\le D_q(\nu_+).
 \end{equation}
-For $2<q<3$, let $\tau_q=\sqrt{q-2}-(q-2)$. The order \eqref{eq:hille} holds if $ta\ge\tau_q$ and reverses if $tb\le\tau_q$. In particular, $ta\ge1/4$ guarantees \eqref{eq:hille} for every $q\ge0$.
+For $2<q<3$, let $\tau_q=\sqrt{q-2}-(q-2)$. The order \eqref{eq:hille} holds if $ta\ge\tau_q$ and reverses if $tb\le\tau_q$. In particular, $ta\ge1/4$ guarantees \eqref{eq:hille} for every finite real $q$.
 \end{corollary}
 \begin{proof}
 Direct differentiation gives
@@ -542,6 +549,49 @@ Thus one must not extend the common ordering to all diversity orders without a c
 \]
 The reversed order follows analytically from $tb=0.18<\tau_{2.25}=0.25$, not only from the numerical values.
 
+\subsection{Sharp bounds when the Hill sign changes}\label{subsec:intermediate}
+The common pair need not optimize $D_q$ when $2<q<3$ and $a<\tau_q/t<b$. Nevertheless the sharp relaxed problem remains one-dimensional in each of two exhaustive support families.
+
+\begin{theorem}[Contact classification for intermediate Hill orders]\label{thm:intermediatehill}
+Assume interior feasible data in \eqref{eq:twomoments}, $2<q<3$, and $ta<\tau_q<tb$. Both extrema of $\int x^{q-1}\dd\nu$ over the compatible probability measures are attained, and every extremizing measure has support contained in either
+\[
+ \{x,y\},\quad a\le x<\beta<y\le b,
+ \qquad\text{or}\qquad
+ \{a,z,b\},\quad a<z<b.
+\]
+Degenerate zero weights and endpoint nodes are allowed. Equivalently, with $c,d$ from \cref{lem:feasible}, both sharp values can be found by optimizing over two compact one-parameter families of tilted measures:
+\begin{align}
+ \rho_x&=\frac{y(x)-\beta}{y(x)-x}\delta_x+
+          \frac{\beta-x}{y(x)-x}\delta_{y(x)},&&x\in[a,d],\label{eq:hilltwofamily}\\
+ \rho_z&=w_a(z)\delta_a+w_z(z)\delta_z+w_b(z)\delta_b,
+          &&z\in[d,c].\label{eq:hillthreefamily}
+\end{align}
+Here $y(x)\in[c,b]$ is the unique solution of
+\begin{equation}\label{eq:hilltwoconstr}
+ \frac{(y-\beta)e^{tx}+(\beta-x)e^{ty}}{y-x}=1/r_0,
+\end{equation}
+and $(w_a,w_z,w_b)$ is the unique solution of
+\begin{equation}\label{eq:hillthreeconstr}
+ \begin{pmatrix}1&1&1\\a&z&b\\e^{ta}&e^{tz}&e^{tb}\end{pmatrix}
+ \begin{pmatrix}w_a\\w_z\\w_b\end{pmatrix}
+ =\begin{pmatrix}1\\\beta\\1/r_0\end{pmatrix}.
+\end{equation}
+For either tilted family the objective is
+$r_0\int e^{tx}x^{q-1}\dd\rho$. Since $1/(1-q)<0$, its minimum gives the maximum Hill diversity and conversely.
+\end{theorem}
+\begin{proof}
+By \cref{thm:momentdual}, an optimal certificate lies in $\Span\{1,e^{-tx},xe^{-tx}\}$; denote it by $Q$. For an upper bound, let $h=Q-g\ge0$, where $g(x)=x^{q-1}$. For a lower bound use $h=g-Q\ge0$. By \eqref{eq:hillsign}, $\mathcal L_th$ has exactly one zero in $(a,b)$, and this zero is simple. Three successive weighted applications of Rolle's theorem imply that $h$ has at most four zeros counted with multiplicity: five zeros would force at least two zeros of $\mathcal L_th$. Analyticity precludes an interval of zeros. An interior contact of a nonnegative residual has multiplicity at least two. Thus
+\[
+ 2n_{\rm interior}+n_{\rm endpoints}\le4.
+\]
+Complementary slackness confines every extremizer to its contact set. Three distinct nodes can therefore occur only with both endpoints; otherwise there are at most two. A single node or an endpoint-only pair would put the moment vector on a feasibility boundary, excluded here.
+
+For a two-node tilted measure the mean fixes its weights. For fixed $x<\beta$, strict convexity of $e^{t\cdot}$ makes the left side of \eqref{eq:hilltwoconstr} strictly increasing in $y$. Its limit at $y=\beta$ is $e^{t\beta}<1/r_0$, while its value at $y=b$ is at least $1/r_0$ exactly for $x\le d$. Its value at $y=c$ is at most $1/r_0$ for $x\ge a$. This proves the unique feasible branch on $[a,d]$, with $y(a)=c$ and $y(d)=b$.
+
+For three nodes, the matrix in \eqref{eq:hillthreeconstr} is nonsingular by strict convexity. Cramer's rule, or comparison with the endpoint chords of $e^{tx}$, gives $w_z>0$, $w_a\ge0$ exactly when $z\ge d$, and $w_b\ge0$ exactly when $z\le c$. Hence its feasible range is $[d,c]$. Both families are continuous and compact, and their common endpoints reproduce the canonical representations. Optimizing them is exhaustive by the contact argument. Boundary moment data instead have the unique representation of \cref{lem:feasible}.
+\end{proof}
+A sampled grid or a local scalar optimizer is only a numerical approximation to these sharp extrema. Certified computation still requires global one-dimensional optimization or a pointwise dual certificate. The theorem concerns the positive-measure relaxation; integer multiplicities can alter its optimizer.
+
 Retaining normalization also strengthens the two-moment Chao bound. In tilted form
 \[
  R(t)=r_0\int x^{-1}\dd\rho\ge r_0/\beta=r_0^2/r_1.
@@ -549,7 +599,25 @@ Retaining normalization also strengthens the two-moment Chao bound. In tilted fo
 The exact relaxed lower value is instead $r_0\int x^{-1}\dd\rho_b$. It is strictly larger for interior data, because $\rho_b$ is then nondegenerate and $x^{-1}$ strictly convex.
 
 \subsection{Several sampling times and derivative parity}
-We use the following classical principal-representation fact: for a $(2M+1)$-dimensional extended Chebyshev moment space containing the constant function, each interior moment vector has two endpoint principal representations, each with $M+1$ atoms, one including $a$ and one including $b$. They extremize all targets in the corresponding generalized-convexity class. A reference with the support counts and uniqueness spelled out is \cite[Proposition 2]{Pinelis2011}. The following specialization verifies the relevant class explicitly.
+\begin{lemma}[Sign of a real-rooted Hermite remainder]\label{lem:hermitesign}
+Let $\mathcal L=\prod_{j=1}^{n}(\partial-\lambda_j)$ have real characteristic roots, counted with multiplicity, and let $\mathcal U=\ker\mathcal L$. Let $Q\in\mathcal U$ interpolate $g\in C^n([a,b])$ at nodes $z_i$ with positive multiplicities $r_i$ summing to $n$. If $\mathcal Lg$ has a strict constant sign, then, off the nodes,
+\begin{equation}\label{eq:hermitesign}
+ \operatorname{sgn}(g(x)-Q(x))
+ =\operatorname{sgn}(\mathcal Lg)\,
+   \operatorname{sgn}\prod_i(x-z_i)^{r_i}.
+\end{equation}
+\end{lemma}
+\begin{proof}
+The identity $(\partial-\lambda)h=e^{\lambda x}(e^{-\lambda x}h)'$ gives the weighted Rolle zero count, with multiplicities. Consequently every nonzero element of $\mathcal U$ has at most $n-1$ zeros, and $g-Q$ cannot have $n+1$ zeros when $\mathcal Lg$ has strict sign. Interpolation is unique.
+
+For distinct interpolation nodes, write the error as the usual evaluation-determinant quotient for a basis $u_1,\ldots,u_n$ of $\mathcal U$, appending the column $g$ and the evaluation row at $x$. The base determinant has constant nonzero sign on ordered nodes. The appended determinant also has constant nonzero sign there, by the preceding zero count. Coalescing ordered nodes fixes their orientations from their Wronskians. Since $\mathcal L$ is monic,
+\[
+ W(u_1,\ldots,u_n,g)=W(u_1,\ldots,u_n)\mathcal Lg;
+\]
+this follows by eliminating the last derivative row with the differential equation for the $u_j$. Moving the evaluation row to its ordered location supplies the sign of $\prod_i(x-z_i)$. Confluent limits give repeated nodes; the zero count rules out vanishing away from them. This proves \eqref{eq:hermitesign}. The argument is the generalized divided-difference orientation used in Chebyshev interpolation \cite{KarlinStudden1966,Pinelis2011}.
+\end{proof}
+
+We use the following classical principal-representation fact: for a $(2M+1)$-dimensional extended Chebyshev moment space containing the constant function, each interior moment vector has two endpoint principal representations, each with $M+1$ atoms, one including $a$ and one including $b$. They extremize all targets in the corresponding generalized-convexity class. Karlin--Studden \cite{KarlinStudden1966} give the classical moment-space theory. In the terminology-free formulation of Pinelis \cite[Proposition 2(I) and (IIa)]{Pinelis2011}, the extrema are unique, independent of the added target within its oriented Chebyshev class, and have precisely these endpoint support bounds. The statement applies to boundary vectors through their unique representing measure. The orientation needed here is proved in \cref{lem:hermitesign}, not inferred from the words ``upper'' or ``lower'' principal representation. The following specialization verifies the relevant class explicitly.
 
 \begin{theorem}[Even-block global envelopes]\label{thm:evenblocks}
 Fix distinct positive times $t_j$ and positive even integers $m_j$, with $\sum_jm_j=2M$. Suppose normalization and the moments
@@ -569,14 +637,15 @@ The measurement space is
  =\ker\mathcal L,\qquad
  \mathcal L=\partial\prod_j(\partial+t_j)^{m_j}.
 \]
-It has dimension $2M+1$ and is an extended Chebyshev space: exponential polynomials with real characteristic roots are disconjugate on an interval, as follows inductively from
-$(\partial-\lambda)h=e^{\lambda x}(e^{-\lambda x}h)'$ and Rolle's theorem, including repeated zeros. If $\mathcal Lg$ has a strict sign, the same argument shows that $\mathcal U+\Span\{g\}$ is an extended Chebyshev space. The orientation of its last generalized divided difference is the sign of $\mathcal Lg$: the extended Wronskian is the base Wronskian multiplied by $\mathcal Lg$, since the operator is monic. Generalized Hermite interpolation at $a$ and double interior nodes gives a majorant when $\mathcal Lg<0$; at double interior nodes and $b$ it gives a minorant. Equivalently these are the two principal extremizers in the cited theorem. They depend on the moment vector, not on $g$.
+Its dimension is $n=2M+1$ and its characteristic roots are real. Weighted Rolle, as in \cref{lem:hermitesign}, proves the extended Chebyshev property. The cited principal-representation theorem supplies an endpoint-$a$ measure and an endpoint-$b$ measure, each with $M$ interior nodes and one endpoint, depending only on the moment vector.
+
+For any $g$ with $\mathcal Lg<0$, interpolate at the endpoint-$a$ nodes with multiplicity one at $a$ and two at each interior node. The product in \eqref{eq:hermitesign} is $(x-a)\prod_{i=1}^M(x-c_i)^2>0$ off the nodes. Thus $g-Q_a<0$ and $Q_a$ is a majorant. At the endpoint-$b$ nodes the product is $(x-b)\prod_{i=1}^M(x-d_i)^2<0$, so $g-Q_b>0$ and $Q_b$ is a minorant. Integrating these certificates identifies the endpoint-$a$ measure as the maximizer and the endpoint-$b$ measure as the minimizer.
 
 For $g_s=e^{-sx}$,
 \begin{equation}\label{eq:multisign}
  \mathcal Lg_s=-s\prod_j(t_j-s)^{m_j}e^{-sx}.
 \end{equation}
-All exponents are even, so the sign is negative unless $s$ is a constrained time or zero, when $g_s\in\mathcal U$. This proves the simultaneous order. Boundary moment vectors in an extended Chebyshev space have a unique representing measure.
+All multiplicities are even, so this is strictly negative except at $s=0$ and the constrained times, where $g_s\in\mathcal U$. The same two measures therefore bound all rates simultaneously. Boundary data have the unique representing measure supplied by the classical moment theorem.
 \end{proof}
 When a block multiplicity is odd, \eqref{eq:multisign} changes sign across that time; the principal measures exchange their roles. Their support patterns depend on the total dimension. Thus the even-block hypothesis is structural, not a numerical convenience. In particular the first $2M$ expected Poisson occupancy counts at one time, together with normalization, give the above $M+1$-node envelopes.
 
@@ -621,7 +690,7 @@ Assume $p_i\in[1/4,1/2]$ and $\sum_i p_i^2=3/8$. In the relaxation, $\int x\dd\n
 \end{example}
 The few-node results of \cref{sec:geometry,sec:envelopes} are not few-level theorems for every actual-population objective. This manuscript does not claim a universal two-level principle.
 
-\section{Finite-sample calibration by occupancy cumulants}\label{sec:calibration}
+\section{Joint population--target calibration}\label{sec:calibration}
 Return to an actual species population $p$ and independent counts $X_i\sim\Pois(tp_i)$. Fix an integer $d\ge1$, put $\Phi=(\Phi_1,\ldots,\Phi_d)$, and define
 \[
  b_r(x)=e^{-tx}(tx)^r/r!,\qquad k_r(x)=b_r(x)/x,
@@ -645,11 +714,45 @@ One species contributes at most one coordinate unit to $\Phi$. Its exponential m
 \end{proof}
 Thus the log moment-generating function, not only the expected fingerprint, is a linear functional of the abundance measure. An arbitrary relaxed measure need not define a population law; \eqref{eq:cgf} is a distributional statement only at actual population measures.
 
-\subsection{Confidence regions and simultaneous projection}
+\subsection{Joint transforms for additive random targets}\label{subsec:joint}
+Let $Z=\sum_i Z_i\in\R^k$ be a realized or future random target, where the pairs $(X_i,Z_i)$ are independent across species and their per-species law depends on the population only through $x=p_i$. Define
+\begin{equation}\label{eq:jointkernelgeneral}
+ \kappa_{\lambda,\eta}(x)
+ =\frac1x\log\E_x\exp\left(
+    \sum_{r=1}^d\lambda_r\ind_{\{X=r\}}+\eta^\top Z_x\right).
+\end{equation}
+For finitely many species with finite exponential moments, factorization gives
+\begin{equation}\label{eq:jointcgf}
+ \log\E_p e^{\lambda^\top\Phi+\eta^\top Z}
+ =\int\kappa_{\lambda,\eta}\dd\mu_p.
+\end{equation}
+For countably many species we require convergence of $Z$, convergence of the log-product, and uniform integrability of the exponentials of partial sums. These conditions, not additivity alone, justify \eqref{eq:jointcgf}. They are verified explicitly for the applications in \cref{sec:errors}. The vector formulation allows finitely many target coordinates to be calibrated together.
+
+\begin{theorem}[Joint exponential calibration and projection]\label{thm:jointcalibration}
+Let $K\subseteq[0,1]$ be compact, and assume the kernels \eqref{eq:jointkernelgeneral} for finitely many fixed directions $(\lambda_j,\eta_j)$ extend to continuous finite functions on $K$. Suppose \eqref{eq:jointcgf} holds for every actual population in the model. Choose fixed $w_j>0$ with $\sum_jw_j=1$. For a fixed, nonrandom, closed convex candidate class $\Ccal\subseteq\Prob(K)$ containing the true $\mu_p$, define
+\begin{equation}\label{eq:jointregion}
+ \mathcal J_\alpha(\Phi)=
+ \left\{(\nu,z)\in\Ccal\times\R^k:
+ \sum_jw_j\exp\left(\lambda_j^\top\Phi+\eta_j^\top z
+             -\int\kappa_{\lambda_j,\eta_j}\dd\nu\right)
+ \le\alpha^{-1}\right\}.
+\end{equation}
+This set is convex and
+\begin{equation}\label{eq:jointcoverage}
+ \Pp_p\{(\mu_p,Z)\in\mathcal J_\alpha(\Phi)\}\ge1-\alpha.
+\end{equation}
+Its projection onto $z$ is a convex prediction or confidence set for $Z$. For a scalar target its closed interval hull has coverage at least $1-\alpha$. Deterministic support restrictions, such as $0\le M_t\le1$, may be intersected before projection. For integer targets, intersect the resulting scalar interval with the integers. The level is a single $\alpha$; no population/error split is required.
+\end{theorem}
+\begin{proof}
+At $(\mu_p,Z)$ each unweighted exponential in \eqref{eq:jointregion} has expectation one by \eqref{eq:jointcgf}; their weighted sum does too. Markov's inequality proves \eqref{eq:jointcoverage}. For the observed $\Phi$, every exponent is affine in $(\nu,z)$, giving joint convexity. Projection preserves convexity and inclusion of the true pair implies inclusion of the true target. If the reported projection is empty, a vacuous full-support set is a valid always-reported convention. Measurability holds in the compact continuous models here, with endpoints interpreted in the extended reals.
+\end{proof}
+A previously estimated population confidence region cannot be substituted for the fixed class $\Ccal$ at no coverage cost: its failure event must also be accounted for, or its calibration incorporated in the same joint construction. The construction is an application of e-value inversion and projection, not a new general validity principle \cite{Wasserman2020,Howard2021}. It does not assert conditional coverage given every fingerprint, bounded interval width, or optimal length. Directions, weights, future horizons, and target coefficients are predeclared; independent training permits conditional application, whereas selection on the evaluation sample requires a separate calibration argument. Actual-population multiplicities form a nonconvex subclass: restricting to it retains coverage, but its projection need not be an interval; the interval hull remains valid. There is no claim that joint calibration uniformly dominates every split-budget construction.
+
+\subsection{Population-only regions and simultaneous projection}
 A nonnegative statistic $E_\theta(X)$ satisfying $\E_\theta E_\theta\le1$ supplies a test by Markov's inequality. This is the usual e-value construction; likelihood-based versions and sequential developments are well established \cite{Wasserman2020,Howard2021}.
 
 \begin{theorem}[Convex exponential calibration]\label{thm:calibration}
-Choose finitely many directions $\lambda^{(j)}$ and weights $w_j>0$, $\sum_jw_j=1$, independently of the evaluation sample. For $\nu\in\Prob([a,b])$, set
+Choose finitely many directions $\lambda^{(j)}$ and weights $w_j>0$, $\sum_jw_j=1$, independently of the evaluation sample. For $\nu\in\Prob(K)$, with $K=[0,1]$ or a specified compact rate interval, set
 \[
  E_\nu(\Phi)=\sum_jw_j\exp\left((\lambda^{(j)})^\top\Phi
                                -\int\kappa_{\lambda^{(j)}}\dd\nu\right).
@@ -658,7 +761,7 @@ The convex set
 \begin{equation}\label{eq:confset}
  \Ccal_\alpha(\Phi)=\{\nu:E_\nu(\Phi)\le1/\alpha\}
 \end{equation}
-contains the true $\mu_p$ with probability at least $1-\alpha$ whenever its rates belong to $[a,b]$.
+contains the true $\mu_p$ with probability at least $1-\alpha$ whenever its rates belong to $K$.
 An alternative valid convex region is the intersection of linear constraints
 \begin{equation}\label{eq:linconf}
  \int\kappa_{\lambda^{(j)}}\dd\nu\ge
@@ -666,7 +769,7 @@ An alternative valid convex region is the intersection of linear constraints
 \end{equation}
 \end{theorem}
 \begin{proof}
-At the true measure each exponential summand before weighting has expectation one by \cref{thm:cumulant}; their weighted sum does too. Markov proves \eqref{eq:confset}. Its convexity follows from the exponential of an affine functional. Each constraint in \eqref{eq:linconf} fails with probability at most $\alpha w_j$; use a union bound.
+This is \cref{thm:jointcalibration} with no random target coordinate, using \cref{thm:cumulant}. Each constraint in \eqref{eq:linconf} fails with probability at most $\alpha w_j$; use a union bound.
 \end{proof}
 The linear-constraint region is a relaxation of the mixture region, since a sum bounded by $1/\alpha$ bounds each weighted summand. It may be easier to optimize, but need not be equally efficient.
 
@@ -695,7 +798,16 @@ with $h(0,m)=m$, $h(0,0)=0$, and $h(z,0)=\infty$ for $z>0$. Optimizing the one-c
 \end{equation}
 Indeed, for a fixed true $m$, $h(z,m)$ is decreasing up to $m$ and increasing afterwards. Each tail beyond a level $c$ has probability at most $e^{-c}$; sum the $2d$ bounds. This monotonic tail inversion is why optimizing the Chernoff parameter here is valid without paying an uncountable union penalty.
 
-For $d=2$, $r_0=m_1/t$ and $r_1=2m_2/t^2$. Let $\Gamma_\alpha(\Phi)$ be the calibrated set of such pairs intersected with \eqref{eq:feasibility}. Then for every target in the common envelope class,
+For $d=2$, $r_0=m_1/t$ and $r_1=2m_2/t^2$. Explicitly, on a known interval $[a,b]$ with $a>0$, set
+\begin{equation}\label{eq:gammaexplicit}
+ \Gamma_\alpha(\Phi)=\left\{(r_0,r_1):
+ \begin{array}{l}
+ h(\Phi_1,tr_0)\le\log(4/\alpha),\\
+ h(\Phi_2,t^2r_1/2)\le\log(4/\alpha),\\
+ (r_0,r_1)\text{ satisfies \eqref{eq:feasibility}}
+ \end{array}\right\}.
+\end{equation}
+This is precisely the $d=2$ deviance region, intersected with deterministic moment feasibility. Then for every target in the common envelope class,
 \begin{equation}\label{eq:twodimconf}
  L_T=\inf_{\xi\in\Gamma_\alpha}T(\nu_-(\xi)),\qquad
  H_T=\sup_{\xi\in\Gamma_\alpha}T(\nu_+(\xi))
@@ -703,60 +815,137 @@ For $d=2$, $r_0=m_1/t$ and $r_1=2m_2/t^2$. Let $\Gamma_\alpha(\Phi)$ be the cali
 is a simultaneous confidence construction. The inner infinite-dimensional optimization has been solved; the outer search is two-dimensional. Different targets can optimize at different $\xi$. Integrating pointwise extrema gives valid but not necessarily sharp projected integral bounds. Additional exact cumulant constraints generally destroy this particular two-moment reduction; they require a new recovery calculation.
 
 \section{Realized targets, prediction, and stopping}\label{sec:errors}
-Calibration for an expectation is not automatically calibration for a sample-dependent or future random target. The distinction can be handled by an error transform.
+A confidence interval for an expected quantity is not automatically an interval for the realized missing mass or a future discovery count. We first apply the joint theorem directly to those random targets, then give explicit and computationally convenient alternatives. All future efforts and predictor coefficients below are fixed independently of the evaluation sample.
 
-\subsection{Realized missing mass}
+\subsection{Direct calibration of missing mass}\label{subsec:jointmissing}
 Let
 \[
  M_t=\sum_i p_i\ind_{\{X_i=0\}},\qquad \widehat M_t=\Phi_1/t.
 \]
+For $Z_i=p_i\ind_{\{X_i=0\}}$, the joint kernel in \eqref{eq:jointkernelgeneral} is
+\begin{equation}\label{eq:jointmissing}
+ \kappa^M_{\lambda,\eta}(x)
+ =\frac1x\log\left[
+ 1+\sum_{r=1}^d b_r(x)(e^{\lambda_r}-1)
+       +e^{-tx}(e^{\eta x}-1)\right].
+\end{equation}
+The missing-mass and positive-count contributions are mutually exclusive for each species. Thus
+\[
+ \log\E_p e^{\lambda^\top\Phi+\eta M_t}
+ =\int\kappa^M_{\lambda,\eta}\dd\mu_p.
+\]
+The kernel extends continuously to zero with value
+\begin{equation}\label{eq:missinglimit}
+ \kappa^M_{\lambda,\eta}(0)=t(e^{\lambda_1}-1)+\eta.
+\end{equation}
+For countably many species, $M_t\le1$ and $|\lambda^\top\Phi|\le\|\lambda\|_\infty K_t$, where $K_t\sim\Pois(t)$ is total initial count. These bounds justify uniform integrability and convergence in \eqref{eq:jointcgf}.
+
+\begin{corollary}[Single-level realized-mass interval]\label{cor:jointmissing}
+Use \eqref{eq:jointregion} with the kernel \eqref{eq:jointmissing}, candidate measures in $\Prob([0,1])$, and target coordinate $z\in[0,1]$. The projection onto $z$ is an interval with unconditional coverage at least $1-\alpha$ for $M_t$. No positive lower probability bound or nontrivial upper probability bound is required.
+\end{corollary}
+\begin{proof}
+The preceding calculation verifies all hypotheses of \cref{thm:jointcalibration}; projection supplies the result. The interval depends only on the observed fingerprint and the fixed calibration choices, not on the unobserved species probabilities.
+\end{proof}
+This is not a conditional-coverage claim given every fingerprint, nor a minimum-length theorem. A poorly chosen finite set of calibration directions may give a vacuous interval. The region treats $z$ as a free candidate target coordinate; imposing additional genuine structural restrictions can narrow it, but inventing a deterministic relation between $z$ and $\nu$ cannot be justified by the expectation formula alone.
+
+\subsection{A closed-form asymmetric alternative}\label{subsec:bernstein}
 The error is a sum of independent centered terms
 \[
  Z_i=t^{-1}\ind_{\{X_i=1\}}-p_i\ind_{\{X_i=0\}}.
 \]
-Consequently
+Since the two indicators are mutually exclusive,
 \begin{equation}\label{eq:missingvariance}
  V:=\Var(\widehat M_t-M_t)
- =\sum_i (p_i/t+p_i^2)e^{-tp_i}
+ =\sum_i(p_i/t+p_i^2)e^{-tp_i}
  =\frac{m_1+2m_2}{t^2}.
 \end{equation}
-Thus $(\Phi_1+2\Phi_2)/t^2$ is unbiased for $V$, but that fact alone is not an interval theorem. Occupancy-based missing-mass concentration has substantial precedent \cite{BenHamou2017}.
+Thus $(\Phi_1+2\Phi_2)/t^2$ is unbiased for this exact Poissonized error variance; that fact alone is not a confidence theorem.
 
-\begin{theorem}[A calibrated missing-mass interval]\label{thm:missingci}
-Suppose $p_i\le b$ and $V_U(X)$ is a nonnegative upper bound for $V$ with probability at least $1-\alpha_0$, for example the supremum of \eqref{eq:missingvariance} over a calibrated moment region. Let $c=\max(b,1/t)$ and $\ell=\log(2/\beta)$. Then
-\begin{equation}\label{eq:missingci}
- \left[\widehat M_t-\sqrt{2V_U\ell}-c\ell/3,
-       \widehat M_t+\sqrt{2V_U\ell}+c\ell/3\right]\cap[0,1]
+There is a distinct fixed-size precedent. In Esty's normal-limit theorem, as recorded and extended by Zhang and Zhang \cite{Esty1983,ZhangZhang2009}, the studentizing expression for the fixed-$n$ missing-mass error is
+\begin{equation}\label{eq:estyvariance}
+ \frac{\Phi_1(1-\Phi_1/n)+2\Phi_2}{n^2}
+ =\frac{\Phi_1+2\Phi_2}{n^2}-\frac{\Phi_1^2}{n^3}.
 \end{equation}
-covers $M_t$ with probability at least $1-\alpha_0-\beta$.
+It is part of an asymptotic fixed-sample theorem under its stated hypotheses, not the exact Poisson identity \eqref{eq:missingvariance}. Zhang and Zhang also give the corresponding Poisson variance scale \cite[Section 2]{ZhangZhang2009}. Nonasymptotic occupancy and missing-mass bounds are developed in \cite{BenHamou2017}.
+
+\begin{theorem}[An asymmetric calibrated missing-mass interval]\label{thm:missingci}
+Suppose $p_i\le b\le1$ and $V_U(X)\ge0$ exceeds $V$ with probability at least $1-\alpha_0$, for example by projection of a calibrated moment region. With $\ell=\log(2/\beta)$, the interval
+\begin{equation}\label{eq:missingci}
+ \left[
+ \widehat M_t-\sqrt{2V_U\ell}-\frac{\ell}{3t},\quad
+ \widehat M_t+\sqrt{2V_U\ell}+\frac{b\ell}{3}
+ \right]\cap[0,1]
+\end{equation}
+covers $M_t$ with probability at least $1-\alpha_0-\beta$. The choice $b=1$ is always valid and imposes no additional population restriction.
 \end{theorem}
 \begin{proof}
-Each $Z_i$ is centered and bounded in absolute value by $c$. Expanding its exponential series and using $n!\ge2\,3^{n-2}$ for $n\ge2$ gives
+We have the separate bounds $Z_i\le1/t$ and $-Z_i\le b$. For a centered $Z\le c$ and $\lambda\ge0$, the one-sided Bennett bound follows from
 \[
- \log\E e^{\lambda\sum_i Z_i}
- \le\frac{V\lambda^2}{2(1-c|\lambda|/3)},\qquad |\lambda|<3/c.
+ e^{\lambda z}\le1+\lambda z+
+ \frac{z^2}{c^2}(e^{\lambda c}-1-\lambda c)\qquad(z\le c).
 \]
-The sub-gamma Chernoff choice gives two-sided failure probability at most $2e^{-\ell}$ at radius $\sqrt{2V\ell}+c\ell/3$. Intersect this event with $V_U\ge V$; no independence between them is used.
+Summing logarithms and using $e^u-1-u\le u^2/[2(1-u/3)]$ for $0\le u<3$ gives the sub-gamma bound with variance $V$ and scale $c/3$. Apply it to $\sum_iZ_i$ with $c=1/t$ and to $-\sum_iZ_i$ with $c=b$. Each tail has probability at most $e^{-\ell}$ at its respective radius $\sqrt{2V\ell}+c\ell/3$; this is the standard Bernstein inversion \cite[Chapter 2]{Boucheron2013}. Intersect the two tail events with $V_U\ge V$. No independence between the variance bound and the error is required. Countable sums follow by the same second-moment and exponential bounds on finite partial sums.
 \end{proof}
+This formula is an inexpensive explicit alternative to joint projection, not a claimed consequence with identical endpoints or a uniformly inferior procedure.
 
-\subsection{A finite-coefficient prediction transform}
-Fix in advance a future effort $u\ge0$ and coefficients $c_1,\ldots,c_d$. Let
+\subsection{Direct prediction of future discoveries}\label{subsec:jointfuture}
+Let independent future increments have duration $u\ge0$, and set
 \[
- Y_{t,u}=\sum_i\ind_{\{X_i=0\}}\ind_{\{X_i^{\rm future}>0\}},
- \qquad \widehat Y=\sum_{r=1}^dc_r\Phi_r.
+ Y_{t,u}=\sum_i\ind_{\{X_i=0\}}\ind_{\{X_i^{\rm future}>0\}},\qquad
+ q_{t,u}(x)=e^{-tx}(1-e^{-ux}).
 \]
-Future counts are independent Poisson increments. Put $q_{t,u}(x)=e^{-tx}(1-e^{-ux})$ and
+The joint transform of $(\Phi,Y_{t,u})$ is
+\begin{equation}\label{eq:jointfuture}
+ \kappa^Y_{\lambda,\eta}(x)
+ =\frac1x\log\left[
+ 1+\sum_{r=1}^d b_r(x)(e^{\lambda_r}-1)
+          +q_{t,u}(x)(e^\eta-1)\right],
+\end{equation}
+with continuous extension
+\[
+ \kappa^Y_{\lambda,\eta}(0)
+ =t(e^{\lambda_1}-1)+u(e^\eta-1).
+\]
+Indeed, new discoveries require initial count zero and are therefore mutually exclusive with all positive-count fingerprint events. For countably many species, $Y_{t,u}\le K_u^{\rm future}$, an independent $\Pois(u)$ total, supplies domination along with $K_t$.
+
+\begin{corollary}[Single-level future-count prediction]\label{cor:jointfuture}
+Use \cref{thm:jointcalibration} with \eqref{eq:jointfuture}, $\nu\in\Prob([0,1])$, and $z\ge0$. Project onto $z$, take its closed interval hull, and intersect with $\mathbb Z_{\ge0}$. The resulting set covers $Y_{t,u}$ with probability at least $1-\alpha$ for every finite predeclared $t>0,u\ge0$.
+\end{corollary}
+\begin{proof}
+The finite continuous kernels and the Poisson-total domination just established verify \eqref{eq:jointcgf}. Apply the joint projection theorem.
+\end{proof}
+The interval need not be centered at Good--Toulmin and may be wide. Crucially, the target $Y_{t,u}$ has exponential moments even when the full unsmoothed Good--Toulmin error does not. \Cref{prop:gtmgf} therefore obstructs a particular error-based calibration, not direct exponential calibration of the future count. This distinction complements the prediction results in \cite{Orlitsky2016,Eriksson2026}.
+
+\subsection{Finite-coefficient error calibration}\label{subsec:finiteerror}
+Fix coefficients $c_1,\ldots,c_d$ and define
+\[
+ \widehat Y=\sum_{r=1}^dc_r\Phi_r,\qquad E_{t,u}=\widehat Y-Y_{t,u}.
+\]
+The joint fingerprint--error kernel is
+\begin{equation}\label{eq:jointerror}
+ \kappa^E_{\lambda,\eta}(x)
+ =\frac1x\log\left[
+ 1+\sum_{r=1}^db_r(x)(e^{\lambda_r+\eta c_r}-1)
+          +q_{t,u}(x)(e^{-\eta}-1)\right].
+\end{equation}
+Its limit at zero is $t(e^{\lambda_1+\eta c_1}-1)+u(e^{-\eta}-1)$. Since $|\widehat Y|\le\max_r|c_r|K_t$, all fixed-direction transforms are finite. Joint projection onto the error coordinate gives limits $e_L,e_U$ and the single-level prediction set
+\begin{equation}\label{eq:jointpredictioninterval}
+ [\widehat Y-e_U,\widehat Y-e_L]\cap\mathbb Z_{\ge0}
+\end{equation}
+with coverage at least $1-\alpha$. The deterministic support condition $\widehat Y-e\ge0$, expressed using the observed predictor, can also be imposed before projection.
+
+Setting $\lambda=0$ in \eqref{eq:jointerror} gives the error-only kernel
 \begin{equation}\label{eq:predictionkernel}
- \kappa^{\rm pred}_\lambda(x)=\frac1x\log\left[
- 1+\sum_{r=1}^db_r(x)(e^{\lambda c_r}-1)
-       +q_{t,u}(x)(e^{-\lambda}-1)\right].
+ \kappa^{\rm pred}_\eta(x)=\frac1x\log\left[
+ 1+\sum_{r=1}^db_r(x)(e^{\eta c_r}-1)
+        +q_{t,u}(x)(e^{-\eta}-1)\right],
 \end{equation}
-Because prediction and new-discovery contributions from one species are mutually exclusive,
+and
 \begin{equation}\label{eq:predictioncgf}
- \log\E_p e^{\lambda(\widehat Y-Y_{t,u})}
- =\int\kappa^{\rm pred}_\lambda\dd\mu_p.
+ \log\E_p e^{\eta(\widehat Y-Y_{t,u})}
+ =\int\kappa^{\rm pred}_\eta\dd\mu_p.
 \end{equation}
-All these transforms are finite for finite $d$. More generally, they require a proved exponential-integrability condition. \Cref{prop:gtmgf} prevents their unrestricted use for the full long-horizon Good--Toulmin series.
+These formulas retain the dependence between predictor and target. They cannot be extended to the full long-horizon series solely on the basis of the existence of its power moments.
 
 \begin{theorem}[Projected Chernoff prediction]\label{thm:prediction}
 Let $\Ccal_{\alpha_0}(X)$ be a population confidence region. Define
@@ -773,21 +962,49 @@ Then
 has joint frequentist prediction coverage at least $1-\alpha_0-2\beta$.
 \end{theorem}
 \begin{proof}
-For the fixed true population, Chernoff bounds and a limiting minimizing sequence give
-$\Pp(\widehat Y-Y>b_+(\mu_p))\le\beta$ and the analogous lower-error inequality. On the population-coverage event, the projected radii are no smaller. Union bound proves the result. The optimizer in the true-population Chernoff bound depends on the population, not on the observed sample, so there is no data-adaptive tail selection in this argument.
+At the fixed true population, Chernoff bounds and a limiting minimizing sequence give $\Pp(\widehat Y-Y>b_+(\mu_p))\le\beta$ and its negative-tail analogue. To justify a nonattained infimum, apply the bound first to any threshold strictly above the infimum, then decrease that threshold to it. On the population-coverage event the projected radii are no smaller. A union bound proves the result. The true-population optimizer is not selected using the evaluation data.
 \end{proof}
-This is not conditional coverage for each realized initial sample. Nor does it automatically hold simultaneously over a data-selected family of random future targets: such a family needs its own simultaneous error calibration. In contrast, \eqref{eq:projection} gives simultaneous bounds for deterministic population functionals on a single coverage event.
+This alternative retains an error split but has a useful exact optimization property. It is not conditional coverage given every initial sample, and a data-selected family of future random targets requires additional joint calibration.
 
-\subsection{A variance-only repair for long-horizon prediction}
-The absence of exponential moments does not preclude valid prediction intervals.
-\begin{proposition}[Full Good--Toulmin prediction variance]\label{prop:gtpredictionvariance}
-For \eqref{eq:GT}, at every finite $u\ge0$,
-\begin{equation}\label{eq:gtpredvar}
- \E(\widehat U_{t,u}-Y_{t,u})=0,\qquad
- V_{t,u}:=\Var(\widehat U_{t,u}-Y_{t,u})
- =\int \frac{e^{-tx}(e^{u^2x/t}-e^{-ux})}{x}\dd\mu_p(x).
+\begin{theorem}[Exact Chernoff minimax interchange]\label{thm:chernoffminimax}
+Let $\Ccal\subseteq\Prob(K)$ be nonempty, compact and convex, with $K\subseteq[0,1]$ compact. For the finite-coefficient kernel above and $\ell>0$,
+\begin{equation}\label{eq:chernoffminimax}
+ \sup_{\nu\in\Ccal}\inf_{\lambda>0}
+ \frac{\ell+\int\kappa^{\rm pred}_{\pm\lambda}\dd\nu}{\lambda}
+ =\inf_{\lambda>0}
+ \frac{\ell+\sup_{\nu\in\Ccal}\int\kappa^{\rm pred}_{\pm\lambda}\dd\nu}{\lambda}.
 \end{equation}
-If $V_U$ exceeds $V_{t,u}$ with probability at least $1-\alpha_0$, then
+The outer problem is convex after $v=1/\lambda$; its infimum need not occur at a finite positive $\lambda$. The result applies pointwise to every nonempty compact convex realization of a calibrated region.
+\end{theorem}
+\begin{proof}
+Write $K_\nu(\lambda)=\int\kappa^{\rm pred}_{\pm\lambda}\dd\nu$. Every per-species log moment-generating function is convex, so $K_\nu$ is convex and finite. With $v=1/\lambda$ the objective becomes
+\[
+ F(\nu,v)=\ell v+vK_\nu(1/v).
+\]
+It is affine and continuous in $\nu$ for each $v>0$. It is convex and continuous in $v$, since it is a restriction of the perspective of $K_\nu$; differentiating gives
+\[
+ \frac{\mathrm d^2}{\mathrm dv^2}[vK_\nu(1/v)]
+ =\frac{K_\nu''(1/v)}{v^3}\ge0.
+\]
+Sion's minimax theorem, with the measure variable compact and the positive half-line convex, gives $\sup_\nu\inf_vF=\inf_v\sup_\nu F$ \cite[p.~174]{Sion1958}. This is \eqref{eq:chernoffminimax}. Each inner population optimization is linear, and the supremum of the convex functions of $v$ is convex.
+\end{proof}
+For an integer-realizable population class, convexity can fail. Then only the general inequality $\sup\inf\le\inf\sup$ is assured, and the right side is a conservative bound. The nonfinite error exponential transforms in \cref{prop:gtmgf} also fall outside this theorem; its finite-order moment cumulants still exist. The equality is sharp for the projected Chernoff criterion, not necessarily for exact tail quantiles or globally optimal prediction intervals.
+
+\subsection{Power-moment repairs beyond the observed horizon}\label{subsec:gtmoments}
+The absence of exponential moments does not preclude valid prediction. Let $S=\widehat U_{t,u}-Y_{t,u}$ and $a=u/t$. Define
+\begin{equation}\label{eq:gtevenmoments}
+ v_{2j}(x)=e^{-tx}\bigl(e^{t a^{2j}x}-e^{-ux}\bigr),\qquad j\ge1.
+\end{equation}
+
+\begin{proposition}[Full Good--Toulmin prediction variance]\label{prop:gtpredictionvariance}
+For every finite $t>0,u\ge0$,
+\begin{equation}\label{eq:gtpredvar}
+ \E S=0,\qquad
+ V_{t,u}:=\Var S
+ =\int\frac{v_2(x)}x\dd\mu_p(x)
+ =\int\frac{e^{-tx}(e^{u^2x/t}-e^{-ux})}{x}\dd\mu_p(x).
+\end{equation}
+If $V_U\ge V_{t,u}$ with probability at least $1-\alpha_0$, then
 \[
  [\widehat U_{t,u}-\sqrt{V_U/\beta},\widehat U_{t,u}+\sqrt{V_U/\beta}]
  \cap\mathbb Z_{\ge0}
@@ -795,14 +1012,49 @@ If $V_U$ exceeds $V_{t,u}$ with probability at least $1-\alpha_0$, then
 has prediction coverage at least $1-\alpha_0-\beta$.
 \end{proposition}
 \begin{proof}
-Let $a=u/t$. The per-species predictor is $c_r=(-1)^{r+1}a^r$ when its initial count equals $r\ge1$, and is zero at count zero. Its mean is $q_{t,u}(x)$, matching the per-species future discovery mean. Their product is zero. Therefore the centered error variance per species is
-\[
- \sum_{r\ge1}a^{2r}b_r(x)+q_{t,u}(x)
- =e^{-tx}(e^{u^2x/t}-e^{-ux}).
-\]
-Sum the independent species errors. The integrand in \eqref{eq:gtpredvar} has finite limit $u^2/t+u$ at zero, so the variance is finite. Chebyshev's inequality and a union bound with the variance-coverage event finish the proof.
+For a species of probability $x$, the predictor is $(-1)^{r+1}a^r$ when its initial count is $r\ge1$ and zero otherwise. Its mean equals $q_{t,u}(x)$, the per-species future discovery mean. The two contributions have zero product. Hence the centered per-species error has second moment $v_2(x)$; more generally its $2j$th moment is $v_{2j}(x)$. Sum the independent centered errors. The variance kernel has finite limit $u^2/t+u$ at zero. Chebyshev and the event $V_U\ge V_{t,u}$ prove the interval claim.
 \end{proof}
-A valid $V_U$ can be obtained by projecting any calibrated population region onto the kernel in \eqref{eq:gtpredvar}. That kernel is not asserted to belong to the common positive-Laplace envelope class. The resulting interval can be extremely wide, reflecting the real instability rather than repairing it by assertion.
+A valid $V_U$ is obtained by projecting a population region onto this kernel. It is not asserted to belong to the common positive-Laplace envelope class.
+
+\begin{proposition}[Fourth-moment prediction bound]\label{prop:fourthmoment}
+Let
+\begin{equation}\label{eq:gtfourth}
+ K_4=\int\frac{v_4(x)-3v_2(x)^2}{x}\dd\mu_p(x),\qquad
+ M_4=K_4+3V_{t,u}^2.
+\end{equation}
+Then $\E S^4=M_4$. If $M_{4,U}\ge M_4$ with probability at least $1-\alpha_0$, the radius $(M_{4,U}/\beta)^{1/4}$, centered at $\widehat U_{t,u}$ and intersected with the nonnegative integers, has prediction coverage at least $1-\alpha_0-\beta$.
+\end{proposition}
+\begin{proof}
+For finitely many independent centered species errors, fourth cumulants add and $\E S^4=\sum_i(\E S_i^4-3(\E S_i^2)^2)+3(\sum_i\E S_i^2)^2$. Use \eqref{eq:gtevenmoments}. For a countable population, finite partial errors converge in $L^4$: their absolute values are dominated by $K_t\max(1,a)^{K_t}+K_u^{\rm future}$, which has all finite power moments. The kernels have finite limits at zero, giving the stated integrals. Apply Markov to $S^4$ and intersect with the upper-bound event. Cumulants here are defined by moments (or characteristic-function derivatives), not by an analytic moment-generating function near zero.
+\end{proof}
+One can project a calibrated region onto the expression in \eqref{eq:gtfourth}, clamping the supremum below at zero. This is generally a nonlinear optimization: the squared variance term must not be described as a linear moment objective.
+
+Fourth moments do not uniformly improve Chebyshev. Even for known $V,M_4>0$, the fourth-moment radius is smaller exactly when
+\begin{equation}\label{eq:fourthcomparison}
+ \beta\le V^2/M_4.
+\end{equation}
+For one species, $t=1$, $u=2$ and $\beta=0.05$, the respective radii are approximately $20.0179$ and $89.9211$; the crossover is approximately $0.0001228$. Higher moments generate further valid alternatives, but selecting their smallest data-dependent radius requires simultaneous error allocation or another selection argument. Taking a minimum of separately level-$\beta$ bounds without adjustment is not automatically level-$\beta$.
+
+\subsection{A calibrated truncation alternative}\label{subsec:truncation}
+For a predeclared integer $R\ge1$, let
+\[
+ \widehat U_R=\sum_{r=1}^R(-1)^{r+1}(u/t)^r\Phi_r.
+\]
+It equals the full statistic unless some species has count exceeding $R$. Write $F_R(z)=\Pp\{\Pois(z)\le R\}$.
+\begin{proposition}[Exact truncation failure transform]\label{prop:truncation}
+For every finite or countable actual population,
+\begin{align}
+ \delta_R(p)&:=\Pp_p\{\max_iX_i>R\}
+ =1-\exp\left(\int\frac{\log F_R(tx)}x\dd\mu_p(x)\right),\label{eq:truncationexact}\\
+ \delta_R(p)&\le
+ \int\frac{1-F_R(tx)}x\dd\mu_p(x).\label{eq:truncationunion}
+\end{align}
+Both kernels extend continuously to zero (with value zero for $R\ge1$). If a prediction procedure based on $\widehat U_R$ has failure probability at most $\gamma$, recentering its interval at the full $\widehat U_{t,u}$ has failure probability at most $\gamma+\delta_R(p)$, provided the widths are unchanged.
+\end{proposition}
+\begin{proof}
+Independence gives $1-\delta_R=\prod_iF_R(tp_i)$; take logarithms to obtain \eqref{eq:truncationexact}. The union bound gives \eqref{eq:truncationunion}. The Poisson tail is $O(x^{R+1})$ at zero, proving the extensions. Infinite products are justified by summability of the tail probabilities (at most $t/(R+1)$ by Markov); also the no-arrival event has probability $e^{-t}$, so the product is positive. The last claim holds because the original and recentered intervals agree on the no-truncation event.
+\end{proof}
+For a uniform guarantee, bound $\delta_R(p)$ uniformly over the declared model by a predetermined $\epsilon$. A calibrated population region can also support an explicit gate: report the recentered interval only when its projected truncation probability is at most $\epsilon$, and otherwise report the full nonnegative range. If that region fails with probability at most $\alpha_0$, the gated rule has failure probability at most $\gamma+\alpha_0+\epsilon$. Indeed, when the true $\delta_R>\epsilon$ the gate can open only on population-region failure; when $\delta_R\le\epsilon$, use \cref{prop:truncation}. This explains precisely how a data-dependent tail certificate is used. A cutoff $R$ selected on the evaluation data needs an additional simultaneous or independent-selection justification.
 
 \subsection{Independent batches}
 For $n$ independent units revealing total feature weight at most $B$ per unit, replacing one unit changes any $\Phi_r$ by at most $2B$. Bounded differences and a union bound give
@@ -810,7 +1062,7 @@ For $n$ independent units revealing total feature weight at most $B$ per unit, r
  \Pp\left( |\Phi_r-\E\Phi_r|\le
  B\sqrt{2n\log(2d/\alpha)}\text{ for all }r\le d\right)\ge1-\alpha.
 \end{equation}
-This baseline requires no within-unit independence. It is not claimed to be sharp. The independent-species cumulant formula \eqref{eq:cgf} does not apply to arbitrary batches or to fixed-size multinomial sampling. Stronger incidence prediction and concentration results exist \cite{Eriksson2026}; their assumptions must be checked before importing them.
+This baseline is the bounded-differences argument of \cite[Chapter 6]{Boucheron2013}; it requires no within-unit independence. It is not claimed to be sharp. The independent-species cumulant formula \eqref{eq:cgf} does not apply to arbitrary batches or to fixed-size multinomial sampling. Stronger incidence prediction and concentration results exist \cite{Eriksson2026}; their assumptions must be checked before importing them.
 
 \subsection{Optional stopping}
 Fixed-time coverage across all prediction horizons is not time-uniform coverage across observation times. One can allocate errors across predetermined observation times. Alternatively, under a sequential model, choose before observation $X_j$ a proper predictive density $q_j(\cdot\mid X_{<j})$ and form
@@ -909,7 +1161,7 @@ For $0<\alpha<1$, define
 Then $\Pp_N(N\le U_\alpha(M))\ge1-\alpha$. Among nondecreasing, nonrandomized integer upper confidence bounds with this coverage, $U_\alpha$ is pointwise smallest.
 \end{theorem}
 \begin{proof}
-The retained set is nonempty and finite. Noncoverage occurs exactly when $F_N(M)\le\alpha$, and the discrete probability integral transform gives $\Pp_N(F_N(M)\le\alpha)\le\alpha$. If a competing nondecreasing bound $V$ has $V(m)<U_\alpha(m)$, set $N=U_\alpha(m)$. Every $M\le m$ then gives $V(M)<N$, while $\Pp_N(M\le m)>\alpha$, contradiction.
+The retained set is nonempty and finite. To verify monotonicity, extend $F_N(m)=\Pp_N(M\le m)$ by $F_N(m)=1$ for $m\ge N$. The sets $\{N\ge k:F_N(m)>\alpha\}$ are nested as $m$ increases; their maxima are precisely $U_\alpha(m)$. Hence $U_\alpha$ belongs to the declared nondecreasing class. Noncoverage occurs exactly when $F_N(M)\le\alpha$, and the discrete probability integral transform gives $\Pp_N(F_N(M)\le\alpha)\le\alpha$. If a competing nondecreasing bound $V$ has $V(m)<U_\alpha(m)$, set $N=U_\alpha(m)$. Every $M\le m$ then gives $V(M)<N$, while $\Pp_N(M\le m)>\alpha$, contradiction.
 \end{proof}
 The strict inequality in \eqref{eq:tankCI} is needed for the pointwise-minimal statement. Replacing it by $\ge$ remains conservative but can be larger at equality cases. This is one-sided optimality in a declared class, not optimality of every two-sided tail inversion.
 
@@ -946,7 +1198,7 @@ For $k=3$, $N\in\{3,\ldots,12\}$, confidence level $19/20$, and actions consisti
 Length is upper endpoint minus lower endpoint; empty and singleton intervals have zero length.
 \end{proposition}
 \begin{proof}
-An explicit feasible rule is given in \cref{tab:rule}. Direct rational calculation gives coverage $19/20$ at every parameter and the risks in \cref{tab:risks}, whose maximum is $697/140$.
+An explicit feasible rule is given in \cref{tab:rule}. Its intervals are clipped to $[M,12]$, the feasible parameter range after observing $M$. For any interval $I$, membership of the true $N$ in $I$ is identical to membership in $I\cap[M,12]$ almost surely, while length cannot increase. This clipping improves the earlier untrimmed minimax rule at non-worst-case parameters without changing its optimal maximum risk. It does not by itself establish admissibility. Direct rational calculation gives coverage $19/20$ at every parameter and the risks in \cref{tab:risks}, whose maximum is $697/140$.
 
 For an analytic lower certificate, choose
 \[
@@ -973,13 +1225,15 @@ For a specified sampling model, the calculus yields observable kernels and, wher
 
 This construction unifies and explains several estimator families without asserting that their sampling experiments are equivalent. It also generates further targets: arbitrary finite multisurvey patterns give kernels, and their approximation, moment, or error-transform problems can be studied by the same machinery. The general sampling and duality ingredients are classical. The value of the present synthesis lies in explicit interfaces, specializations, and the ability to check where an inference ceases to be justified.
 
+The next central target is a certified transfer-and-generation theorem: distinguish positive simulation kernels from signed expectation transfers and approximate experiment reductions, then determine which moment certificates, risks, and calibration guarantees each preserves. The elementary transfer in \cref{prop:transfer} is an input, not a proof of such a general classification. In particular, signed algebraic inversion cannot automatically transfer nonnegative e-values or stopping-time validity.
+
 Several tasks remain. We have not classified all feature families admitting a low-dimensional recovery geometry, solved arbitrary integer-constrained moment problems, constructed a general minimax estimator over all actual populations, or established uniform prediction-error bands over every future horizon. The bounded-batch CLT program is separate and is not imported here as a proved uncertainty-estimation theorem. New-rate-optimality or priority claims require comparison with the cited literature and independent review.
 
 The retained results are already sufficient to support a reusable workflow, but not a universal solution. In particular, a numerical grid optimum is not a continuous dual certificate, a confidence-region projection is not automatically a shortest interval, and exact unbiasedness does not guarantee useful precision.
 
 \appendix
 \section{Exact certificate data for the finite tank game}\label{app:certificate}
-\Cref{tab:rule} gives a primal rule for \cref{prop:finitegame}. Every displayed probability is exact. Actions not listed at a given observation have probability zero. The independent checker verifies row sums, coverage, every risk constraint, every dual constraint, and equality of primal and dual values using rational arithmetic.
+\Cref{tab:rule} gives a primal rule for \cref{prop:finitegame}. Every displayed probability is exact. Actions not listed at a given observation have probability zero. The current revision checker verifies the clipped rule\textquotesingle s row sums, coverage, every risk constraint, every analytic dual inequality, and equality of primal and dual values using rational arithmetic. The retained legacy certificate verifies the earlier untrimmed rule separately; its non-worst-case risks are not those printed here.
 \begin{table}[ht]
 \centering\small
 \begin{tabular}{cl}
@@ -993,13 +1247,13 @@ Observed $M$ & Reported interval and its probability\\
   & $[6,12]:547/1400;\quad [7,12]:1/140$\\
 7 & $[7,12]:1$\\
 8 & $[8,12]:1$\\
-9 & $[7,12]:1$\\
-10 & $[4,12]:1187/2016;\quad [10,12]:829/2016$\\
+9 & $[9,12]:1$\\
+10 & $[10,12]:1$\\
 11 & $[11,12]:1$\\
-12 & $[11,12]:1$\\
+12 & $[12,12]:1$\\
 \bottomrule
 \end{tabular}
-\caption{One optimal randomized interval rule in the finite declared action class. It is not asserted to be unique, monotone, or a recommended unrestricted tank procedure.}\label{tab:rule}
+\caption{A support-clipped optimal randomized interval rule in the finite declared action class. It is not asserted to be unique, monotone, or a recommended unrestricted tank procedure.}\label{tab:rule}
 \end{table}
 
 \begin{table}[ht]
@@ -1014,10 +1268,10 @@ $N$ & Coverage & Expected interval length\\
 6 & $19/20$ & $397/80$\\
 7 & $19/20$ & $697/140$\\
 8 & $19/20$ & $1033/224$\\
-9 & $19/20$ & $531/112$\\
-10 & $19/20$ & $697/140$\\
-11 & $19/20$ & $1499/385$\\
-12 & $19/20$ & $2441/770$\\
+9 & $19/20$ & $1369/336$\\
+10 & $19/20$ & $1657/480$\\
+11 & $19/20$ & $167/60$\\
+12 & $19/20$ & $167/80$\\
 \bottomrule
 \end{tabular}
 \caption{Exact coverage and risk for the rule in \cref{tab:rule}.}\label{tab:risks}
@@ -1038,28 +1292,29 @@ Sampling units & Retain occurrence indices and unit boundaries. All subset opera
 Exchangeable differences & Proved on the available horizon. Finite exchangeability is not silently replaced by an infinite mixture model.\\[4pt]
 Fixed-sample Good--Turing & Exact expectation is missing mass after $n-1$, not after $n$ observations. Poissonization removes this shift.\\[4pt]
 Good--Toulmin inversion & Unbiased for expected future discovery in the Poissonized model; fixed-size extrapolation is a different problem.\\[4pt]
-Exponential-integrability gap & Full long-horizon Good--Toulmin has no nonzero exponential moments, even for one species. Finite-coefficient Chernoff results remain valid; a variance-only alternative is supplied.\\[4pt]
+Exponential-integrability gap & Full long-horizon Good--Toulmin has no nonzero exponential moments, even for one species. Direct future-count calibration remains valid. Variance, fourth-moment, and explicitly budgeted truncation alternatives are supplied.\\[4pt]
 Dependence & First moments use marginal incidence rates. Covariances require feature intersections. The independent-species cumulant formula is not a batch formula.\\[4pt]
 Moment duality & Value duality holds for compact continuous models. Finite dual-certificate attainment at arbitrary boundary points is not claimed.\\[4pt]
 Deterministic minimax & Equality is for bounded deterministic error and relaxed linear targets. It is not universal stochastic minimaxity.\\[4pt]
 Two-measure theorem & Explicit elementary supporting interpolation proves the envelope. Requires normalization, two specified moments, $a>0$, $t>0$, and relaxed probability measures.\\[4pt]
-Even-block extension & Established using the stated classical principal-representation theorem and the verified exponential-polynomial operator sign. Odd blocks can switch the order.\\[4pt]
-Hill orders & Strengthened to $[0,2]\cup[3,\infty)$. The interval $(2,3)$ has a rate-dependent sign; a concrete reversal is exhibited.\\[4pt]
+Even-block extension & Existence uses Karlin--Studden/Pinelis; the endpoint orientation now has an explicit real-rooted Hermite-remainder proof. Odd blocks can switch the order.\\[4pt]
+Hill orders & Extended to $(-\infty,2]\cup[3,\infty)$ on $a>0$. Crossing cases in $(2,3)$ have two exhaustive one-parameter support families; actual-population integrality remains separate.\\[4pt]
 Population realizability & Atom multiplicities must be integral. Relaxed optimizers can be strictly unattainable. No universal two-level actual-population theorem is claimed.\\[4pt]
-Confidence calibration & Directions and weights are fixed independently of the evaluation sample. Exact cumulant and conservative mean-only regions are distinguished.\\[4pt]
+Joint calibration & The fixed convex candidate class and finite integrable kernels give a single-level region for $(\mu,Z)$. Arbitrary data-dependent candidate restrictions do not come free. Population-only regions are a specialization.\\[4pt]
 Two-node confidence reduction & Valid for regions described only by the two moment coordinates. Additional cumulant kernels require renewed geometry.\\[4pt]
-Missing mass & The realized random target is calibrated through its estimation error, not by substituting a confidence interval for its expectation.\\[4pt]
-Prediction & The coverage is joint frequentist coverage at a predeclared future target. It is not conditional or automatically simultaneous over data-selected random future targets.\\[4pt]
+Missing mass & Direct joint calibration is primary; an asymmetric Bernstein alternative is retained. The Esty fixed-sample correction is not omitted or conflated with exact Poisson variance.\\[4pt]
+Prediction & Direct target and finite-error joint kernels are separate. Coverage is unconditional for predeclared targets. It is not conditional or automatically uniform over data-selected future windows.\\[4pt]
+Chernoff optimization & Sion applies after the perspective change $v=1/\lambda$ on compact convex relaxed classes. Nonconvex integer classes only inherit the conservative minimax inequality.\\[4pt]
 Stopping & Fixed-time e-values are not automatically confidence sequences. Sequential validity requires the stated supermartingale or error-spending construction.\\[4pt]
 Affine risk program & Exact algebraic risk plus a relaxed uniform bound. Does not prove minimaxity against all estimators on actual populations.\\[4pt]
-Tank upper endpoint & The strict $>$ acceptance condition is used for pointwise-minimal monotone limits. The $\ge$ convention can be conservatively larger.\\[4pt]
-Finite decision game & $697/140$ is proved for the explicit finite parameter/action class with randomization and length $b-a$. An analytic dual and rational primal rule are supplied.\\[4pt]
+Tank upper endpoint & The strict $>$ acceptance condition gives pointwise minimality; monotonicity is proved by nested acceptance sets with $F_N(m)=1$ for $m\ge N$.\\[4pt]
+Finite decision game & $697/140$ is proved for the explicit finite parameter/action class with randomization and length $b-a$. The primal rule is clipped to $[M,12]$, reducing four non-worst-case risks. The unchanged analytic dual proves the same optimum.\\[4pt]
 Code verification & Original checks rerun; a separate rational-certificate checker and symbolic/numerical additions included. No formal proof assistant verification or broad software validation is asserted.\\[4pt]
 Novelty & Classical components are attributed. The draft makes no blanket first-unification, universal-compiler, or new-minimax-rate claim.\\
 \end{longtable}
 
 \subsection{Reproducibility}
-The source bundle includes the original three verification modules, their rerun outputs, the finite-game certificate, and an independent audit script. The checks have distinct meanings:
+The source bundle includes the original three verification modules, their rerun outputs, the historical finite-game certificate, an independent audit script, and a separate revision checker for the clipped certificate and the added results. Historical and current certificates are retained under distinct names; the manuscript tables use the clipped certificate. The checks have distinct meanings:
 \begin{center}\small
 \begin{tabular}{p{0.47\textwidth}rp{0.32\textwidth}}
 \toprule
@@ -1077,7 +1332,9 @@ Additional $q\ge3$ envelopes & 250 & Floating-point checks\\
 \bottomrule
 \end{tabular}
 \end{center}
-Counts are not a substitute for proofs, and some belong to overlapping test runs. The recovery run's largest moment error was approximately $1.65\cdot10^{-14}$ and its largest grid-LP discrepancy approximately $2.38\cdot10^{-11}$. The cumulant identity errors were below $8\cdot10^{-15}$ in the retained cases. These are empirical numerical residuals, not rigorous floating-point error bounds.
+These retained-suite counts are not a substitute for proofs, and some belong to overlapping test runs. The current revision additionally checks 603 rational constraints for the clipped game, 360 joint-transform comparisons, three symbolic zero-rate limits, 600 Hill-order comparisons including negative orders, and 36 truncation probabilities. The recovery run's largest moment error was approximately $1.65\cdot10^{-14}$ and its largest grid-LP discrepancy approximately $2.38\cdot10^{-11}$. The cumulant identity errors were below $8\cdot10^{-15}$ in the retained cases. These are empirical numerical residuals, not rigorous floating-point error bounds.
+
+The revision checker additionally verifies the direct joint transforms, their zero-rate limits, fourth moments and the non-improvement example, negative-order envelopes, the two intermediate-Hill support families against finite-grid linear programs, the exact truncation transform, and the perspective identity. These extra numerical checks are corroboration, not global optimization certificates; their counts and residuals are recorded in \texttt{checks/revision\_v02.json}.
 
 The original exponential calibrations were conservative in the 24 enumerated cases: nominal $95\%$ regions had minimum observed exact-law coverage above $99.7\%$ for the tested mixture. This is evidence about those examples only, and it is not an efficiency theorem.
 
@@ -1098,6 +1355,12 @@ Optimal inequalities in probability theory: A convex optimization approach.
 \emph{SIAM Journal on Optimization} \textbf{15}(3) (2005), 780--804.
 \href{https://doi.org/10.1137/S1052623401399903}{doi:10.1137/S1052623401399903}.
 
+\bibitem{Boucheron2013}
+S. Boucheron, G. Lugosi, and P. Massart.
+\emph{Concentration Inequalities: A Nonasymptotic Theory of Independence}.
+Oxford University Press, 2013.
+\href{https://doi.org/10.1093/acprof:oso/9780199535255.001.0001}{doi:10.1093/acprof:oso/9780199535255.001.0001}.
+
 \bibitem{Chao1984}
 A. Chao.
 Nonparametric estimation of the number of classes in a population.
@@ -1112,12 +1375,13 @@ Estimating diversity and entropy profiles via discovery rates of new species.
 \bibitem{DaleySmith2016}
 T. Daley and A. D. Smith.
 Better lower bounds for missing species: improved non-parametric moment-based estimation for large experiments.
-Preprint (2016), \href{https://arxiv.org/abs/1605.03294}{arXiv:1605.03294}.
+Preprint (2016; revised March 4, 2019), \href{https://arxiv.org/abs/1605.03294v3}{arXiv:1605.03294v3}.
 
 \bibitem{Donoho1994}
 D. L. Donoho.
 Statistical estimation and optimal recovery.
 \emph{Annals of Statistics} \textbf{22}(1) (1994), 238--270.
+\href{https://doi.org/10.1214/aos/1176325367}{doi:10.1214/aos/1176325367}.
 
 \bibitem{EfronThisted1976}
 B. Efron and R. Thisted.
@@ -1129,6 +1393,12 @@ Estimating the number of unseen species: How many words did Shakespeare know?
 E. Eriksson.
 The unseen species problem revisited.
 Preprint (2026), \href{https://arxiv.org/abs/2602.08769v4}{arXiv:2602.08769v4}, September 9, 2026.
+
+\bibitem{Esty1983}
+W. W. Esty.
+A normal limit law for a nonparametric estimator of the coverage of a random sample.
+\emph{Annals of Statistics} \textbf{11}(3) (1983), 905--912.
+\href{https://doi.org/10.1214/aos/1176346256}{doi:10.1214/aos/1176346256}.
 
 \bibitem{Good1953}
 I. J. Good.
@@ -1154,15 +1424,21 @@ Time-uniform, nonparametric, nonasymptotic confidence sequences.
 \emph{Annals of Statistics} \textbf{49}(2) (2021), 1055--1080.
 \href{https://doi.org/10.1214/20-AOS1991}{doi:10.1214/20-AOS1991}.
 
+\bibitem{KarlinStudden1966}
+S. Karlin and W. J. Studden.
+\emph{Tchebycheff Systems: With Applications in Analysis and Statistics}.
+Pure and Applied Mathematics, vol.~15. Interscience Publishers, New York, 1966.
+
 \bibitem{LastPenrose2017}
 G. Last and M. Penrose.
 \emph{Lectures on the Poisson Process}.
-Cambridge University Press, 2017.
+Institute of Mathematical Statistics Textbooks, vol.~7. Cambridge University Press, 2017.
+\href{https://doi.org/10.1017/9781316104477}{doi:10.1017/9781316104477}.
 
 \bibitem{ONeill2025}
 B. O'Neill.
 The distribution of order statistics under sampling without replacement.
-\emph{Journal of Statistical Theory and Applications} \textbf{24} (2025), 663--698.
+\emph{Journal of Statistical Theory and Applications} \textbf{24}(3) (2025), 663--698.
 \href{https://doi.org/10.1007/s44199-025-00125-y}{doi:10.1007/s44199-025-00125-y}.
 
 \bibitem{Orlitsky2016}
@@ -1181,11 +1457,34 @@ Y. Polyanskiy and Y. Wu.
 Dualizing Le Cam's method for functional estimation, with applications to estimating the unseens.
 Preprint (2019; updated versions), \href{https://arxiv.org/abs/1902.05616}{arXiv:1902.05616}.
 
+\bibitem{PolyanskiyWu2026}
+Y. Polyanskiy and Y. Wu.
+Dualizing Le Cam's method for functional estimation I: General theory.
+\emph{Annals of Statistics} \textbf{54}(1) (2026), 1--24.
+\href{https://doi.org/10.1214/25-AOS2498}{doi:10.1214/25-AOS2498}.
+
+\bibitem{Sion1958}
+M. Sion.
+On general minimax theorems.
+\emph{Pacific Journal of Mathematics} \textbf{8}(1) (1958), 171--176.
+\href{https://doi.org/10.2140/pjm.1958.8.171}{doi:10.2140/pjm.1958.8.171}.
+
 \bibitem{Wasserman2020}
 L. Wasserman, A. Ramdas, and S. Balakrishnan.
 Universal inference.
 \emph{Proceedings of the National Academy of Sciences} \textbf{117}(29) (2020), 16880--16890.
 \href{https://doi.org/10.1073/pnas.1922664117}{doi:10.1073/pnas.1922664117}.
+\bibitem{WuYang2019}
+Y. Wu and P. Yang.
+Chebyshev polynomials, moment matching, and optimal estimation of the unseen.
+\emph{Annals of Statistics} \textbf{47}(2) (2019), 857--883.
+\href{https://doi.org/10.1214/17-AOS1665}{doi:10.1214/17-AOS1665}.
+
+\bibitem{ZhangZhang2009}
+C.-H. Zhang and Z. Zhang.
+Asymptotic normality of a nonparametric estimator of sample coverage.
+\emph{Annals of Statistics} \textbf{37}(5A) (2009), 2582--2595.
+\href{https://doi.org/10.1214/08-AOS658}{doi:10.1214/08-AOS658}.
 \end{thebibliography}
 \endgroup
 \end{document}
