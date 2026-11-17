@@ -4,8 +4,8 @@ title: "Partial-Population Inference"
 authors:
   - family-names: Long
     given-names: Christopher D.
-version: 0.1.0
-date-released: 2026-11-16
+version: 0.2.0
+date-released: 2026-11-17
 license: MIT
 keywords:
   - missing mass
@@ -14,4 +14,6 @@ keywords:
   - moment problems
   - e-values
   - population estimation
+  - capture-recapture
+  - sequential inference
 repository-code: "https://github.com/long-mathematics/partial-population-inference"

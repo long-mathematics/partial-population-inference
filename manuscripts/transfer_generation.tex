@@ -9,7 +9,7 @@
 \usepackage[nameinlink,noabbrev]{cleveref}
 \usepackage{fancyhdr,aliascnt}
 \pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small Certified transfer in partial-population inference}
-\fancyhead[R]{\small Research draft v0.1}\fancyfoot[C]{\thepage}
+\fancyhead[R]{\small Research draft v0.2}\fancyfoot[C]{\thepage}
 \setlength{\headheight}{14pt}\setlength{\emergencystretch}{2em}
 \setlist{nosep,leftmargin=*}
 \numberwithin{equation}{section}
@@ -32,20 +32,22 @@
 \title{\textbf{Certified Transfer and Generation\\in Partial-Population Inference}\\[5pt]
 \large Signed inverses, exact random-effort comparison,\\and calibrated discovery prediction}
 \author{Christopher D. Long}
-\date{November 12, 2026\\[3pt]\small Research draft, version 0.1}
+\date{November 17, 2026\\[3pt]\small Research draft, version 0.2}
 \hypersetup{pdftitle={Certified Transfer and Generation in Partial-Population Inference},pdfauthor={Christopher D. Long}}
 \begin{document}\maketitle
 \begin{abstract}
 We audit a finite transfer theorem and develop its measure-theoretic and statistical extensions. A normalized signed transfer preserves expectation identities; a positive transfer additionally transports decision rules and calibration. Bounded-pointwise continuity characterizes the countably additive kernels needed beyond finite experiments, and weighted domains permit integrable but unbounded inverses. Composition propagates variation amplification and approximation error. We classify scalar Poisson intensity transfers, binomial detection channels, binomial sample-size changes, and hypergeometric sample reductions, including a signed-versus-positive distinction between sampling with and without replacement. For unrestricted distributions on an infinite label space we prove an exact random-effort deficiency formula: the deficiency is the maximal positive difference between the target and source sample-count tails. A random-support construction supplies the matching lower bound. Dominated deletion kernels then transfer nonnegative calibration without an additive confidence-level penalty, at a cost in power. Combined with a pathwise novelty bound, this produces fixed-sample prediction regions from Poisson joint transforms. Their linear calibration relaxation has an exact moment dual and finite-atom optimizers. A bounded-batch extraction theorem gives the sharp factor $1/B$ within single-label selection rules. Sharpness is stated separately for experiment deficiency, operator norms, selection efficiency, and calibrated moment projection; no general claim of shortest intervals or target-specific minimax rates is made. All proofs are self-contained apart from explicitly identified classical comparison, moment, and minimax ingredients.
 \end{abstract}
-\noindent\textbf{Companion.} This paper builds on the internal manuscript \emph{Shape-Constrained Discovery-Rate Inversion}, version 0.2, November 12, 2026 \cite{LongI}. It is a separate manuscript, not a replacement or an assertion that the companion is published.\par\medskip
+\noindent\textbf{Companion.} This paper builds on the research manuscript \emph{Shape-Constrained Discovery-Rate Inversion}, version 0.3, November 17, 2026 \cite{LongI}. It is a separate manuscript, not a replacement or an assertion that the companion is published.\par\medskip
 \noindent\textbf{Status.} Internally audited research draft. Exact finite checks and numerical corroboration accompany the proofs. Priority for the specialized results is not established by the literature search.
 \clearpage\begingroup\small\tableofcontents\endgroup\clearpage
 
 \section{Scope, audit, and mathematical position}\label{sec:intro}
 The problem is to transfer an inference from one experiment to another without confusing four different properties: existence of an inverse, positivity, stability, and statistical optimality. The companion \cite{LongI} develops sampling identities, moment recovery, and calibration. Its Proposition~3.2 proves sample-reduction transfer, Theorem~5.3 gives canonical discovery envelopes, and Theorem~7.2 calibrates a population jointly with a random target. Here we make the interfaces explicit.
 
-Blackwell's comparison theory and Le Cam's deficiency are classical \cite{Blackwell1953,LeCam1964,Torgersen1991}. The normal-kernel representation below is standard operator theory, given with a proof to expose its hypotheses; compare \cite[Section 2]{KuhnKunze2022}. Moment duality and lower-bound/estimator duality are likewise established foundations \cite{LongI,PolyanskiyWu2021}. Poissonization is not automatically asymptotic equivalence: parameter restrictions matter, as demonstrated by Low and Zhou \cite{LowZhou2007}. The elementary unrestricted model studied here permits an exact finite-sample comparison, rather than a smoothness-dependent equivalence claim. Sample amplification is already explicitly formulated as statistical experiment comparison by Axelrod and collaborators \cite{Axelrod2020,Axelrod2024}; their support-restricted results are essential context, not consequences claimed here.
+The classical comparison and moment foundations are cited at use.
+Detailed positioning is collected in \cref{sec:prior}. The unknown-population
+capture--recapture specialization is developed in \cite{LongCapture}.
 
 The main specialized results are the exact random-effort formula in \cref{thm:effort}, the dominant deletion calibration in \cref{thm:deletioncal}, the fixed-sample joint prediction construction and its recovery dual in \cref{thm:fixedprediction,thm:predictiondual}, and the bounded-batch extraction in \cref{thm:batchmark}. They are proved here, with no blanket claim of novelty. The scalar sampling classifications are explicit algebraic consequences of classical binomial and factorial-moment identities.
 
@@ -64,7 +66,8 @@ It acts backwards on statistics: $f(y)$ is replaced by $(Sf)(x)$. Define
 \begin{equation}\label{eq:gamma}
  \Gamma(P,Q)=\inf_{\eqref{eq:finitefactor}}\max_x\sum_y|S_{xy}|,
 \end{equation}
-with $\inf\varnothing=+\infty$.
+with $\inf\varnothing=+\infty$. The positive-kernel case belongs to classical
+comparison of experiments \cite{Blackwell1953,Torgersen1991}.
 
 \begin{theorem}[Finite transfer classification]\label{thm:finite}
 A normalized signed transfer exists if and only if $\col(Q)\subseteq\col(P)$, equivalently every functional unbiasedly estimable in $Q$ is unbiasedly estimable in $P$. When finite, the infimum in \eqref{eq:gamma} is attained. Moreover $\Gamma(P,Q)\ge1$, with equality exactly when there is a stochastic matrix $K$ such that $PK=Q$.
@@ -92,6 +95,8 @@ A signed kernel $S(x,\dd y)$ has countably additive finite signed rows, measurab
 \]
 It is normalized when $S(x,\mathsf Y)=1$. Standard Borel hypotheses ensure that the variation and Jordan parts of a kernel are kernels, by taking variation suprema over partitions from a countable generating algebra. A positive normalized kernel is a Markov kernel.
 
+The representation below is standard normal-kernel operator theory;
+compare \cite[Section 2]{KuhnKunze2022}.
 \begin{theorem}[Kernel representation and exact transfer]\label{thm:normal}
 For a bounded linear $T:\Bb(\mathsf Y)\to\Bb(\mathsf X)$, the following are equivalent:
 \begin{enumerate}[label=(\roman*)]
@@ -325,6 +330,23 @@ Exact normalized signed transfer $H_n\to H_m$ exists exactly when $m\le n$. It i
 Equation \eqref{eq:hypmom} proves the range characterization and the estimator formula. If $m>n$, the target moment $\binom Am$ has degree $m\le L$ and is not in that range. If $m\le n$, a uniform subsample of the source is a uniform population sample of size $m$ and gives \eqref{eq:subhyp}. Full column rank proves uniqueness.
 \end{proof}
 For several colors, the same construction uses multivariate hypergeometric kernels; joint falling-factorial moments of total degree at most $n$ give the corresponding estimable polynomial space.
+
+\par\medskip\noindent\textbf{The population-size parameterization.}
+For overlap $J\sim\operatorname{Hypergeom}(N,a,b)$ with fixed $a,b$ and
+unknown $N$, the range is instead the span of $1,1/(N)_1,\ldots,1/(N)_m$,
+where $m=\min(a,b)$ and $(N)_r$ is a falling factorial. On the common
+unbounded parameter space, transfer from $(a,b)$ to $(c,d)$ exists exactly
+when $\min(c,d)\le m$. Its unique normalized signed matrix is
+\[
+ S(j,y)=\sum_{r=y}^{\min(c,d)}(-1)^{r-y}\binom ry\binom jr
+ \frac{(c)_r(d)_r}{(a)_r(b)_r}.
+\]
+The capture companion \cite{LongCapture} proves the range, the classification,
+and the positive subsampling construction. Some of these matrices have
+negative entries: the range criterion alone does not transfer calibration.
+This is a different parameterization from \cref{thm:hyper}.
+\par\medskip
+
 
 There is a useful additional distinction. Write $C_n(A,x)=\Bin(n,A/L)\{x\}$ for sampling with replacement from the same finite population. A signed transfer $C_n\to H_m$ exists if and only if $n\ge m$ (with $m\le L$), since the source polynomial space has dimension $\min(n,L)+1$. But for $L\ge2$ and $m\ge2$ no finite $n$ permits a positive transfer. At $A=L$, $X=n$ surely and the target must report $m$ successes. At $A=1$, $X=n$ has positive probability, whereas $m$ successes are impossible. Positivity makes these requirements contradictory. For $m=1$ and $n\ge1$, choosing one source draw works.
 
@@ -671,9 +693,19 @@ Several general problems are deliberately not claimed solved. The normal factori
 
 A useful further question is how the exact effort-deficiency formula changes under quantitative restrictions on the support, smoothness, or minimum probability. Those restrictions rule out parts of the random-support obstruction and may permit genuine data amplification; the general bounds here identify precisely which unrestricted barrier such a result would overcome.
 
+\section{Relation to prior work}\label{sec:prior}
+Blackwell's comparison theory and Le Cam's deficiency are classical \cite{Blackwell1953,LeCam1964,Torgersen1991}. The normal-kernel representation in Section~\ref{sec:measurable} is standard operator theory, given with a proof to expose its hypotheses; compare \cite[Section 2]{KuhnKunze2022}. Moment duality and lower-bound/estimator duality are likewise established foundations \cite{LongI,PolyanskiyWu2021}. Poissonization is not automatically asymptotic equivalence: parameter restrictions matter, as demonstrated by Low and Zhou \cite{LowZhou2007}. The elementary unrestricted model studied here permits an exact finite-sample comparison, rather than a smoothness-dependent equivalence claim. Sample amplification is already explicitly formulated as statistical experiment comparison by Axelrod and collaborators \cite{Axelrod2020,Axelrod2024}; their support-restricted results are essential context, not consequences claimed here.
+
+The overlap classification in \cite{LongCapture} is an explicit application
+of the range principle to unknown population size. Its classical estimator
+formulas are attributed there, with the detailed capture--recapture
+comparison kept separate from the transfer development. The general
+comparison framework remains classical; priority for specialized consequences
+is not established by an algebraic derivation alone.
+
 \appendix
 \section{Precise dependence on the companion manuscript}\label{app:crosswalk}
-All references in this table refer to version 0.2 of \cite{LongI}, dated November 12, 2026. The source bundle retains an unchanged copy and its SHA-256 digest. Numbering was obtained by compiling that source, not by inferring numbering from earlier conversational drafts.
+The theorem references in this table were checked against discovery version 0.2 and remain unchanged in version 0.3 of \cite{LongI}. The latter adds capture--recapture cross-references and relocates the prior-work discussion without changing the cited theorem numbering. The recovered-source digests remain in repository provenance.
 \begin{center}\small
 \begin{tabular}{p{0.24\textwidth}p{0.66\textwidth}}
 \toprule
@@ -771,10 +803,16 @@ J.-G. Liu and R. L. Pego. On generating functions of Hausdorff moment sequences.
 The classical Hausdorff characterization in Section 1 is also stated in the revised author version
 \href{https://arxiv.org/abs/1401.8052v4}{arXiv:1401.8052v4} (2025).
 
+\bibitem{LongCapture}
+C. D. Long. \emph{Capture--Recapture in a Sampling-Kernel Framework:
+Exact recovery, estimator corrections, transfer, and calibration}.
+Research draft, version 0.1, November 17, 2026.
+Repository file \texttt{manuscripts/capture\_recapture.tex}.
+
 \bibitem{LongI}
 C. D. Long. \emph{Shape-Constrained Discovery-Rate Inversion: A sampling calculus, recovery geometry, and finite-sample statistical calibration}.
-Internal research manuscript, version 0.2, November 12, 2026, 35 pp.
-Companion source file \texttt{discovery\_rate\_inversion.tex}; retained unchanged with this source bundle. Not asserted to be a published work.
+Research manuscript, version 0.3, November 17, 2026.
+Repository file \texttt{manuscripts/discovery\_rate\_inversion.tex}.
 
 \bibitem{LowZhou2007}
 M. G. Low and H. H. Zhou. A complement to Le Cam's theorem.

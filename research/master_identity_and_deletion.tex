@@ -18,7 +18,7 @@
 \title{Additive Cumulants and Computable Fixed-Sample Calibration\\
 \large A research continuation of the discovery-inversion and transfer drafts}
 \author{Christopher D. Long}
-\date{November 16, 2026\\Research note, version 0.1}
+\date{November 17, 2026\\Research note, version 0.2}
 \begin{document}\maketitle
 \begin{abstract}
 We give explicit sufficient integrability conditions for the additive cumulant
@@ -34,12 +34,12 @@ or conditional prediction coverage.
 \end{abstract}
 
 \section{Status and notation}
-The baselines are the recovered November 12 drafts: discovery inversion
-version 0.2 \cite{LongDiscovery} and transfer and generation version 0.1
-\cite{LongTransfer}. The former already contains joint cumulants, direct
-realized-target calibration, a mixed-sign Hill analysis, fourth-moment and
-truncation repairs, and a perspective-based Chernoff minimax equality.
-This note does not reclassify those results as new.
+This note develops the additive-transform and computation interfaces of the
+current discovery and transfer drafts \cite{LongDiscovery,LongTransfer}.
+The capture--recapture companion \cite{LongCapture} supplies a counting-measure
+version for independent capture histories and exact conditional kernels for
+fixed-size and inverse sampling. Classical ingredients are cited at use;
+detailed positioning appears in \cref{sec:prior}.
 
 Let $p_i>0$, $\sum_i p_i=1$, with finitely or countably many disjoint species,
 and set $\mu_p=\sum_i p_i\delta_{p_i}$. At Poisson effort $t$, the independent
@@ -58,15 +58,6 @@ with $\lambda_1=0$ when $d=0$. The relaxed class is
 $\mathcal P([0,1])$ unless additional restrictions are stated.
 An atom at zero is a relaxation device, not a literal zero-probability species.
 Total richness $\int x^{-1}\dd\nu$ still requires additional control near zero.
-
-Cumulant additivity for independent summands is classical; the abundance-measure
-notation exposes its linear dependence on the population.
-Poisson process foundations are described in \cite{LastPenrose}.
-Moment recovery predates this program, notably Harris \cite{Harris} and
-Daley--Smith \cite{DaleySmith}; generalized Chebyshev-system geometry is treated
-by Karlin--Studden and Pinelis \cite{KarlinStudden,Pinelis}.
-Positive transfer and deficiency belong to classical comparison of experiments
-\cite{Blackwell,Torgersen}. These facts are foundations, not novelty claims.
 
 \section{The master identity with sufficient hypotheses}
 Let $W_i$ be independent with law $Q_{p_i}$ and let
@@ -387,18 +378,53 @@ amplify variation. Fixed-size calibration therefore survives, although its
 log moment generating function need not be linear in $\mu$.
 Overlapping-feature higher cumulants require joint incidence information.
 The exact tank game remains a finite decision problem and a dual-certificate
-example. Tag--retag and inverse-coupon problems still require their specific
-stopping, sampling, and heterogeneity assumptions to be spelled out before
-the framework supplies a sharp interval.
+example. The capture--recapture companion \cite{LongCapture} now develops the
+closed-population tag--retag experiments, including exact fixed-size and
+preassigned-recapture intervals and separate stopping-valid martingales.
+For independent histories with fixed catchability vectors $q_i$, it uses
+$\nu=\sum_i\delta_{q_i}$ and
+\[
+ \log\E e^{\theta^\top\sum_i\phi(q_i,W_i)}
+ =\int\log\E_q e^{\theta^\top\phi(q,W)}\,\dd\nu(q).
+\]
+Population size is the unknown total mass of this counting measure.
+Conditioning homogeneous Bernoulli captures on their sample totals recovers
+the hypergeometric kernel; unequal catchabilities do not cancel in this way.
+Marginalizing random catchabilities requires a different transform from
+conditioning on a fixed population. A sharp bounded-heterogeneity
+inverse-coupon procedure remains a separate target.
+
+\section{Relation to prior work}\label{sec:prior}
+Cumulant additivity for independent summands is classical; the abundance-measure
+notation exposes its linear dependence on the population.
+Poisson process foundations are described in \cite{LastPenrose}.
+Moment recovery predates this program, notably Harris \cite{Harris} and
+Daley--Smith \cite{DaleySmith}; generalized Chebyshev-system geometry is treated
+by Karlin--Studden and Pinelis \cite{KarlinStudden,Pinelis}.
+Positive transfer and deficiency belong to classical comparison of experiments
+\cite{Blackwell,Torgersen}. These facts are foundations, not novelty claims.
+
+The capture--recapture link does not begin with the present framework:
+Chao's heterogeneous-population moment method and the unified estimating-
+function approach of Chao and collaborators are discussed in detail in
+\cite{LongCapture}. The common-score optimization proved here exploits
+conditioning and positivity; neither that proof nor the polynomial algorithm
+establishes first appearance or global statistical optimality.
 
 \begin{thebibliography}{99}\raggedright
+\bibitem{LongCapture}
+C. D. Long. \emph{Capture--Recapture in a Sampling-Kernel Framework:
+Exact recovery, estimator corrections, transfer, and calibration}.
+Research draft, version 0.1, November 17, 2026.
+Repository file \texttt{manuscripts/capture\_recapture.tex}.
+
 \bibitem{LongDiscovery} C. D. Long.
 \emph{Shape-Constrained Discovery-Rate Inversion}.
-Internal research draft, version 0.2, November 12, 2026.
+Research draft, version 0.3, November 17, 2026.
 Repository file \texttt{manuscripts/discovery\_rate\_inversion.tex}.
 \bibitem{LongTransfer} C. D. Long.
 \emph{Certified Transfer and Generation in Partial-Population Inference}.
-Internal research draft, version 0.1, November 12, 2026.
+Research draft, version 0.2, November 17, 2026.
 Repository file \texttt{manuscripts/transfer\_generation.tex}.
 \bibitem{LastPenrose} G. Last and M. Penrose.
 \emph{Lectures on the Poisson Process}. Cambridge University Press, 2017.

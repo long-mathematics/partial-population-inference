@@ -14,7 +14,7 @@
 \usepackage{fancyhdr,aliascnt}
 \pagestyle{fancy}\fancyhf{}
 \fancyhead[L]{\small Shape-constrained discovery-rate inversion}
-\fancyhead[R]{\small Revised draft v0.2}
+\fancyhead[R]{\small Revised draft v0.3}
 \fancyfoot[C]{\thepage}
 \setlength{\headheight}{14pt}
 \setlength{\emergencystretch}{2em}
@@ -65,7 +65,7 @@
 \title{\textbf{Shape-Constrained Discovery-Rate Inversion}\\[5pt]
 \large A sampling calculus, recovery geometry,\\and finite-sample statistical calibration}
 \author{Christopher D. Long}
-\date{November 12, 2026\\[3pt]\small Revised research draft, version 0.2}
+\date{November 17, 2026\\[3pt]\small Revised research draft, version 0.3}
 \begin{document}
 \maketitle
 \begin{abstract}
@@ -92,12 +92,15 @@ An actual population is a finite or countable vector $p_i>0$ with $\sum_i p_i=1$
 
 In contrast, the finite-horizon discovery kernels, missing-mass kernels, and finite-coefficient joint cumulants extend continuously to zero. Their relaxed calibration can use all of $\Prob([0,1])$; an atom at zero in that relaxation is not an actual species. Unrestricted finite honest upper support bounds are impossible by \cref{prop:infiniteupper}. Minimum-mass support estimation, such as the class $p_i\ge1/k$ studied by Wu and Yang \cite{WuYang2019}, is therefore a distinct statistical problem rather than a harmless technical specialization.
 
-\subsection{Historical position}
-Good's frequency formulas and Good--Toulmin prediction are foundational \cite{Good1953,GoodToulmin1956}. Moment bounds for cataloging problems go back to Harris \cite{Harris1959}; Efron and Thisted used extrapolation and linear programming for unseen vocabulary \cite{EfronThisted1976}. Chao's richness inequality and higher-order moment approaches are prior art \cite{Chao1984,DaleySmith2016}. Discovery-rate representations of diversity profiles also precede this work \cite{ChaoJost2015}.
+The development proceeds from sampling identities to recovery and calibration.
+Detailed comparisons with prior work are collected in \cref{sec:prior};
+classical ingredients are cited at their points of use.
 
-Poisson thinning and marking are standard \cite{LastPenrose2017}. Moment duality and extremal representations belong to classical convex and Chebyshev-system theory \cite{BertsimasPopescu2005,KarlinStudden1966,Pinelis2011}. Optimal recovery and statistical testing duality already connect approximating a target with constructing estimators and lower bounds \cite{Donoho1994,PolyanskiyWu2026,PolyanskiyWu2019}. Modern unseen-species prediction, occupancy concentration, and sequential calibration supply further baselines \cite{Orlitsky2016,BenHamou2017,Howard2021,Wasserman2020}. Eriksson's September 2026 version explicitly treats prediction, bounded-set incidence data, and optimality questions \cite{Eriksson2026}. The published general theory of Polyanskiy and Wu \cite{PolyanskiyWu2026} is distinguished from their combined preprint with unseen-population applications \cite{PolyanskiyWu2019}. The present draft should not be read as claiming the first unified statistical treatment of these topics.
-
-Our aim is an explicit and reproducible synthesis across observation mechanisms. The most developed specializations are the common discovery-rate envelopes, their population-realizability restriction, and their interface with exact cumulant calibration. We do not establish a universal estimator compiler or a general minimax theorem for arbitrary partial-observation models.
+Our aim is an explicit and reproducible synthesis across observation mechanisms.
+The most developed specializations are the common discovery-rate envelopes,
+their population-realizability restriction, and exact cumulant calibration.
+The capture--recapture companion \cite{LongCapture} develops the corresponding
+closed-population overlap, repeated-capture, and inverse-sampling experiments.
 
 \subsection{Main results}
 The sampling results are \cref{thm:mobius,thm:differences,thm:covariance}. The recovery results are \cref{thm:momentdual,thm:minimax,thm:twonode,thm:evenblocks}. Joint calibration is based on \cref{thm:jointcalibration}, with explicit kernels in \cref{sec:errors}; population-only calibration is its specialization in \cref{thm:calibration}. The contact classification and Chernoff minimax identity are \cref{thm:intermediatehill,thm:chernoffminimax}. Exact model-specific optimality appears in \cref{thm:tankupper,prop:finitegame}.
@@ -1165,11 +1168,23 @@ The retained set is nonempty and finite. To verify monotonicity, extend $F_N(m)=
 \end{proof}
 The strict inequality in \eqref{eq:tankCI} is needed for the pointwise-minimal statement. Replacing it by $\ge$ remains conservative but can be larger at equality cases. This is one-sided optimality in a declared class, not optimality of every two-sided tail inversion.
 
-For tag--retag with independent uniform captures of sizes $a,b$, overlap has law
+For tag--retag with a marked set of size $a$ and an independent uniform
+recapture subset of size $b$, the overlap law is
 \[
  \Pp_N(J=j)=\frac{\binom aj\binom{N-a}{b-j}}{\binom Nb}.
 \]
-Exact tail inversion is consequently available. The construction alone does not prove a shortest two-sided interval or derive every conventional overlap estimator as a unique optimum.
+The companion \cite{LongCapture} develops this experiment completely for the
+stated closed-population designs. Its reciprocal-factorial recovery theorem
+explains Lincoln--Petersen as inversion of an unbiased estimate of $1/N$;
+its reciprocal-shift identity gives Chapman's exact bias
+$-(N-a-b)\Pp_N(J=0)$. It supplies exact monotone confidence limits,
+Bailey's distinct with-replacement correction, repeated-capture estimating
+functions and test martingales, and heterogeneous-history moment calibration.
+Stopping without replacement at the $r$th marked individual gives
+$(a+1)T_r/r-1$; at $r=a$, $T_a$ has exactly the tank maximum law above.
+Thus the connection is an equality of sufficient-statistic experiments.
+The one-sided limits are sharp within their stated monotone classes; no
+shortest two-sided or universal risk claim is inferred.
 
 \subsection{A finite decision-theoretic certificate}
 For finite parameter, observation, and interval-action sets, let $d_{m,I}$ be the probability of reporting interval $I$ at observation $m$. To minimize worst expected length, solve
@@ -1230,6 +1245,20 @@ The next central target is a certified transfer-and-generation theorem: distingu
 Several tasks remain. We have not classified all feature families admitting a low-dimensional recovery geometry, solved arbitrary integer-constrained moment problems, constructed a general minimax estimator over all actual populations, or established uniform prediction-error bands over every future horizon. The bounded-batch CLT program is separate and is not imported here as a proved uncertainty-estimation theorem. New-rate-optimality or priority claims require comparison with the cited literature and independent review.
 
 The retained results are already sufficient to support a reusable workflow, but not a universal solution. In particular, a numerical grid optimum is not a continuous dual certificate, a confidence-region projection is not automatically a shortest interval, and exact unbiasedness does not guarantee useful precision.
+
+\section{Relation to prior work}\label{sec:prior}
+Good's frequency formulas and Good--Toulmin prediction are foundational \cite{Good1953,GoodToulmin1956}. Moment bounds for cataloging problems go back to Harris \cite{Harris1959}; Efron and Thisted used extrapolation and linear programming for unseen vocabulary \cite{EfronThisted1976}. Chao's richness inequality and higher-order moment approaches are prior art \cite{Chao1984,DaleySmith2016}. Discovery-rate representations of diversity profiles also precede this work \cite{ChaoJost2015}.
+
+Poisson thinning and marking are standard \cite{LastPenrose2017}. Moment duality and extremal representations belong to classical convex and Chebyshev-system theory \cite{BertsimasPopescu2005,KarlinStudden1966,Pinelis2011}. Optimal recovery and statistical testing duality already connect approximating a target with constructing estimators and lower bounds \cite{Donoho1994,PolyanskiyWu2026,PolyanskiyWu2019}. Modern unseen-species prediction, occupancy concentration, and sequential calibration supply further baselines \cite{Orlitsky2016,BenHamou2017,Howard2021,Wasserman2020}. Eriksson's September 2026 version explicitly treats prediction, bounded-set incidence data, and optimality questions \cite{Eriksson2026}. The published general theory of Polyanskiy and Wu \cite{PolyanskiyWu2026} is distinguished from their combined preprint with unseen-population applications \cite{PolyanskiyWu2019}. The present draft should not be read as claiming the first unified statistical treatment of these topics.
+
+Capture--recapture is already connected to unseen-species moment methods in
+Chao \cite{ChaoCapture1987}. Chao, Yip, Lee, and Chu \cite{ChaoCapture2001}
+explicitly develop a unified estimating-function and sample-coverage approach.
+The capture companion \cite{LongCapture} explains how these antecedents fit
+our kernel, recovery, and calibration interfaces. Classical estimators and
+moment inequalities are not presented as new discoveries. The specialized
+claims here concern the explicitly proved envelopes, realizability distinctions,
+and calibration constructions under their stated assumptions.
 
 \appendix
 \section{Exact certificate data for the finite tank game}\label{app:certificate}
@@ -1343,6 +1372,23 @@ The two-node solver uses double precision and tolerance-based boundary recogniti
 \begingroup\small
 \begin{thebibliography}{99}
 \setlength{\itemsep}{3pt}\setlength{\parskip}{0pt}
+\bibitem{LongCapture}
+C. D. Long. \emph{Capture--Recapture in a Sampling-Kernel Framework:
+Exact recovery, estimator corrections, transfer, and calibration}.
+Research draft, version 0.1, November 17, 2026.
+Repository file \texttt{manuscripts/capture\_recapture.tex}.
+
+\bibitem{ChaoCapture1987}
+A. Chao. Estimating the population size for capture--recapture data with unequal catchability.
+\emph{Biometrics} \textbf{43}(4) (1987), 783--791.
+\href{https://doi.org/10.2307/2531532}{doi:10.2307/2531532}.
+
+\bibitem{ChaoCapture2001}
+A. Chao, P. S. F. Yip, S.-M. Lee, and W. Chu.
+Population size estimation based on estimating functions for closed capture--recapture models.
+\emph{Journal of Statistical Planning and Inference} \textbf{92}(1--2) (2001), 213--232.
+\href{https://doi.org/10.1016/S0378-3758(00)00151-8}{doi:10.1016/S0378-3758(00)00151-8}.
+
 \bibitem{BenHamou2017}
 A. Ben-Hamou, S. Boucheron, and M. I. Ohannessian.
 Concentration inequalities in the infinite urn scheme for occupancy counts and the missing mass, with applications.

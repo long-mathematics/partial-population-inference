@@ -14,10 +14,14 @@ This project studies missing mass, species discovery, population size, and infer
 | **Good–Toulmin** | New species in a future sample | Discovery-curve extrapolation, prediction-error moments, and long-horizon instability and repairs. |
 | **Chao-type richness bounds** | Unseen species and total richness | The underlying population moment inequality and sharper moment-based recovery bounds. The observed-count ratio alone is not a confidence bound. |
 | **German tank estimator** | Population size from sampled serial numbers | The classical minimum-variance unbiased estimator, general triangular inversion, exact upper confidence limits, and a finite decision game. |
-| **Lincoln–Petersen** | Population size from two capture samples and their overlap | The tag–retag hypergeometric experiment is stated; explicit treatment of this estimator remains to be incorporated. |
-| **Chapman** | Bias-corrected two-sample capture–recapture estimation | A planned specialization of the same tag–retag experiment; its derivation and calibration are not yet developed here. |
+| **Lincoln–Petersen** | Population size from two capture samples and their overlap | Exact overlap moments, reciprocal-factorial recovery, integer likelihood maximizers, and exact confidence limits. |
+| **Chapman** | Bias-corrected two-sample capture–recapture estimation | Exact reciprocal-shift derivation, boundary bias, finite-design moments, and separately calibrated confidence intervals. |
+| **Bailey** | Population size with replacement in the second sample | Binomial correction, exact bias, and exact confidence intervals. |
+| **Schnabel; Schumacher–Eschmeyer** | Population size across repeated capture occasions | Conditional estimating equations, exact finite-design distributions, and separate test-martingale calibration. |
+| **Horvitz–Thompson** | Population totals with known inclusion probabilities | Unbiased weighting, variance, and its relation to capture-history models. |
+| **Inverse-sampling estimators** | Population size when sampling stops at a prescribed recapture count | With- and without-replacement laws, unbiased estimates, exact intervals, and the German tank equivalence. |
 
-The current theory also treats collision-based power sums, Hill diversity, and multiple-survey discovery patterns. Tag–retag (capture–recapture) and inverse coupon collection are explicit continuation targets in the [research roadmap](research/ROADMAP.md).
+The current theory also treats collision-based power sums, Hill diversity, and multiple-survey discovery patterns. Closed-population tag–retag (capture–recapture) is developed in the [capture–recapture paper](manuscripts/capture_recapture.tex). Broader heterogeneity and inverse coupon collection remain in the [research roadmap](research/ROADMAP.md).
 
 ## Mathematical framework
 
@@ -29,13 +33,14 @@ The assumptions depend on the experiment and target. Some richness and envelope 
 
 ## Read the papers
 
-| Manuscript | Main contents |
-|---|---|
-| [Discovery-rate inversion](manuscripts/discovery_rate_inversion.tex) | Sampling identities; moment recovery and simultaneous envelopes; Hill-order anomaly; integer realizability; joint calibration; exact tank inference. |
-| [Transfer and generation](manuscripts/transfer_generation.tex) | Positive, signed, and dominated transfers; random-effort deficiency; fixed-size calibration and prediction; batch extraction. |
-| [Additive cumulants and fixed-sample computation](research/master_identity_and_deletion.tex) | Master identity with integrability conditions; polynomial deletion algorithms; threshold costs; effort-optimized full-count calibration. |
+| Manuscript | Download | Main contents |
+|---|---|---|
+| [Discovery-rate inversion](manuscripts/discovery_rate_inversion.tex) | [PDF](https://github.com/long-mathematics/partial-population-inference/raw/refs/heads/main/pdf/discovery_rate_inversion.pdf) | Sampling identities; moment recovery and simultaneous envelopes; Hill-order anomaly; integer realizability; joint calibration; tank inference. |
+| [Transfer and generation](manuscripts/transfer_generation.tex) | [PDF](https://github.com/long-mathematics/partial-population-inference/raw/refs/heads/main/pdf/transfer_generation.pdf) | Positive, signed, and dominated transfers; random-effort deficiency; fixed-size calibration and prediction; batch extraction. |
+| [Additive cumulants and fixed-sample computation](research/master_identity_and_deletion.tex) | [PDF](https://github.com/long-mathematics/partial-population-inference/raw/refs/heads/main/pdf/master_identity_and_deletion.pdf) | Integrability conditions; polynomial deletion algorithms; threshold costs; effort-optimized full-count calibration. |
+| [Capture–recapture](manuscripts/capture_recapture.tex) | [PDF](https://github.com/long-mathematics/partial-population-inference/raw/refs/heads/main/pdf/capture_recapture.pdf) | Classical estimators; exact recovery and transfers; fixed-size and sequential intervals; repeated captures; independent-history calibration. |
 
-The manuscript bibliographies contain the references and comparisons with existing literature. See also the [literature audit](audit/LITERATURE.md), [mathematical and computational audit](audit/AUDIT.md), and [source provenance](provenance/SOURCES.md).
+Each paper develops the mathematics first and places its detailed comparison with prior work near the end, with brief citations at the points of use. See also the [literature audit](audit/LITERATURE.md), [mathematical and computational audit](audit/AUDIT.md), and [source provenance](provenance/SOURCES.md).
 
 ## Reproduce
 
@@ -46,17 +51,19 @@ python -m pip install -r requirements.txt
 make check
 ```
 
-To run an individual verification suite, use `make check-discovery`, `make check-transfer`, or `make check-new`. The suites include exact rational certificates, symbolic identities, and numerical checks.
+To run an individual verification suite, use `make check-discovery`, `make check-transfer`, `make check-new`, or `make check-capture`. The suites include exact rational certificates, symbolic identities, and numerical checks.
 
-To build all three PDFs, install a TeX distribution with `latexmk` and the packages declared in the sources, then run:
+To build all four PDFs, install a TeX distribution with `latexmk` and the packages declared in the sources, then run:
 
 ```sh
 make pdf
 ```
 
-PDFs are written to `build/`. The [GitHub Actions workflow](https://github.com/long-mathematics/partial-population-inference/actions/workflows/verify.yml) runs the verification suites and publishes compiled PDFs as build artifacts.
+PDFs are written to `build/`, and the build checks the logs for errors, unresolved references, and layout warnings. Run `make publish-pdfs` to refresh the downloadable copies in [pdf/](pdf/README.md). CI checks their source hashes and independently rebuilds all four papers; it also retains PDFs as build artifacts.
 
 [src/partial_population/deletion.py](src/partial_population/deletion.py) implements log-domain population and prediction deletion scores and common-score effort optimization. The population polynomial takes O(n²) arithmetic operations and O(n) storage. This is research code; certified projection and numerical error bounds remain [development goals](research/ROADMAP.md).
+
+[src/partial_population/capture_recapture.py](src/partial_population/capture_recapture.py) supplies exact rational estimators, tail inversion with unbounded population search, signed transfers, and sequential e-values. See the [capture verification guide](verification/capture/README.md) and [audit](audit/CAPTURE_RECAPTURE.md) for the covered designs and limitations.
 
 ## Author and citation
 

@@ -1,0 +1,733 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,booktabs,array,xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\setlength{\emergencystretch}{2em}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\E}{\mathbb E}\newcommand{\PP}{\mathbb P}
+\newcommand{\Var}{\operatorname{Var}}\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\dd}{\,\mathrm d}\newcommand{\ind}{\mathbf1}
+\newcommand{\fall}[2]{(#1)_{#2}}\newcommand{\rise}[2]{(#1)^{\overline{#2}}}
+\title{Capture--Recapture in a Sampling-Kernel Framework\\
+\large Exact recovery, estimator corrections, transfer, and calibration}
+\author{Christopher D. Long}
+\date{November 17, 2026\\Research draft, version 0.1}
+\begin{document}\maketitle
+\begin{abstract}
+We develop the capture--recapture component of a partial-population inference
+framework. Fixed-size overlap sampling gives reciprocal-factorial recovery,
+an exact bias identity for Chapman, and an explicit classification of signed
+transfers when population size is unknown. Tail inversion yields exact
+confidence intervals with sharp one-sided monotonicity properties. Sampling
+with replacement yields Bailey's different correction. Repeated captures give weighted estimating equations and exact test
+martingales. Inverse sampling yields complete sufficient order statistics and
+connects directly to the German tank experiment. Independent capture histories
+recover the counting-measure cumulant geometry, Horvitz--Thompson weighting,
+and finite-occasion Chao-type moment bounds. Proofs and rational verification
+separate estimator identities, calibration, and optimality in specified
+classes. Classical formulas are attributed at use; detailed comparisons with
+prior work appear near the end.
+\end{abstract}
+
+\section{Experiments and targets}
+The organizing objects are a sampling law, a population target, and an
+observation-preserving transfer, as in the companion papers
+\cite{LongDiscovery,LongTransfer,LongCumulants}. Here the population is closed:
+there are no births, deaths, migration, lost marks, or erroneous matches.
+Unless explicitly stated otherwise, a capture is a uniform subset and marking
+does not change subsequent selection. Labels record identity only. Their
+numeric magnitudes carry no information about population size.
+
+First fix positive integers $a,b$, an unknown integer $N\ge\max(a,b)$,
+and a marked set of size $a$. An independent uniform subset of size $b$
+produces overlap $J$. Conditional on the marked set,
+\begin{equation}\label{eq:kernel}
+ P_N^{a,b}(j)=\frac{\binom aj\binom{N-a}{b-j}}{\binom Nb},
+ \qquad 0\le j\le m:=\min(a,b).
+\end{equation}
+Binomial coefficients are zero outside their usual nonnegative range.
+The observed union imposes $N\ge a+b-j$. Random uniform marking followed by
+independent uniform recapture gives the same law. Only the second-stage
+uniformity is needed when the marked set is conditioned upon.
+
+This parameterization differs from a hypergeometric experiment with known
+population size and unknown marked count. In particular, the polynomial
+recovery theorem for that experiment cannot be applied by renaming its
+unknown parameter. We write $\fall{x}{r}=x(x-1)\cdots(x-r+1)$ and
+$\rise{x}{r}=x(x+1)\cdots(x+r-1)$, with both empty products equal to one.
+
+\section{Exact recovery and the two-sample estimators}
+\begin{theorem}[Reciprocal-factorial recovery]\label{thm:range}
+For $0\le r\le m$,
+\begin{equation}\label{eq:factorial}
+ \E_N\fall{J}{r}=\frac{\fall{a}{r}\fall{b}{r}}{\fall{N}{r}}.
+\end{equation}
+The expectations of all finite-valued statistics of $J$ form exactly
+\[
+ \mathcal R_{a,b}=\operatorname{span}\{1,\fall{N}{1}^{-1},\ldots,
+ \fall{N}{m}^{-1}\}
+\]
+as functions on the whole parameter space. Each target in this space has a
+unique unbiased statistic of $J$. In particular, $N$ has no finite-valued
+unbiased estimator based on $J$ over this unbounded parameter space.
+\end{theorem}
+\begin{proof}
+Expand $\fall{J}{r}$ as a sum over ordered distinct marked $r$-tuples.
+Each tuple is in the recapture subset with probability
+$\fall{b}{r}/\fall{N}{r}$, giving \eqref{eq:factorial}.
+The $m+1$ functions $\fall{j}{r}$ form a triangular basis for statistics on
+$\{0,\ldots,m\}$. The resulting reciprocal-factorial functions are linearly
+independent: multiply any relation by $\fall{N}{m}$. The terms become
+polynomials of distinct degrees $m,m-1,\ldots,0$, and a polynomial vanishing
+at every sufficiently large integer is zero. This proves the range and
+uniqueness statements. Finally, every finite-valued statistic on this finite
+observation space has bounded expectation; $N$ is unbounded.
+\end{proof}
+The uniqueness is within the overlap experiment. Independent randomization
+cannot improve squared-error risk: conditional averaging given $J$ removes
+its extra variance whenever that risk is finite.
+
+The Lincoln--Petersen ratio \cite{Chapman1951,Dettloff2023} is
+\begin{equation}\label{eq:LP}
+ \widehat N_{\rm LP}=ab/J,\qquad J>0.
+\end{equation}
+It inverts the unbiased estimator $J/(ab)$ of $1/N$; reciprocation does not
+preserve unbiasedness. If the zero-overlap value is defined as $+\infty$,
+its expectation and squared-error risk are infinite whenever $N\ge a+b$.
+Any finite replacement at zero defines a different estimator, whose bias
+and risk must include that event.
+
+\begin{proposition}[Integer likelihood maximizers]\label{prop:mle}
+For observed $j>0$, the likelihood maximizers are $\lfloor ab/j\rfloor$
+and, if $ab/j$ is an integer, also $ab/j-1$, retaining only values at least
+$a+b-j$. For $j=0$, the likelihood increases to its supremum as
+$N\to\infty$ and has no finite maximizer.
+\end{proposition}
+\begin{proof}
+For consecutive feasible values with $N>a+b-j$,
+\[
+ \frac{P_N^{a,b}(j)}{P_{N-1}^{a,b}(j)}
+ =\frac{(N-a)(N-b)}{N(N-a-b+j)}.
+\]
+It is at least one exactly when $Nj\le ab$. Moreover
+$ab/j\ge a+b-j$ because $(a-j)(b-j)\ge0$.
+For $j=0$, the same comparison is strict for consecutive feasible values,
+and the probability tends to one.
+\end{proof}
+
+\begin{theorem}[Chapman and the reciprocal-shift identity]\label{thm:chapman}
+Chapman's estimator \cite{Chapman1951} satisfies
+\begin{align}
+ \widehat N_{\rm C}&=\frac{(a+1)(b+1)}{J+1}-1,\label{eq:Chapman}\\
+ \E_N\widehat N_{\rm C}
+ &=N-(N-a-b)P_N^{a,b}(0).\label{eq:Chapmanbias}
+\end{align}
+More generally, for every integer $k\ge1$,
+\begin{align}\label{eq:shift}
+ \E_N\frac{\rise{a+1}{k}\rise{b+1}{k}}{\rise{J+1}{k}}
+ &=\rise{N+1}{k}-B_k(N),\\
+ B_k(N)&=\frac{\rise{b+1}{k}}{\binom Nb}
+ \sum_{h=0}^{k-1}\binom{a+k}{h}\binom{N-a}{b+k-h}\ge0.\nonumber
+\end{align}
+Thus Chapman is unbiased when $a+b\ge N$, and strictly downward biased
+when $a+b<N$. Its reported value is at least the observed union size.
+\end{theorem}
+\begin{proof}
+Use
+\[
+ \frac{\binom aj}{\rise{j+1}{k}}
+ =\frac{\binom{a+k}{j+k}}{\rise{a+1}{k}}.
+\]
+After setting $h=j+k$, Vandermonde's convolution completes the sum to
+$\binom{N+k}{b+k}$; the omitted indices are exactly $0\le h<k$.
+The completed term equals $\rise{N+1}{k}$. At $k=1$ the remainder is
+\[
+ B_1(N)=\frac{(b+1)\binom{N-a}{b+1}}{\binom Nb}
+       =(N-a-b)P_N^{a,b}(0),
+\]
+with both sides zero when $N<a+b$. Finally,
+$\widehat N_{\rm C}-(a+b-j)=(a-j)(b-j)/(j+1)\ge0$.
+\end{proof}
+The correction is a kernel boundary term, not a proof of global unbiasedness.
+For any finite rule $h(j)$ the exact bias and risk are computable as
+\begin{equation}\label{eq:risk}
+ \operatorname{Bias}_N(h)=\sum_jP_N^{a,b}(j)h(j)-N,
+ \qquad R_N(h)=\sum_jP_N^{a,b}(j)(h(j)-N)^2.
+\end{equation}
+In particular, \eqref{eq:risk} supplies exact Chapman variance and MSE;
+no approximate plug-in variance formula is needed for the finite-design audit.
+
+\section{Changing the second-sample design}
+Suppose instead that the second stage consists of $b$ independent draws
+\emph{with replacement}. Repeated sightings of the same marked unit count
+again. Then $J\sim\operatorname{Bin}(b,a/N)$, with $0\le J\le b$ even
+when $b>a$.
+\begin{proposition}[Bailey's binomial correction]\label{prop:bailey}
+The estimator attributed to Bailey \cite{Bailey1951,Bailey1952} obeys
+\[
+ \widehat N_{\rm B}=\frac{a(b+1)}{J+1},\qquad
+ \E_N\widehat N_{\rm B}
+ =N\left[1-\left(1-\frac aN\right)^{b+1}\right].
+\]
+The unbiasedly estimable functions from $J$ are exactly polynomials in
+$1/N$ of degree at most $b$.
+\end{proposition}
+\begin{proof}
+Put $p=a/N$. The identity
+$\binom bj/(j+1)=\binom{b+1}{j+1}/(b+1)$ gives
+$\E[1/(J+1)]=[1-(1-p)^{b+1}]/[(b+1)p]$.
+The factorial moments are $\E\fall{J}{r}=\fall{b}{r}(a/N)^r$;
+the same basis argument as in \cref{thm:range} proves the range statement.
+\end{proof}
+Using Chapman in this binomial design changes the bias calculation. An
+approximation of a hypergeometric law by a binomial law is not an exact
+transfer assertion. Exact intervals use the binomial tails on $N\ge a$.
+Their lower and upper endpoints are obtained from the same strict inequalities
+as \cref{thm:limits}: the binomial count decreases stochastically as $a/N$
+decreases. The upper endpoint at zero recaptures is infinite. The code
+implements this design separately, without imposing the without-replacement
+restriction $J\le a$ or $b\le N$.
+
+\section{Transfer between unknown-size overlap experiments}
+All experiments in this section have common parameter space
+$N\ge\max(a,b,c,d)$, with no upper bound.
+\begin{theorem}[Explicit signed-transfer classification]\label{thm:transfer}
+A normalized signed matrix $S$ satisfying
+$P_N^{a,b}S=P_N^{c,d}$ for all such $N$ exists if and only if
+$h:=\min(c,d)\le m:=\min(a,b)$. When it exists it is unique and
+\begin{equation}\label{eq:transfer}
+ S(j,y)=\sum_{r=y}^{h}(-1)^{r-y}\binom ry\binom jr
+ \frac{\fall{c}{r}\fall{d}{r}}{\fall{a}{r}\fall{b}{r}},
+ \quad 0\le j\le m,\quad0\le y\le h.
+\end{equation}
+It is a positive transfer exactly when all these entries are nonnegative.
+Its unique row-variation amplification is $\max_j\sum_y|S(j,y)|$.
+\end{theorem}
+\begin{proof}
+By \cref{thm:range}, source and target column spaces are the reciprocal-
+factorial spaces of degrees $m$ and $h$, respectively. Their independence
+continues to hold on the common infinite tail of integers, so target range
+inclusion requires $h\le m$.
+For this case define each signed row through its generating polynomial
+\[
+ \sum_y S(j,y)z^y=
+ \sum_{r=0}^h\binom jr
+ \frac{\fall{c}{r}\fall{d}{r}}{\fall{a}{r}\fall{b}{r}}(z-1)^r.
+\]
+It has value one at $z=1$. Taking source expectations gives the target
+factorial-moment generating polynomial, hence the target law.
+Coefficient extraction gives \eqref{eq:transfer}. Full source column rank
+implies uniqueness. Positivity and the variation formula follow directly.
+\end{proof}
+For $c\le a,d\le b$, there is a direct positive construction: retain a
+uniform $c$-subset of the marked set, then a uniform $d$-subset of the
+recapture set. Conditional on $J=j$, first draw
+$H\sim\operatorname{Hypergeom}(a,j,c)$ and then
+$Y\mid H\sim\operatorname{Hypergeom}(b,H,d)$. Uniqueness identifies this
+composition with \eqref{eq:transfer}.
+
+Existence alone does not preserve calibration. For $(a,b)=(2,2)$ and
+$(c,d)=(1,3)$, the unique matrix is
+\[
+ S=\begin{pmatrix}1&0\\1/4&3/4\\-1/2&3/2\end{pmatrix}.
+\]
+Its amplification is two and it is not positive. The hypotheses of the
+positive/dominated calibration transfer results in \cite{LongTransfer}
+cannot be replaced by signed range inclusion. On a finite restricted grid
+of $N$ values the range criterion may differ; the infinite parameter space
+in this theorem is essential.
+
+\section{Exact fixed-size confidence limits}
+Write $F_N(j)=P_N(J\le j)$ and $G_N(j)=P_N(J\ge j)$, extending the
+probabilities to all $N\ge\max(a,b)$ with impossible cells assigned zero.
+For $0<\alpha<1$ define
+\begin{equation}\label{eq:limits}
+ L_\alpha(j)=\min\{N:F_N(j)>\alpha\},\qquad
+ U_\alpha(j)=\sup\{N:G_N(j)>\alpha\}.
+\end{equation}
+Both sets incorporate the actual support: retained $N$ satisfy
+$N\ge a+b-j$. The upper endpoint is an integer or $+\infty$.
+\begin{theorem}[Coverage and one-sided sharpness]\label{thm:limits}
+The limits in \eqref{eq:limits} are nonincreasing in $j$, and
+\[
+ P_N\{L_\alpha(J)\le N\}\ge1-\alpha,
+ \qquad P_N\{N\le U_\alpha(J)\}\ge1-\alpha.
+\]
+Among nonincreasing, nonrandomized integer lower limits with this coverage,
+$L_\alpha$ is pointwise largest. Among nonincreasing upper limits, allowing
+$+\infty$, $U_\alpha$ is pointwise smallest.
+For positive $\alpha_L,\alpha_U$ with sum $\alpha$, the set
+\[
+ C(j)=\{N:F_N(j)>\alpha_L,\ G_N(j)>\alpha_U\}
+ =[L_{\alpha_L}(j),U_{\alpha_U}(j)]\cap\mathbb Z
+\]
+has coverage at least $1-\alpha$. No shortest two-sided interval assertion
+is made.
+\end{theorem}
+\begin{proof}
+Add unmarked individuals to the population and assign independent continuous
+priorities to all units. Select the $b$ smallest priorities. Adding unmarked
+units cannot increase the number marked in that subset. Hence $F_N(j)$ is
+nondecreasing in $N$ and $G_N(j)$ is nonincreasing. At fixed $N$, $F_N(j)$
+increases and $G_N(j)$ decreases with $j$, proving the endpoint monotonicity.
+Also $F_N(j)\to1$ as $N\to\infty$, so $L_\alpha$ exists.
+The elementary discrete tail inequalities
+$P_N\{F_N(J)\le\alpha\}\le\alpha$ and
+$P_N\{G_N(J)\le\alpha\}\le\alpha$ give coverage and the union bound.
+
+If a competing nonincreasing lower limit $V$ has
+$V(j)>L_\alpha(j)$, take $N=L_\alpha(j)$. On $J\le j$ it overestimates,
+with probability $F_N(j)>\alpha$. For a smaller upper limit at a finite
+$U_\alpha(j)$, take $N=U_\alpha(j)$ and use the event $J\ge j$.
+At $j=0$, $P_N(J=0)\to1$, so any finite upper value fails coverage for
+large $N$. These arguments prove the pointwise assertions.
+\end{proof}
+In particular $U_\alpha(0)=+\infty$, whereas $U_\alpha(j)<\infty$ for
+$j\ge1$, since $G_N(j)\le ab/(Nj)$. At $N=a+b-j$, $G_N(j)=1$, so the
+upper acceptance set is nonempty. Strict inequalities are needed for the
+stated pointwise minimality/maximality. The implementation brackets the
+monotone crossings by doubling and uses rational binary search; it never
+replaces infinity by an arbitrary population ceiling.
+
+For a different exact calibration, choose any predetermined probability
+mass function $q(j)$ on the observation space. For each candidate $N$,
+$e_N(j)=q(j)/P_N(j)$ on its positive cells has expectation at most one.
+Impossible observed cells reject the candidate. Markov's inequality gives
+$\{N:e_N(J)<1/\alpha\}$ coverage at least $1-\alpha$.
+This construction is valid independently of any selected point estimator;
+it need not produce an interval or a shortest confidence set.
+
+\section{Repeated captures and sequential calibration}
+Before occasion $t$ let $a_t$ be the number marked, choose a predictable
+sample size $b_t$, and obtain a uniform subset of that size. Return all
+sampled individuals and mark every new one. Then
+\begin{equation}\label{eq:conditional}
+ J_t\mid\mathcal F_{t-1}\sim P_N^{a_t,b_t},\qquad
+ a_{t+1}=a_t+b_t-J_t,\qquad
+ \E_N[J_t\mid\mathcal F_{t-1}]=a_tb_t/N.
+\end{equation}
+Zero marked counts are permitted at an initial occasion. Chosen actions
+must be feasible under the true population. The policy is a known function
+of the past, not a function of the unknown $N$.
+
+\begin{proposition}[Weighted estimating functions]\label{prop:weighted}
+For predictable finite weights $w_t$, the increments
+$w_t(J_t-a_tb_t/N)$ have conditional mean zero whenever integrable.
+At a fixed horizon the estimating equation has ratio solution
+\begin{equation}\label{eq:weighted}
+ \widehat N_w=\frac{\sum_t w_ta_tb_t}{\sum_t w_tJ_t}
+\end{equation}
+when its denominator is nonzero. Weights $w_t=1$ yield Schnabel
+\cite{Schnabel1938}; weights $w_t=a_t$ yield Schumacher--Eschmeyer
+\cite{Schumacher1943,Dettloff2023}.
+\end{proposition}
+\begin{proof}
+Multiply the last equality of \eqref{eq:conditional} by the predictable
+weight, then sum. Solving the resulting equation gives \eqref{eq:weighted}.
+\end{proof}
+A zero-mean estimating function does not imply an unbiased ratio solution.
+Nor does it give an optional-stopping theorem without additional conditions.
+For a fixed size sequence, an exact risk/distribution calculation propagates
+states $(a,A,B)$, where $A=\sum w_ta_tb_t$ and $B=\sum w_tJ_t$:
+\[
+ (a,A,B)\longmapsto(a+b-j,A+wab,B+wj)
+ \quad\hbox{with probability }P_N^{a,b}(j).
+\]
+The terminal distribution retains any mass at an infinite ratio. It computes
+finite losses, conditional risks, or the risk of an explicitly specified
+finite fallback; it cannot silently discard zero-recapture trajectories.
+
+\begin{theorem}[Exact test martingales]\label{thm:martingale}
+For any finite predictable real directions $\lambda_t$, put
+\[
+ \psi_{N,t}(\lambda)=\log\sum_jP_N^{a_t,b_t}(j)e^{\lambda j},\qquad
+ E_{N,T}=\exp\sum_{t\le T}\{\lambda_tJ_t-\psi_{N,t}(\lambda_t)\}.
+\]
+Under the candidate's true law this is a nonnegative martingale starting at
+one. Consequently
+\[
+ P_N\{\exists T:E_{N,T}\ge1/\alpha\}\le\alpha.
+\]
+The running sets $\{N:\max_{s\le T}E_{N,s}<1/\alpha\}$ form a confidence
+sequence. Observed prefixes impossible under a candidate may reject it.
+Predetermined mixtures of such martingales are valid as well.
+\end{theorem}
+\begin{proof}
+Conditional on the past, the next multiplicative factor has expectation one.
+Every finite-step normalizer is positive and finite because its observation
+support is finite. Iteration gives integrability and expectation one.
+For the first crossing time $\tau$, the bounded-stopping identity gives
+$1=\E E_{N,\tau\wedge T}\ge\alpha^{-1}P(\tau\le T)$.
+Let $T\to\infty$. Mixtures follow by nonnegativity and Tonelli's theorem.
+\end{proof}
+This is the standard test-martingale principle \cite{Howard2021}; martingale
+estimating functions in recapture studies are classical \cite{Lloyd1994}.
+The confidence sequence permits arbitrary subsequent stopping. Selecting
+$\lambda_t$ using $J_t$ or later outcomes does not satisfy the theorem.
+
+\section{Inverse sampling and the tank equivalence}
+Fix $1\le r\le a$ before sampling. Draw without replacement from a random
+permutation of the population until the $r$th marked unit appears; call the
+number of draws $T_r$. The complete observed binary history ends at that
+marked draw. Its law is
+\begin{equation}\label{eq:inverse}
+ P_N(T_r=t)=\frac{\binom{t-1}{r-1}\binom{N-t}{a-r}}{\binom Na},
+ \qquad r\le t\le N-a+r.
+\end{equation}
+This is the inverse hypergeometric design studied in the classical recapture
+literature \cite{Bailey1951,Chapman1951} and by
+P\'erez-Salvador \cite{Perez2026}.
+
+\begin{theorem}[Order-statistic recovery]\label{thm:inverse}
+In this experiment $T_r$ is complete and sufficient for the binary history,
+and
+\begin{align}
+ \E_N T_r&=\frac{r(N+1)}{a+1},\\
+ \widehat N_r&=\frac{a+1}{r}T_r-1,\qquad
+ \Var_N(\widehat N_r)=\frac{(N+1)(N-a)(a+1-r)}{r(a+2)}.\label{eq:invvariance}
+\end{align}
+Thus $\widehat N_r$ is minimum-variance unbiased for $N$ among estimators
+of this binary history. At $r=a$ the experiment based on $T_a$ is exactly
+the maximum-statistic experiment for a uniform $a$-subset of
+$\{1,\ldots,N\}$, giving the German tank formula.
+\end{theorem}
+\begin{proof}
+The $a$ marked positions are a uniform $a$-subset, proving \eqref{eq:inverse}.
+Its $k=a+1$ empty gaps form a uniform weak composition of $L=N-a$.
+For distinct gap indices, coefficient extraction from $(1-z)^{-k}$ gives
+\[
+ \E G_i=L/k,\quad
+ \E\fall{G_i}{2}=\frac{2L(L-1)}{k(k+1)},\quad
+ \E G_iG_j=\frac{L(L-1)}{k(k+1)}.
+\]
+For example the second numerator comes from
+$2z^2(1-z)^{-3}(1-z)^{-(k-1)}$ divided by
+$\binom{L+k-1}{k-1}$. Since
+$T_r=r+G_0+\cdots+G_{r-1}$, these moments give the stated mean and variance.
+
+Conditional on $T_r=t$, the $r-1$ earlier marked positions are a uniform
+subset of $\{1,\ldots,t-1\}$, independent of $N$, proving sufficiency.
+If $\E_N h(T_r)=0$ for every $N\ge a$, start at $N=a$ to obtain $h(r)=0$.
+At $N=a+s$, support is $r,\ldots,r+s$ with positive mass at $r+s$;
+induction gives $h(r+s)=0$. This proves completeness. Conditional averaging
+and completeness establish minimum variance. The case $r=a$ is the maximum
+of the uniform subset, with no approximation or change in its law.
+\end{proof}
+Let $H_N(t)=P_N(T_r\le t)$ and $K_N(t)=P_N(T_r\ge t)$.
+An exact equal-tail interval at a preassigned $r$ is
+\begin{equation}\label{eq:inverseCI}
+ \{N\ge a+t-r:H_N(t)>\alpha/2,\ K_N(t)>\alpha/2\}.
+\end{equation}
+Its coverage follows from the same discrete-tail argument as
+\cref{thm:limits}. It is an integer interval: adding unmarked units to a
+random permutation cannot move a marked position earlier, so $H_N(t)$
+decreases and $K_N(t)$ increases in $N$.
+For computation, $H_N(t)=P\{\operatorname{Hypergeom}(N,a,t)\ge r\}$ when
+$t\le N$, with $H_N(t)=1$ when $t\ge N$.
+Both endpoints are finite: $K_N(t)\to1$ and
+$H_N(t)\le at/(Nr)\to0$ as $N\to\infty$.
+No fixed-$r$ coverage claim is made for a data-selected $r$.
+
+For arbitrary stopping while drawing without replacement, the marked
+probability at draw $s$ conditional on the preceding $k$ marked draws is
+$p_{N,s}=(a-k)/(N-s+1)$. For predictable $z_s>0$ the factors
+\[
+ \frac{z_s^{X_s}}{1-p_{N,s}+p_{N,s}z_s},\qquad X_s\in\{0,1\},
+\]
+have conditional expectation one. Their products provide a confidence
+sequence by \cref{thm:martingale}'s argument, with impossible prefixes
+excluded and the process frozen when the candidate population is exhausted.
+This supplies the stopping-valid alternative to reusing \eqref{eq:inverseCI}.
+
+With replacement, stopping at $r\ge1$ marked \emph{draws} instead yields
+\[
+ P_N(T=t)=\binom{t-1}{r-1}(a/N)^r(1-a/N)^{t-r},\quad t\ge r.
+\]
+The sum of $r$ independent geometric waiting times gives
+\[
+ \E_N T=rN/a,\qquad \widehat N_{\rm IB}=aT/r,
+ \qquad\Var_N(\widehat N_{\rm IB})=N(N-a)/r.
+\]
+There is no restriction $r\le a$ because repeats count. Exact intervals use
+the negative-binomial tails, or
+$P_N(T\le t)=P\{\operatorname{Bin}(t,a/N)\ge r\}$.
+This is a different experiment from the without-replacement order statistic;
+we make no completeness claim for its discrete parameter subfamily.
+
+\section{Independent histories, inclusion weighting, and heterogeneity}
+For $K$ occasions let $W_i\in\{0,1\}^K$ be the history of individual $i$.
+Conditional on fixed catchability vectors $q_i\in[0,1]^K$, assume histories
+are independent across individuals and captures are independent across
+occasions within an individual. Put
+\[
+ \nu=\sum_{i=1}^N\delta_{q_i},\quad
+ \pi_h(q)=\prod_{s=1}^K q_s^{h_s}(1-q_s)^{1-h_s},\quad
+ C_h=\sum_i\ind\{W_i=h\}.
+\]
+Here $N=\nu([0,1]^K)$, $S=\sum_{h\ne0}C_h$, and the realized unseen count
+is $U=C_0=N-S$. The population measure has unknown total mass; it is not
+the normalized abundance measure used for species probabilities.
+
+\begin{theorem}[Counting-measure cumulant calibration]\label{thm:history}
+For every finite real vector $(\lambda_h)_{h\ne0}$ and real $\eta$,
+\begin{equation}\label{eq:cumulant}
+ \log\E\exp\left(\sum_{h\ne0}\lambda_h C_h+\eta U\right)
+ =\int\log\left(\pi_0(q)e^\eta+
+       \sum_{h\ne0}\pi_h(q)e^{\lambda_h}\right)\dd\nu(q).
+\end{equation}
+Fix finitely many directions and nonnegative mixture weights summing to one.
+For candidate pairs $(\nu,u)$, the corresponding mixture of normalized
+exponentials has expectation one at the true population and realized target.
+Its strict sublevel set at $1/\alpha$ is jointly convex over finite positive
+measures and $u\in\mathbb R$, and contains $(\nu,U)$ with probability at
+least $1-\alpha$. Intersecting with $\nu([0,1]^K)=S+u$ preserves convexity
+and coverage. Projection gives intervals (possibly unbounded or empty);
+restricting to integer-realizable populations preserves coverage but can
+destroy convexity.
+\end{theorem}
+\begin{proof}
+Independence factors the expectation into $N$ positive finite one-individual
+transforms. Taking logarithms gives \eqref{eq:cumulant}. For each direction,
+subtracting the right side normalizes its exponential to expectation one.
+A finite nonnegative mixture retains this property, and Markov's inequality
+gives coverage. At fixed observed counts its exponent is affine in $(\nu,u)$,
+so the mixture is convex. The additional equality is affine and holds at
+$(\nu,U)$ for every outcome. A convex subset projects to an interval in a
+real coordinate. Actual finite populations satisfy the equality and are a
+subset of the relaxed class, giving the last assertion.
+\end{proof}
+The integrand is bounded on the compact catchability cube for finite
+directions, so every finite measure is admissible. This is the independent-
+summand identity of \cite{LongCumulants} in counting-measure coordinates;
+it does not establish new independence in a fixed-size capture design.
+If the $q_i$ themselves are random and integrated out, the marginal transform
+must also be integrated out. In particular, for iid $q_i\sim F$, it is
+$N\log\int(\pi_0e^\eta+\sum_{h\ne0}\pi_he^{\lambda_h})\dd F$, not the
+integral of the logarithm against $NF$.
+
+For two homogeneous Bernoulli occasions with probabilities in $(0,1)$,
+conditioning on the two sample totals $(a,b)$ makes the two subsets independent
+and uniform. To see this, each size-$a$ first subset has the same probability
+$q_1^a(1-q_1)^{N-a}$, and likewise for the second; the events factor across
+occasions. Their conditional overlap law is \eqref{eq:kernel}, with the
+nuisance probabilities canceled. Unequal catchabilities give weighted subsets
+instead, and that cancellation cannot be assumed.
+
+\begin{proposition}[Known inclusion probabilities]\label{prop:HT}
+In any sampling design let $I_i$ indicate eventual inclusion and suppose
+$\rho_i=P(I_i=1)>0$ is known for every individual. Then the
+Horvitz--Thompson statistic \cite{HT1952}
+\[
+ \widehat N_{\rm HT}=\sum_{i:I_i=1}\rho_i^{-1}
+\]
+is unbiased. If $\rho_{ij}=P(I_i=I_j=1)$, its variance is
+\[
+ \sum_i\frac{1-\rho_i}{\rho_i}
+ +2\sum_{i<j}\frac{\rho_{ij}-\rho_i\rho_j}{\rho_i\rho_j}.
+\]
+For independent histories $\rho_i=1-\pi_0(q_i)$ and the second sum vanishes.
+\end{proposition}
+\begin{proof}
+Use $\E I_i=\rho_i$, $\Var(I_i)=\rho_i(1-\rho_i)$, and expand the variance
+of the weighted sum. Independence is needed only for the final simplification.
+\end{proof}
+In classical capture--recapture the inclusion probabilities are unknown.
+Replacing them by estimates need not preserve unbiasedness or coverage.
+
+\begin{proposition}[Finite-occasion Chao-type moment bound]\label{prop:chao}
+Suppose individual $i$ has the same detection probability $q_i$ on each of
+$K\ge2$ independent occasions. Let $f_j$ count individuals seen on exactly
+$j$ occasions and $m_j=\E f_j$. Then
+\begin{equation}\label{eq:chao}
+ m_0\ge\frac{K-1}{2K}\frac{m_1^2}{m_2}\qquad(m_2>0).
+\end{equation}
+For independent Poisson detection counts, the analogous bound is
+$m_0\ge m_1^2/(2m_2)$. Both are inequalities between population moments,
+not finite-sample confidence assertions for ratios of observed frequencies.
+\end{proposition}
+\begin{proof}
+Write $A_i=(1-q_i)^{K/2}$ and
+$B_i=q_i(1-q_i)^{(K-2)/2}$, with endpoint values interpreted continuously.
+Then $\sum A_i^2=m_0$, $K\sum A_iB_i=m_1$, and
+$\binom K2\sum B_i^2=m_2$. Cauchy--Schwarz proves \eqref{eq:chao}.
+For Poisson means $x_i$, use $A_i=e^{-x_i/2}$ and $B_i=x_ie^{-x_i/2}$.
+\end{proof}
+The associated incidence plug-in rule, when $f_2>0$, is
+\[
+ \widehat N_{\mathrm{Chao},K}
+ =S+\frac{K-1}{2K}\frac{f_1^2}{f_2}.
+\]
+For Poisson detection the corresponding rule is $S+f_1^2/(2f_2)$.
+These ratios need not be unbiased, and neither is a samplewise lower bound
+or a confidence bound. Our incidence implementation returns $+\infty$ when
+$f_2=0<f_1$; when $f_1=f_2=0$ it returns $S$ as an explicit point-estimate
+convention only. Other regularizations define different procedures requiring
+their own risk analysis. Exact laws can be computed by enumerating the
+independent histories, retaining zero-doubleton outcomes.
+
+The binomial coefficient in \eqref{eq:chao} is retained exactly; a Poisson
+approximation would remove it. Chao's capture--recapture work and its moment
+connection are prior art \cite{Chao1987}. Moment duality and additional
+constraints can be applied to these kernels exactly as in
+\cite{LongDiscovery}, but the exponential discovery envelopes are not
+asserted to remain the extremizers for a different kernel family.
+
+\begin{proposition}[Undetectable-population obstruction]\label{prop:obstruction}
+If zero catchability vectors are allowed, adding any number of such
+individuals leaves the law of all observed nonzero histories unchanged.
+If all coordinates are positive but arbitrarily small, no uniformly valid
+upper population bound at error $\alpha<1$ can be almost surely finite
+under every finite baseline population.
+\end{proposition}
+\begin{proof}
+The first assertion follows from $W_i=0$ surely for an added zero vector.
+For the second, fix any baseline population and suppose its reported upper
+bound is finite almost surely. Choose $\delta>0$ with $1-2\delta>\alpha$.
+There is a finite $B$ such that the baseline reports a value at most $B$
+with probability exceeding $1-\delta$. Add $M$ individuals so total size
+exceeds $B$, assigning them positive catchabilities small enough that their
+probability of any detection is less than $\delta$ (the union bound over
+$MK$ Bernoulli captures suffices). Couple the baseline histories identically.
+With probability greater than $1-2\delta$ the enlarged population produces
+the same observations and an upper value at most $B$, violating coverage.
+\end{proof}
+A known lower detection bound or a specified heterogeneity model can remove
+this particular obstruction. Neither is implied by a large observed sample.
+
+\section{Relation to prior work}\label{sec:prior}
+The estimators named here are classical, and their presence in one framework
+is not a claim of first unification. Chapman \cite{Chapman1951} and Bailey
+\cite{Bailey1951,Bailey1952} treat bias corrections and distinct recapture
+designs. Schnabel \cite{Schnabel1938} and Schumacher--Eschmeyer
+\cite{Schumacher1943} supply repeated-capture ratios. Horvitz--Thompson
+\cite{HT1952} supplies general inclusion weighting. Dettloff
+\cite{Dettloff2023} compares these simple estimators and proposes further
+bias adjustment; its empirical comparisons are not invoked as universal
+risk or coverage theorems here.
+
+The connection between heterogeneous capture--recapture, unseen species,
+and moment recovery was already explicit in Chao \cite{Chao1987}, including
+a comparison with Harris's moment problem. Lloyd \cite{Lloyd1994} studies
+martingale estimation, and Chao, Yip, Lee, and Chu \cite{Chao2001} explicitly
+propose a unified estimating-function and sample-coverage approach. These
+are substantive antecedents to the present framework. The finite-occasion
+coefficient in \cref{prop:chao} follows directly from the exact binomial
+kernel; the Poisson version must not silently replace that kernel.
+
+Inverse sampling is also classical. P\'erez-Salvador \cite{Perez2026}
+explicitly treats the without-replacement estimator and variance in
+\eqref{eq:invvariance}, together with approximate intervals and an adaptive
+stability rule. Here the preassigned-$r$ interval uses the exact law, and
+arbitrary stopping is justified separately by a test martingale. The
+fixed-$r$ proof alone supplies no validity at a selected stopping index.
+The tank equivalence is an elementary order-statistic identification.
+
+The contribution of this module is an explicit interface: reciprocal-factorial
+range characterization, a fully specified signed-transfer matrix, boundary
+terms for reciprocal shifts, one-sided monotone limits with exact witnesses,
+and the connection of repeated and independent-history experiments to the
+companion calibration machinery. Each statement is proved here; a first-
+appearance claim for these algebraic consequences would require additional
+literature comparison. In particular, the signed-transfer classification is
+an application of the established range principle, not a replacement for
+Blackwell comparison theory. There is no universal shortest-interval,
+minimax, or heterogeneity-robustness claim.
+
+\section{Verification and incorporation}
+The module \texttt{src/partial\_population/capture\_recapture.py} uses exact
+rational arithmetic for finite probabilities, corrections, transfers,
+confidence endpoints, and test-martingale paths. Its verifier compares
+combinatorial kernels with explicit subsets and permutations, checks the
+factorial and reciprocal-shift identities, enumerates confidence coverage,
+and checks martingale expectations and crossing probabilities under
+predictable choices. An independent history enumeration checks the product
+transform. Numerical population caps are not used to truncate confidence
+endpoints. Exact arithmetic avoids roundoff but is not optimized for large
+sample sizes.
+
+The discovery companion uses this module as its capture--recapture
+specialization; the transfer companion distinguishes its unknown-$N$ range
+from the known-population polynomial range; the cumulant companion uses
+its counting-measure formulation for independent histories. Existing
+manuscript theorem numbering is preserved by these cross-references.
+
+This development covers the stated closed-population experiments. Open
+populations, tag loss, match error, spatial detection, behavioral changes,
+and a sharp bounded-heterogeneity inverse-coupon procedure require additional
+models and proofs. This paper neither recovers nor attributes any unavailable
+older private tag--retag manuscript.
+
+\begingroup\small
+\begin{thebibliography}{99}\raggedright
+\setlength{\itemsep}{3pt}\setlength{\parskip}{0pt}
+\bibitem{Bailey1951} N. T. J. Bailey.
+On estimating the size of mobile populations from recapture data.
+\emph{Biometrika} \textbf{38}(3--4) (1951), 293--306.
+\href{https://doi.org/10.1093/biomet/38.3-4.293}{doi:10.1093/biomet/38.3-4.293}.
+\bibitem{Bailey1952} N. T. J. Bailey.
+Improvements in the interpretation of recapture data.
+\emph{Journal of Animal Ecology} \textbf{21}(1) (1952), 120--127.
+\href{https://doi.org/10.2307/1913}{doi:10.2307/1913}.
+\bibitem{Chapman1951} D. G. Chapman.
+\emph{Some Properties of the Hypergeometric Distribution with Applications
+to Zoological Sample Censuses}. University of California Publications in
+Statistics, vol. 1, no. 7. University of California Press, 1951.
+\href{https://catalog.hathitrust.org/Record/005761134}{Catalog record}.
+\bibitem{Chao1987} A. Chao.
+Estimating the population size for capture--recapture data with unequal catchability.
+\emph{Biometrics} \textbf{43}(4) (1987), 783--791.
+\href{https://doi.org/10.2307/2531532}{doi:10.2307/2531532}.
+\bibitem{Chao2001} A. Chao, P. S. F. Yip, S.-M. Lee, and W. Chu.
+Population size estimation based on estimating functions for closed
+capture--recapture models. \emph{Journal of Statistical Planning and Inference}
+\textbf{92}(1--2) (2001), 213--232.
+\href{https://doi.org/10.1016/S0378-3758(00)00151-8}{doi:10.1016/S0378-3758(00)00151-8}.
+\bibitem{Dettloff2023} K. Dettloff.
+Assessment of bias and precision among simple closed population mark--recapture
+estimators. \emph{Fisheries Research} \textbf{265} (2023), 106756.
+\href{https://doi.org/10.1016/j.fishres.2023.106756}{doi:10.1016/j.fishres.2023.106756}.
+\bibitem{Howard2021} S. R. Howard, A. Ramdas, J. McAuliffe, and J. Sekhon.
+Time-uniform, nonparametric, nonasymptotic confidence sequences.
+\emph{Annals of Statistics} \textbf{49}(2) (2021), 1055--1080.
+\href{https://doi.org/10.1214/20-AOS1991}{doi:10.1214/20-AOS1991}.
+\bibitem{HT1952} D. G. Horvitz and D. J. Thompson.
+A generalization of sampling without replacement from a finite universe.
+\emph{Journal of the American Statistical Association} \textbf{47}(260)
+(1952), 663--685.
+\href{https://doi.org/10.1080/01621459.1952.10483446}{doi:10.1080/01621459.1952.10483446}.
+\bibitem{Lloyd1994} C. J. Lloyd.
+Efficiency of martingale methods in recapture studies.
+\emph{Biometrika} \textbf{81}(2) (1994), 305--315.
+\href{https://doi.org/10.1093/biomet/81.2.305}{doi:10.1093/biomet/81.2.305}.
+\bibitem{LongDiscovery} C. D. Long.
+\emph{Shape-Constrained Discovery-Rate Inversion}. Research draft, version 0.3,
+November 17, 2026. Repository: \texttt{manuscripts/discovery\_rate\_inversion.tex}.
+\bibitem{LongTransfer} C. D. Long.
+\emph{Certified Transfer and Generation in Partial-Population Inference}.
+Research draft, version 0.2, November 17, 2026.
+Repository: \texttt{manuscripts/transfer\_generation.tex}.
+\bibitem{LongCumulants} C. D. Long.
+\emph{Additive Cumulants and Computable Fixed-Sample Calibration}.
+Research note, version 0.2, November 17, 2026.
+Repository: \texttt{research/master\_identity\_and\_deletion.tex}.
+\bibitem{Perez2026} B. R. P\'erez-Salvador.
+Sequential capture--recapture method.
+\emph{Sequential Analysis} \textbf{45}(3) (2026), 417--437.
+\href{https://doi.org/10.1080/07474946.2026.2620792}{doi:10.1080/07474946.2026.2620792}.
+\bibitem{Schnabel1938} Z. E. Schnabel.
+The estimation of the total fish population of a lake.
+\emph{American Mathematical Monthly} \textbf{45}(6) (1938), 348--352.
+\href{https://doi.org/10.1080/00029890.1938.11990818}{doi:10.1080/00029890.1938.11990818}.
+\bibitem{Schumacher1943} F. X. Schumacher and R. W. Eschmeyer.
+The estimation of fish populations in lakes and ponds.
+\emph{Journal of the Tennessee Academy of Science} \textbf{18} (1943), 228--249.
+\end{thebibliography}
+\endgroup
+\end{document}

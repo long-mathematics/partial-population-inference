@@ -18,7 +18,7 @@ The discovery v0.2 bundle and the companion copied into the transfer bundle agre
 - The discovery bundle supplies the three original verification programs, the independent audit, the Good–Toulmin variance checker, the revision checker, and the historical and clipped game certificates.
 - The transfer bundle supplies its retained finite checks, extension checks, and runner.
 - Historical reference audits and the discovery revision memo are retained here under filenames dated November 12.
-- Current manuscripts preserve the recovered text. Their original verification-bundle paths now correspond to `verification/discovery/` and `verification/transfer/`.
+- The recovered versions are retained in git history. The November 17 integration updates cross-references and the placement of prior-work discussions while preserving established theorem numbering. Original verification-bundle paths correspond to `verification/discovery/` and `verification/transfer/`.
 - Original standalone PDFs and duplicate source copies were omitted from the source tree; the PDFs can be rebuilt.
 
 The first local commit preserves the supplied sources. The second records recovery of the newer discovery draft. Subsequent additions are the present audit, repository tooling, and a separate continuation note.

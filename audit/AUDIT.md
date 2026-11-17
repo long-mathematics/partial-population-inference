@@ -1,5 +1,7 @@
 # Audit and research continuation — November 16, 2026
 
+This dated record describes the initial audit. The subsequent capture–recapture development and document integration are recorded in [CAPTURE_RECAPTURE.md](CAPTURE_RECAPTURE.md).
+
 ## Version finding
 
 The attached discovery draft was version 0.1. The prior-context revision and its complete verification bundle contain version 0.2, dated November 12, 2026. The transfer bundle also contains that same discovery version. Both recovered copies agree byte-for-byte.
