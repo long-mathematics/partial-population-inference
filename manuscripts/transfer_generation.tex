@@ -1,0 +1,809 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,longtable,array,enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\usepackage{fancyhdr,aliascnt}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small Certified transfer in partial-population inference}
+\fancyhead[R]{\small Research draft v0.1}\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}\setlength{\emergencystretch}{2em}
+\setlist{nosep,leftmargin=*}
+\numberwithin{equation}{section}
+\newtheorem{theorem}{Theorem}[section]
+\newaliascnt{lemma}{theorem}\newtheorem{lemma}[lemma]{Lemma}\aliascntresetthe{lemma}
+\newaliascnt{proposition}{theorem}\newtheorem{proposition}[proposition]{Proposition}\aliascntresetthe{proposition}
+\newaliascnt{corollary}{theorem}\newtheorem{corollary}[corollary]{Corollary}\aliascntresetthe{corollary}
+\theoremstyle{definition}
+\newaliascnt{definition}{theorem}\newtheorem{definition}[definition]{Definition}\aliascntresetthe{definition}
+\newaliascnt{example}{theorem}\newtheorem{example}[example]{Example}\aliascntresetthe{example}
+\theoremstyle{remark}
+\newaliascnt{remark}{theorem}\newtheorem{remark}[remark]{Remark}\aliascntresetthe{remark}
+\newcommand{\E}{\mathbb E}\newcommand{\Pp}{\mathbb P}\newcommand{\R}{\mathbb R}\newcommand{\N}{\mathbb N}
+\newcommand{\ind}{\mathbf1}\newcommand{\Prob}{\mathcal P}\newcommand{\Ee}{\mathcal E}\newcommand{\Ff}{\mathcal F}
+\newcommand{\Bb}{\mathcal B_b}\newcommand{\TV}{d_{\rm TV}}\newcommand{\Var}{\operatorname{Var}}\newcommand{\Pois}{\operatorname{Pois}}
+\newcommand{\Bin}{\operatorname{Bin}}\newcommand{\Hyp}{\operatorname{Hyp}}\newcommand{\osc}{\operatorname{osc}}\newcommand{\col}{\operatorname{col}}
+\newcommand{\dd}{\,\mathrm d}\newcommand{\norm}[1]{\left\lVert#1\right\rVert}\newcommand{\Scal}{\mathsf S}\newcommand{\Tcal}{\mathsf T}
+\newcommand{\Ccal}{\mathcal C}\newcommand{\fall}[2]{(#1)_{#2}}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\title{\textbf{Certified Transfer and Generation\\in Partial-Population Inference}\\[5pt]
+\large Signed inverses, exact random-effort comparison,\\and calibrated discovery prediction}
+\author{Christopher D. Long}
+\date{November 12, 2026\\[3pt]\small Research draft, version 0.1}
+\hypersetup{pdftitle={Certified Transfer and Generation in Partial-Population Inference},pdfauthor={Christopher D. Long}}
+\begin{document}\maketitle
+\begin{abstract}
+We audit a finite transfer theorem and develop its measure-theoretic and statistical extensions. A normalized signed transfer preserves expectation identities; a positive transfer additionally transports decision rules and calibration. Bounded-pointwise continuity characterizes the countably additive kernels needed beyond finite experiments, and weighted domains permit integrable but unbounded inverses. Composition propagates variation amplification and approximation error. We classify scalar Poisson intensity transfers, binomial detection channels, binomial sample-size changes, and hypergeometric sample reductions, including a signed-versus-positive distinction between sampling with and without replacement. For unrestricted distributions on an infinite label space we prove an exact random-effort deficiency formula: the deficiency is the maximal positive difference between the target and source sample-count tails. A random-support construction supplies the matching lower bound. Dominated deletion kernels then transfer nonnegative calibration without an additive confidence-level penalty, at a cost in power. Combined with a pathwise novelty bound, this produces fixed-sample prediction regions from Poisson joint transforms. Their linear calibration relaxation has an exact moment dual and finite-atom optimizers. A bounded-batch extraction theorem gives the sharp factor $1/B$ within single-label selection rules. Sharpness is stated separately for experiment deficiency, operator norms, selection efficiency, and calibrated moment projection; no general claim of shortest intervals or target-specific minimax rates is made. All proofs are self-contained apart from explicitly identified classical comparison, moment, and minimax ingredients.
+\end{abstract}
+\noindent\textbf{Companion.} This paper builds on the internal manuscript \emph{Shape-Constrained Discovery-Rate Inversion}, version 0.2, November 12, 2026 \cite{LongI}. It is a separate manuscript, not a replacement or an assertion that the companion is published.\par\medskip
+\noindent\textbf{Status.} Internally audited research draft. Exact finite checks and numerical corroboration accompany the proofs. Priority for the specialized results is not established by the literature search.
+\clearpage\begingroup\small\tableofcontents\endgroup\clearpage
+
+\section{Scope, audit, and mathematical position}\label{sec:intro}
+The problem is to transfer an inference from one experiment to another without confusing four different properties: existence of an inverse, positivity, stability, and statistical optimality. The companion \cite{LongI} develops sampling identities, moment recovery, and calibration. Its Proposition~3.2 proves sample-reduction transfer, Theorem~5.3 gives canonical discovery envelopes, and Theorem~7.2 calibrates a population jointly with a random target. Here we make the interfaces explicit.
+
+Blackwell's comparison theory and Le Cam's deficiency are classical \cite{Blackwell1953,LeCam1964,Torgersen1991}. The normal-kernel representation below is standard operator theory, given with a proof to expose its hypotheses; compare \cite[Section 2]{KuhnKunze2022}. Moment duality and lower-bound/estimator duality are likewise established foundations \cite{LongI,PolyanskiyWu2021}. Poissonization is not automatically asymptotic equivalence: parameter restrictions matter, as demonstrated by Low and Zhou \cite{LowZhou2007}. The elementary unrestricted model studied here permits an exact finite-sample comparison, rather than a smoothness-dependent equivalence claim. Sample amplification is already explicitly formulated as statistical experiment comparison by Axelrod and collaborators \cite{Axelrod2020,Axelrod2024}; their support-restricted results are essential context, not consequences claimed here.
+
+The main specialized results are the exact random-effort formula in \cref{thm:effort}, the dominant deletion calibration in \cref{thm:deletioncal}, the fixed-sample joint prediction construction and its recovery dual in \cref{thm:fixedprediction,thm:predictiondual}, and the bounded-batch extraction in \cref{thm:batchmark}. They are proved here, with no blanket claim of novelty. The scalar sampling classifications are explicit algebraic consequences of classical binomial and factorial-moment identities.
+
+\subsection{Audit findings}
+The finite statement survives with the following scope: all observation and parameter sets are finite; normalized signed matrices are used; and amplification is the maximum row variation. Its proof does not identify stochastic minimax risk with that norm. The measurable extension cannot rely on formal range inclusion alone: a jointly chosen bounded operator must also have the continuity that forces countable additivity. An infimum of norms equal to one is not, without attainment, a proof of exact positive simulation. Signed expectation transfer does not preserve e-value nonnegativity. Calibration of random targets needs a joint-law coupling or a deterministic comparison of the targets. Finally, Poisson, binomial, and hypergeometric experiments have several inequivalent parameterizations; we distinguish them explicitly.
+
+\subsection{What ``sharp'' means here}
+The exact effort deficiency is optimal over all Markov simulations on the stated unrestricted labelled model. The finite signed norms optimize over all normalized signed matrices. The factor $1/B$ is optimal within one-label-per-batch selection with proportional marginal rates. The prediction dual is sharp over a specified calibrated positive-measure relaxation. None of these statements asserts the shortest possible confidence interval or the optimal risk for every species functional. Restricting the population class or retaining only an anonymous fingerprint can improve upon a full-experiment deficiency bound.
+
+\section{The finite theorem, with an audit-proof formulation}\label{sec:finite}
+Let $P=(P_{\theta x})$ and $Q=(Q_{\theta y})$ be stochastic matrices with the same finite parameter set and nonempty finite observation sets. A normalized signed transfer is a real matrix $S$ satisfying
+\begin{equation}\label{eq:finitefactor}
+ PS=Q,\qquad S\ind=\ind.
+\end{equation}
+It acts backwards on statistics: $f(y)$ is replaced by $(Sf)(x)$. Define
+\begin{equation}\label{eq:gamma}
+ \Gamma(P,Q)=\inf_{\eqref{eq:finitefactor}}\max_x\sum_y|S_{xy}|,
+\end{equation}
+with $\inf\varnothing=+\infty$.
+
+\begin{theorem}[Finite transfer classification]\label{thm:finite}
+A normalized signed transfer exists if and only if $\col(Q)\subseteq\col(P)$, equivalently every functional unbiasedly estimable in $Q$ is unbiasedly estimable in $P$. When finite, the infimum in \eqref{eq:gamma} is attained. Moreover $\Gamma(P,Q)\ge1$, with equality exactly when there is a stochastic matrix $K$ such that $PK=Q$.
+\end{theorem}
+\begin{proof}
+Every target expectation has the form $Qf$, so the range statement is equivalent to the existence of a matrix $A$ with $PA=Q$. Let $v=\ind-A\ind$. Then $Pv=0$. For any probability row vector $r^\top$, $S=A+vr^\top$ satisfies both equations in \eqref{eq:finitefactor}. Conversely any transfer gives the range inclusion. Intersecting the closed affine constraint set with a bounded row-variation sublevel set gives compactness, so a minimizing sequence has a convergent subsequence. Each row has mass one; its variation is at least one, with equality if and only if the row is nonnegative.
+\end{proof}
+The linear program uses variables $S,U,\gamma$ and constraints
+\[
+ PS=Q,\quad S\ind=\ind,\quad -U\le S\le U,\quad U\ge0,
+ \quad\sum_yU_{xy}\le\gamma.
+\]
+A rational primal--dual solution can certify an optimum when the input is rational. If range inclusion fails, some $v$ satisfies $v^\top P=0$ but $v^\top Q\ne0$. Since $v^\top\ind=0$, normalizing its positive and negative parts gives two priors on parameters that induce the same $P$ law but different $Q$ laws. This is a concrete obstruction, not merely a failed numerical inversion.
+
+\begin{remark}[Universal versus target-specific inversion]
+A particular $Qf$ may be estimable even when no universal $S$ exists. Conversely a universal inverse can be too unstable to use. Neither possibility is visible from the word ``unbiased'' alone.
+\end{remark}
+
+\section{Measurable transfers and their composition}\label{sec:measurable}
+Let $\Ee=(P_\theta:\theta\in\Theta)$ and $\Ff=(Q_\theta:\theta\in\Theta)$ be experiments on nonempty standard Borel spaces $\mathsf X,\mathsf Y$. A parameter map $\tau$ is handled by replacing $Q_\theta$ with $Q_{\tau(\theta)}$ and restricting the target class to $\tau(\Theta)$; surjectivity must not be silently assumed. Write $\Bb(\mathsf X)$ for bounded measurable real functions. For a finite signed measure $\xi$, $\|\xi\|_{\rm var}$ is its full variation. For zero-mass signed measures define $d(\xi,0)=\|\xi\|_{\rm var}/2$; for probabilities this is the usual total variation distance $\TV$.
+
+A signed kernel $S(x,\dd y)$ has countably additive finite signed rows, measurable evaluations, and a measurable variation kernel $|S|$. Its uniform amplification is
+\[
+ \gamma(S)=\sup_x|S|(x,\mathsf Y).
+\]
+It is normalized when $S(x,\mathsf Y)=1$. Standard Borel hypotheses ensure that the variation and Jordan parts of a kernel are kernels, by taking variation suprema over partitions from a countable generating algebra. A positive normalized kernel is a Markov kernel.
+
+\begin{theorem}[Kernel representation and exact transfer]\label{thm:normal}
+For a bounded linear $T:\Bb(\mathsf Y)\to\Bb(\mathsf X)$, the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item $T f(x)=\int f(y)S(x,\dd y)$ for a uniformly bounded signed kernel;
+\item whenever $f_n\to0$ pointwise and $\sup_n\|f_n\|_\infty<\infty$, $Tf_n(x)\to0$ for every $x$.
+\end{enumerate}
+The representing kernel is unique and $\|T\|=\gamma(S)$. Normalization is equivalent to $T\ind=\ind$. Among normalized operators, positivity is equivalent to $\|T\|=1$. Finally,
+\begin{equation}\label{eq:intertwine}
+ P_\theta S=Q_\theta\quad(\theta\in\Theta)
+ \quad\Longleftrightarrow\quad
+ \E_{P_\theta}Tf=\E_{Q_\theta}f\quad(f\in\Bb(\mathsf Y),\theta\in\Theta).
+\end{equation}
+\end{theorem}
+\begin{proof}
+A finite signed row satisfies bounded convergence. Conversely define $S(x,A)=T\ind_A(x)$. Linearity gives finite additivity; apply (ii) to indicators of sets decreasing to the empty set to get countable additivity. The bounded linear functional $f\mapsto Tf(x)$ bounds its variation by $\|T\|$. Simple approximation, followed by uniform boundedness, proves the integral representation. The reverse norm inequality follows by choosing the sign of a fixed row's Jordan decomposition. Measurability holds first on indicators and then by approximation. A mass-one signed measure has variation one precisely when it is positive. Equality on indicators gives the measure equation; integration gives its converse.
+\end{proof}
+This theorem supplies an exact characterization in the normal bounded-operator category, not a general algorithm for finding a factorization on an arbitrary infinite model. Bounded linearity alone is insufficient: a free-ultrafilter limit on bounded sequences is positive, unital, and norm one, but gives mass zero to every singleton of $\N$ and mass one to $\N$. It is not a countably additive kernel and fails (ii).
+
+\subsection{Integrable inverses outside bounded-operator spaces}
+A row-finite-variation kernel can have $\gamma(S)=\infty$. Its admissible domain must then be stated. A sufficient condition for a statistic $f$ is
+\begin{equation}\label{eq:domain}
+ \int_{\mathsf X}\int_{\mathsf Y}|f(y)|\,|S|(x,\dd y)P_\theta(\dd x)<\infty
+ \qquad\text{for every }\theta.
+\end{equation}
+If $P_\theta S=Q_\theta$ is defined by integrable rows, Fubini gives exact expectation transfer for such $f$. A convenient stronger condition is $|S|v\le Cw$, $|f|\le v$, and $\E_{P_\theta}w<\infty$, where $v,w\ge1$ are measurable weights. For composition use compatible weights. These hypotheses allow the Poisson signed inverse below; they do not assert that it maps every integrable target into an integrable statistic.
+
+\begin{definition}[Approximate transfer]
+For a normalized signed kernel of finite amplification, let
+\[
+ \epsilon(S)=\sup_\theta \tfrac12\|P_\theta S-Q_\theta\|_{\rm var}.
+\]
+For positive kernels, the deficiency is
+\begin{equation}\label{eq:deficiency}
+ \delta(\Ee,\Ff)=\inf_K\sup_\theta\TV(P_\theta K,Q_\theta),
+\end{equation}
+where the infimum is over Markov kernels. Exact simulation requires an actual zero-error kernel, not just a vanishing infimum.
+\end{definition}
+
+\begin{theorem}[Composition, bias, and rectification]\label{thm:composition}
+Suppose $S$ transfers $P$ approximately to $Q$ and $T$ transfers $Q$ approximately to $R$. Then
+\begin{equation}\label{eq:compose}
+ \gamma(ST)\le\gamma(S)\gamma(T),\qquad
+ \epsilon(ST)\le\gamma(T)\epsilon(S)+\epsilon(T).
+\end{equation}
+For bounded $f$,
+\begin{equation}\label{eq:biastransfer}
+ |\E_{P_\theta}Sf-\E_{Q_\theta}f|\le\epsilon(S)\osc(f).
+\end{equation}
+Writing $a(x)=S^-(x,\mathsf Y)$, the positive kernel
+\[
+ K(x,\dd y)=\frac{S^+(x,\dd y)}{1+a(x)}
+\]
+satisfies
+\begin{equation}\label{eq:rectify}
+ \sup_\theta\TV(P_\theta K,Q_\theta)
+ \le\epsilon(S)+\frac{\gamma(S)-1}{2}.
+\end{equation}
+\end{theorem}
+\begin{proof}
+Variation is submultiplicative under kernel integration. Decompose the residual as $(P_\theta S-Q_\theta)T+(Q_\theta T-R_\theta)$ to obtain \eqref{eq:compose}. The residual in \eqref{eq:biastransfer} has zero mass, so subtracting the midpoint of the range of $f$ proves the oscillation bound. Normalization gives $S^+(x,\mathsf Y)=1+a(x)$ and $|S|(x,\mathsf Y)=1+2a(x)$. If $a(x)>0$, write $S=(1+a)K-aH$ with $H=S^-/a$ a probability row. Thus $\|S-K\|_{\rm var}\le2a$; integrate and use the triangle inequality.
+\end{proof}
+In particular, an infimum of signed amplification equal to one implies zero deficiency. In the finite theorem, compactness promotes this to exact simulation. We do not make that promotion on general spaces without an attainment argument. For Markov kernels errors add under composition, capped at one. For a chain of signed transfers the displayed multiplicative amplification and ordered error formula must be retained.
+
+\section{What transfers: geometry, calibration, and lower bounds}\label{sec:guarantees}
+All targets in the first two subsections are deterministic functions of the population parameter, and all rules and reported projections are assumed measurable. The compact finite-kernel constructions later satisfy this requirement directly.
+
+\begin{theorem}[Guarantees of positive and signed transfer]\label{thm:guarantees}
+Let $P_\theta S=Q_\theta$ with the integrability required for each statistic.
+\begin{enumerate}[label=(\roman*)]
+\item Signed transfer preserves expectation, hence bias and every linear relation among expected summaries. For chosen $f_1,\ldots,f_d$ and target $T$, the sets
+\[
+ \{(\E_Q f_1,\ldots,\E_Q f_d,T(\theta)):\theta\in\Theta\},\qquad
+ \{(\E_P Sf_1,\ldots,\E_P Sf_d,T(\theta)):\theta\in\Theta\}
+\]
+are identical. Exact moment sections and their sharp bounds are therefore identical for these selected summaries.
+\item If $S=K$ is positive, every randomized decision rule in $Q$ can be composed with $K$ with the same parameterwise risk. Conditional averaging of an integrable real estimator cannot increase any convex loss for the same deterministic target. Consequently $R^*(P)\le R^*(Q)$ for every common decision problem.
+\item If $e_\theta\ge0$ and $\E_{Q_\theta}e_\theta\le1$, then $Ke_\theta$ is an e-value in $P$. This includes unbounded e-values by Tonelli. Their inversion gives population confidence regions and simultaneous projections of deterministic targets.
+\item For a positive $\epsilon$-transfer and loss in $[0,B]$, the risk deterioration of a composed rule is at most $B\epsilon$, and a coverage $1-\alpha$ becomes at least $1-\alpha-\epsilon$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The first statement is \eqref{eq:intertwine}. For a rule $D(y,\dd a)$, the law of the action under $KD$ is exactly $Q_\theta D$. Jensen proves the assertion for conditional averaging. Integrate $Ke_\theta$ to prove (iii). For (iv), integrate a bounded conditional loss, or a failure indicator, against two laws at total variation distance at most $\epsilon$.
+\end{proof}
+The probability statement behind an e-value is simply Markov's inequality, as in universal inference \cite{Wasserman2020}. It does not transfer a confidence interval by averaging its endpoints. For unbounded e-values under approximate transfer, a valid repair is
+\begin{equation}\label{eq:clipE}
+ \frac{K(e_\theta\wedge M)}{1+M\epsilon},\qquad M<\infty.
+\end{equation}
+For a signed transfer with amplification $\gamma$, $0\le e_\theta\le M$, and residual $\epsilon$, put $c=(\gamma-1)/2$. Then
+\begin{equation}\label{eq:signedE}
+ \frac{Se_\theta+Mc}{1+M(c+\epsilon)}
+\end{equation}
+is nonnegative and has expectation at most one. Indeed $Se_\theta\ge-Mc$ and \eqref{eq:biastransfer} bounds its expectation by $1+M\epsilon$. These repairs may lose considerable power; signed inversion itself is not a nonnegative calibration.
+
+\subsection{Dual certificates and parameter maps}
+Suppose a target is bounded by an observable affine functional,
+\[
+ T(\theta)\le c_0+\sum_jc_j\E_{Q_\theta}f_j.
+\]
+Exact transfer replaces $f_j$ by $Sf_j$ without changing the inequality or equality populations. Under approximate transfer, an additional error
+\[
+ \epsilon\sum_j|c_j|\osc(f_j)
+\]
+suffices. This is the statistical-transfer counterpart of the coefficient penalty in \cite[Theorem 4.2]{LongI}.
+
+For a convex population model $\nu\in\Prob(A)$ and continuous moment kernels $k_j$, the sharp section
+\[
+ \sup\left\{\int g\dd\nu:\int k_j\dd\nu=m_j\right\}
+\]
+and its dual majorants are therefore preserved whenever these same moment functionals have been transferred. This does not assert that an entire confidence region has unchanged size. If there is a population map $B$ as well, sharpness transfers only when the target-side feasible populations are exactly the image of the source-side feasible populations. Inclusion gives valid but potentially strict relaxed bounds. Integer multiplicities of actual species populations cannot be removed by an observation-side signed operator; see \cite[Section 6]{LongI}.
+
+\subsection{Statistical obstructions and the direction of comparison}
+An exact signed transfer of amplification $\gamma$ gives
+\begin{equation}\label{eq:TVamp}
+ \TV(Q_\theta,Q_{\theta'})\le\gamma\TV(P_\theta,P_{\theta'}).
+\end{equation}
+A positive $\epsilon$-transfer gives the stronger additive version
+\[
+ \TV(Q_\theta,Q_{\theta'})\le\TV(P_\theta,P_{\theta'})+2\epsilon.
+\]
+Both follow by inserting the transferred laws and using contraction of variation. If $\Omega_{P,T}(a)$ denotes the supremal target separation over pairs with $P$-distance at most $a$, then
+\[
+ \Omega_{P,T}(a)\le\Omega_{Q,T}(\min\{1,\gamma a\})
+\]
+for exact signed transfer, and the right argument is $\min\{1,a+2\epsilon\}$ in the positive approximate case. The same inequalities hold for mixtures under priors on actual parameters.
+
+A hard pair for the poorer experiment $Q$ need not be hard for $P$. Transferring a matching lower certificate to the richer experiment requires reverse comparison or a separate distance calculation. In particular, two-way Markov comparison proves equality of all decision optima, whereas one-way comparison proves only an inequality. For a target gap $\Delta$, the usual bound
+\[
+ \max_{j=0,1}\E_{P_{\theta_j}}|\widehat T-T(\theta_j)|
+ \ge\tfrac12\Delta[1-\TV(P_{\theta_0},P_{\theta_1})]
+\]
+uses the actual source laws, not just matched expectations. See \cite{PolyanskiyWu2021} for broader estimator/testing dualities. There is no universal equality between $\Gamma$ and stochastic minimax risk; \cref{ex:parity} gives a direct counterexample to that inference.
+
+\subsection{Random targets and stopping}\label{subsec:jointwarning}
+For a target $Z$ coupled with the data, a kernel on observations transfers calibration only if it also has the correct joint relation. A sufficient condition is
+\[
+ \mathcal L_{P_\theta}(K(X),Z)=\mathcal L_{Q_\theta}(Y,W)
+\]
+with $Z=W$ as the target coordinate in the coupling. Then $K[e_\theta(\cdot,z)](X)$ at $z=Z$ inherits the joint e-value expectation. Equality of the marginal observation laws is not sufficient. In \cref{sec:prediction} we replace exact equality of targets by a proved pathwise inequality.
+
+For sequential transfer, fixed-time kernels likewise do not automatically preserve test-supermartingales. One sufficient condition is a coupling with an enlarged filtration $\mathcal H_n\supseteq\sigma(X_{\le n},Y_{\le n})$ in which the target process $E_n(Y)$ remains a nonnegative supermartingale. Then $\widetilde E_n=\E[E_n(Y)\mid X_{\le n}]$ is a source supermartingale by the tower property. Without this enlarged-filtration condition (or a direct sequential proof), no optional-stopping claim follows. Confidence sequences and their stopping guarantees are treated in \cite{Howard2021}.
+
+\section{Symmetric deletion and elementary sampling classifications}\label{sec:classification}
+\subsection{All symmetric mark-independent deletion rules}
+For $n$ distinguished occurrences and a subsample statistic $f$, define the interactions $h_f(B)$ as in \cite[Theorem 3.1]{LongI}. Given $a_0=1,a_1,\ldots,a_n$, set
+\[
+ (G_af)(S)=\sum_{B\subseteq S}a_{|B|}h_f(B).
+\]
+Collecting the coefficient of each $f(A)$ gives
+\begin{equation}\label{eq:mobiusweights}
+ G_af(S)=\sum_{A\subseteq S}b_{n,|A|}f(A),\qquad
+ b_{n,m}=\sum_{j=0}^{n-m}(-1)^j\binom{n-m}{j}a_{m+j}.
+\end{equation}
+Thus positivity holds if and only if $b_{n,m}\ge0$ for every $m$. The row mass is one, and the exact row norm is
+\begin{equation}\label{eq:deletegamma}
+ \gamma_n(G_a)=\sum_{m=0}^n\binom nm|b_{n,m}|.
+\end{equation}
+Every permutation-invariant deletion rule whose randomness is independent of marks is of this form, with
+\[
+ a_k=\E\frac{\binom Mk}{\binom nk},
+\]
+where $M$ is its retained size. For one sequence $(a_k)_{k\ge0}$ to work consistently at every size is equivalent to $(-1)^j\Delta^ja_k\ge0$ for every $j,k$. The Hausdorff moment theorem then gives the unique representation
+\[
+ a_k=\int_0^1s^k\pi(\dd s),\qquad G_a=\int_0^1\Tcal_s\pi(\dd s).
+\]
+This classical moment criterion is stated explicitly in \cite[Section 1]{LiuPego2016}. Finite exchangeability alone is not an infinite mixture representation.
+
+For $a_k=z^k$, \eqref{eq:mobiusweights} becomes $z^m(1-z)^{n-m}$, so
+\begin{equation}\label{eq:thinamp}
+ \gamma_n(\Tcal_z)=(|z|+|1-z|)^n.
+\end{equation}
+Physical thinning has norm one. Continuation to $z>1$ has norm $(2z-1)^n$. Composition multiplies interaction coefficients, hence $G_aG_c=G_{ac}$ on all subsamples of the fixed sample. These are expectation operators even when their coefficients are not probabilities.
+
+\subsection{Poisson intensity: exact positive and signed classification}
+Let $P_\theta=\Pois(t\theta)$, $Q_\theta=\Pois(u\theta)$ for all $\theta\ge0$, with $t>0$, and put $a=u/t\ge0$. Define
+\begin{equation}\label{eq:poisS}
+ S_a(n,j)=\binom nj a^j(1-a)^{n-j}\ind_{\{j\le n\}}.
+\end{equation}
+\begin{theorem}[Poisson intensity transfer]\label{thm:pois}
+$P_\theta S_a=Q_\theta$ with integrable absolute row variation for every fixed $\theta$. This is the unique signed transfer whose entries are absolutely integrable under every $P_\theta$. It is positive if and only if $0\le a\le1$. For $a>1$ there is no uniformly bounded signed transfer; the unique integrable transfer has row norm $(2a-1)^n$ and
+\[
+ \E_{P_\theta}|S_a|(N,\N_0)=\exp\{t\theta[(2a-1)-1]\}.
+\]
+Every bounded target statistic is nonetheless in its integrable transfer domain.
+\end{theorem}
+\begin{proof}
+For each $j$, exponential summation gives
+\[
+ \sum_{n\ge j}e^{-t\theta}\frac{(t\theta)^n}{n!}
+ \binom nj a^j(1-a)^{n-j}
+ =e^{-at\theta}\frac{(at\theta)^j}{j!}.
+\]
+Absolute row summability follows from the Poisson generating function and \eqref{eq:thinamp}. For uniqueness, multiply the column identity by $e^{t\theta}$ and compare power-series coefficients with $e^{(t-u)\theta}(u\theta)^j/j!$. Absolute integrability for every positive $\theta$ ensures analyticity; it is enough to have the corresponding local convergence and an interval of parameter values. If $a>1$, the unique row at $n=1$ has negative entry $1-a$ and the row norms diverge. Positivity for $a\le1$ is ordinary thinning \cite[Theorem 5.8 and Corollary 5.9]{LastPenrose2017}.
+\end{proof}
+This result concerns an unknown scalar intensity. Poissonized sampling from a normalized mark distribution has a known total count law and is a different experiment, handled by \cref{sec:effort}.
+
+\subsection{Binomial detection and binomial sample size}
+For an unknown population count $N\in\{0,\ldots,L\}$ observed with detection probability $s>0$, let $B_s(N,j)=\binom Nj s^j(1-s)^{N-j}$. To transfer detection $s$ to detection $r\in[0,1]$, the unique matrix is $B_{r/s}$ and
+\begin{equation}\label{eq:binGamma}
+ \Gamma(B_s,B_r)=(|r/s|+|1-r/s|)^L.
+\end{equation}
+Indeed $B_sB_z=B_{sz}$ and $B_s$ is triangular with nonzero diagonal. The transfer is positive precisely when $r\le s$ (apart from the trivial $L=0$). For full revelation, $r=1$, the norm is $(2/s-1)^L$.
+
+\begin{example}[Unbiased instability does not determine minimax risk]\label{ex:parity}
+For $\psi(N)=(-1)^N$, the unique unbiased estimator under detection $s$ is $h(X)=(1-2/s)^X$. Its variance is
+\[
+ \Var_Nh(X)=(4/s-3)^N-1.
+\]
+The bounded target nevertheless has a constant-zero estimator of squared error one. Exponentially unstable unbiased inversion therefore does not imply exponentially large unrestricted minimax risk.
+\end{example}
+
+Now change parameterization: the unknown is $p\in[0,1]$, the source is $\Bin(n,p)$, and the target is $\Bin(m,p)$. Exact signed transfer exists if and only if $m\le n$. When it exists it is the unique positive matrix
+\begin{equation}\label{eq:subhyp}
+ K_{n,m}(x,y)=\frac{\binom xy\binom{n-x}{m-y}}{\binom nm}.
+\end{equation}
+For necessity, $p^m$ is a target column, while source expectations are polynomials of degree at most $n$. For sufficiency use uniform subsampling. Uniqueness follows from independence of the $n$th Bernstein basis. Thus sample-size extrapolation is not the same inverse problem as increasing a detection probability.
+
+\subsection{Hypergeometric sampling and cross-design transfer}\label{subsec:hyper}
+Fix known $L$ and unknown success count $A\in\{0,\ldots,L\}$. Let $H_n(A,x)=\binom Ax\binom{L-A}{n-x}/\binom Ln$ for $0\le n\le L$. Its factorial moments are
+\begin{equation}\label{eq:hypmom}
+ \E_A\binom Xj=\frac{\binom nj}{\binom Lj}\binom Aj,\qquad 0\le j\le n.
+\end{equation}
+Its column space is exactly the restrictions of polynomials of degree at most $n$ to $\{0,\ldots,L\}$. The basis in \eqref{eq:hypmom} is triangular and independent, proving this statement without a rank approximation.
+
+\begin{theorem}[Hypergeometric classification]\label{thm:hyper}
+Exact normalized signed transfer $H_n\to H_m$ exists exactly when $m\le n$. It is then the unique positive subsampling kernel \eqref{eq:subhyp}. A target $\psi(A)$ is unbiasedly estimable from $H_n$ exactly when it agrees on the parameter grid with a polynomial of degree at most $n$. If $\psi(A)=\sum_{j=0}^na_j\binom Aj$, its unique estimator is
+\[
+ \sum_{j=0}^na_j\frac{\binom Lj}{\binom nj}\binom Xj.
+\]
+\end{theorem}
+\begin{proof}
+Equation \eqref{eq:hypmom} proves the range characterization and the estimator formula. If $m>n$, the target moment $\binom Am$ has degree $m\le L$ and is not in that range. If $m\le n$, a uniform subsample of the source is a uniform population sample of size $m$ and gives \eqref{eq:subhyp}. Full column rank proves uniqueness.
+\end{proof}
+For several colors, the same construction uses multivariate hypergeometric kernels; joint falling-factorial moments of total degree at most $n$ give the corresponding estimable polynomial space.
+
+There is a useful additional distinction. Write $C_n(A,x)=\Bin(n,A/L)\{x\}$ for sampling with replacement from the same finite population. A signed transfer $C_n\to H_m$ exists if and only if $n\ge m$ (with $m\le L$), since the source polynomial space has dimension $\min(n,L)+1$. But for $L\ge2$ and $m\ge2$ no finite $n$ permits a positive transfer. At $A=L$, $X=n$ surely and the target must report $m$ successes. At $A=1$, $X=n$ has positive probability, whereas $m$ successes are impossible. Positivity makes these requirements contradictory. For $m=1$ and $n\ge1$, choosing one source draw works.
+
+For $n=m=2$ the unique signed matrix, in outcome order $0,1,2$, is
+\begin{equation}\label{eq:crosssigned}
+ \begin{pmatrix}
+ 1&0&0\\
+ -[2(L-1)]^{-1}&L/(L-1)&-[2(L-1)]^{-1}\\
+ 0&0&1
+ \end{pmatrix},\qquad \Gamma=\frac{L+1}{L-1}.
+\end{equation}
+In the reverse direction, $H_n\to C_m$ has an exact transfer precisely when $m\le n$ or $n=L$, and then a positive transfer exists. For $m\le n$, first generate the equality pattern of $m$ iid draws from $L$ objects; assign its at most $m$ distinct objects to a uniform subsample of the $n$ observed objects. Conditional on the pattern, their colors have the correct without-replacement law. For $n=L$, the population count is known and arbitrary iid resampling is possible. Otherwise degree $n+1$ is an obstruction. These classifications concern the full count experiments over all $A$, not a restricted interior parameter set.
+
+As a comparison to the detection inverse, the ordered-support experiment of \cite[Proposition 10.1]{LongI} has inverse $h_\psi(m)=m\psi(m)/k-(m-k)\psi(m-1)/k$. On $N\in\{k,\ldots,L\}$ its unique inverse has norm $2L/k-1$. Consecutive numeric labels supply the extra information responsible for this different triangular inverse; the ordinary without-replacement fingerprint does not.
+
+\section{Exact comparison of random-effort experiments}\label{sec:effort}
+Let $\mathsf Z$ be a countably infinite label space. The parameter class contains all finitely supported probability distributions $p$ on $\mathsf Z$. Given a known probability law $\rho$ on $\N_0$, define $\Ee_\rho$ by observing
+\[
+ (N,Z_1,\ldots,Z_N),\qquad N\sim\rho,\quad Z_i\overset{\rm iid}{\sim}p,
+\]
+with count independent of marks. All data retain labels. An unordered labelled multiset is equivalent, since an independent uniform ordering reconstructs the ordered law. An anonymous occupancy fingerprint is a different, coarsened experiment.
+
+For source effort $\rho$ and target effort $\sigma$, put
+\begin{equation}\label{eq:tailgap}
+ d(\rho,\sigma)=\sup_{k\ge1}\bigl[\sigma([k,\infty))-\rho([k,\infty))\bigr]_+.
+\end{equation}
+
+\begin{lemma}[Optimal count coupling]\label{lem:countcoupling}
+Among couplings $(N,M)$ with laws $\rho,\sigma$, the smallest $\Pp(M>N)$ is $d(\rho,\sigma)$, and a coupling attaining it exists.
+\end{lemma}
+\begin{proof}
+For each $k$, $\Pp(M>N)\ge\Pp(M\ge k)-\Pp(N\ge k)$. Conversely let $d=d(\rho,\sigma)$ and use right-continuous distribution functions $F_\rho,F_\sigma$ on $\N_0$. Then $F_\rho(j)\le F_\sigma(j)+d$ for every $j$. For $0\le d<1$, let $U$ be uniform on $(0,1)$, put $N=F_\rho^{-1}(U)$, and set $V=U-d$ if $U>d$ and $V=U+1-d$ otherwise. The variable $V$ is uniform. On $U>d$, $V\le F_\rho(N)-d\le F_\sigma(N)$, so $M=F_\sigma^{-1}(V)\le N$. Thus failure probability is at most $d$, and the lower bound proves equality. For $d=1$ the lower bound suffices for any coupling. The case $d=0$ is the usual quantile coupling for stochastic domination. This is the ordered special case of marginal coupling theory \cite{Strassen1965}, with the explicit construction included here.
+\end{proof}
+
+\begin{theorem}[Exact random-effort deficiency]\label{thm:effort}
+On the unrestricted finite-support parameter class above,
+\begin{equation}\label{eq:effortexact}
+ \boxed{\delta(\Ee_\rho,\Ee_\sigma)=d(\rho,\sigma).}
+\end{equation}
+The upper bound is attained by a sample-deletion/fallback kernel. Exact positive simulation exists if and only if $\rho$ stochastically dominates $\sigma$. The symmetric Le Cam distance is
+\[
+ \max\{\delta(\Ee_\rho,\Ee_\sigma),\delta(\Ee_\sigma,\Ee_\rho)\}
+ =\sup_{j\ge0}|F_\rho(j)-F_\sigma(j)|.
+\]
+The result continues to hold if all countable probability distributions are included.
+\end{theorem}
+\begin{proof}
+Couple counts optimally as in \cref{lem:countcoupling}, conditionally on the observed source count. If $M\le N$, output the first $M$ observed marks; otherwise output any measurable fallback sequence of length $M$. Couple both with one infinite iid mark sequence. The target and simulated experiments agree on $M\le N$, hence their total variation distance is at most $d$, uniformly in $p$.
+
+For the converse fix an arbitrary Markov simulation $K$ and $k\ge1$. Choose integers $H>D\ge k$. Let a prior select uniformly a $D$-element subset $A$ of the first $H$ labels and let $p_A$ be uniform on $A$. For target output define $B_A$ to be the event that the reported count is at least $k$ and its first $k$ labels are distinct and all belong to $A$. Under the true target law,
+\[
+ Q_A(B_A)=\sigma([k,\infty))\frac{(D)_k}{D^k}.
+\]
+Under the source, on $N<k$, at most $k-1$ distinct labels have been observed. Conditional on the source sequence with $r$ distinct labels, the posterior on $A$ is uniform over $D$-sets containing those labels: its likelihood is $D^{-N}$ for every compatible set. For the output to satisfy $B_A$, it must propose at least one unobserved label. Conditional on source data and the simulation randomization, the first such proposed label has posterior probability at most
+\[
+ \frac{D-r}{H-r}\le\frac{D}{H-k+1}
+\]
+of belonging to $A$ (zero if it lies outside the first $H$ labels). On $N\ge k$ use the trivial bound one. Averaging over the prior therefore gives
+\[
+ \sup_A\TV(P_AK,Q_A)
+ \ge \sigma([k,\infty))\frac{(D)_k}{D^k}
+       -\rho([k,\infty))-\frac{D}{H-k+1}.
+\]
+Let $D\to\infty$ and, for example, $H=D^3$. The lower bound becomes the tail difference at $k$. Supremizing over $k$ proves \eqref{eq:effortexact}. Every prior used only actual finite populations. The upper bound works for every $p$, while the lower bound already holds on the finite-support subclass. If $d=0$, the quantile coupling never lacks observations and gives exact simulation; if $d>0$, exact simulation is impossible. The symmetric formula follows by taking both tail differences.
+\end{proof}
+The lower-bound event depends on the parameter $A$, as is allowed in the definition of a parameterwise total variation supremum. Averaging these parameterwise inequalities is valid; it does not pretend that $A$ is observed by the procedure. This detail is essential to the argument.
+
+\subsection{Poissonization costs and a non-equivalence boundary}
+Write $\Ee_n=\Ee_{\delta_n}$ and $\Ee_t^{\rm P}=\Ee_{\Pois(t)}$. Then
+\begin{equation}\label{eq:poissontails}
+ \delta(\Ee_n,\Ee_t^{\rm P})=\Pp\{\Pois(t)>n\},\qquad
+ \delta(\Ee_t^{\rm P},\Ee_n)=\Pp\{\Pois(t)<n\}.
+\end{equation}
+In particular, at $t=n\to\infty$ both distances tend to $1/2$, not zero, on this unrestricted class. This is consistent with classical warnings that Poissonization needs parameter restrictions for asymptotic equivalence \cite{LowZhou2007}; it is not a claim about smooth density classes or a fixed symmetric target.
+
+A valid coverage $1-\alpha$ in the Poisson experiment transfers by the deletion/fallback kernel to coverage $1-\alpha-\Pp\{\Pois(t)>n\}$ in $n$ fixed observations. For the reverse direction use the lower tail. Bounded-loss risks obey the same sharp universal comparison budget from \cref{thm:guarantees}; the budget need not be sharp for a particular target or procedure.
+
+If $t=(1-\eta)n$, $0<\eta<1$, the forward tail is at most
+\[
+ \exp\{-n[-\log(1-\eta)-\eta]\}.
+\]
+If $t=(1+\eta)n$, the reverse tail is at most
+\[
+ \exp\{-n[\eta-\log(1+\eta)]\}.
+\]
+These follow by optimizing the Poisson exponential moment; use the exact tails whenever available. Effort slack of order $\sqrt{n\log(1/\varepsilon)}$ is thus sufficient in the moderate-slack regime for comparison error $\varepsilon$.
+
+\subsection{Restrictions and information retained}
+Theorem~\ref{thm:effort} also applies to full iid batch marks drawn from an arbitrary distribution on a rich countable batch space: singletons alone embed its lower-bound construction. A bound $B\ge1$ on batch size does not remove that embedding. It does not apply verbatim after flattening batches or discarding labels. On a finite known alphabet, or under a lower probability bound, extra observations may be synthesized more accurately and \eqref{eq:effortexact} is then only an upper bound. Nontrivial amplification under support restrictions, and its precise relationship with learning and Le Cam distance, is developed in \cite{Axelrod2020,Axelrod2024}. In particular, the latter paper treats the distinction between Poissonized and fixed-count discrete models. The theorem here concerns unrestricted supports and arbitrary count laws; it does not supplant those rate results.
+
+The count law must be parameter-independent and observed. Informative stopping or data-dependent effort is not the same experiment. Conditioning a Poisson law on its observed total gives a fixed-sample law, but an unconditional confidence guarantee need not hold at each conditioned total. The next section gives a correct unconditional-to-fixed construction.
+
+\section{Dominated transfer: calibration without a tail-level penalty}\label{sec:dominated}
+A sub-Markov kernel $G$ is positive with $G(x,\mathsf Y)\le1$. Say it is dominated by the target experiment if
+\begin{equation}\label{eq:domination}
+ P_\theta G\le Q_\theta
+\end{equation}
+as measures for every parameter. Missing mass in this relation is an erased part of the experiment, not a guessed observation.
+
+\begin{theorem}[Dominated calibration and maximal deletion]\label{thm:deletioncal}
+If \eqref{eq:domination} holds, every nonnegative target e-value $e_\theta$ transfers to the source e-value $Ge_\theta$, including unbounded e-values.
+
+For $n$ fixed iid observations and a target random-effort law $\rho$, define
+\begin{equation}\label{eq:domdelete}
+ (G_{n,\rho}f)(S_n)
+ =\sum_{k=0}^{n}\rho(k)\binom nk^{-1}
+       \sum_{I\subseteq[n]:|I|=k}f(k,S_I).
+\end{equation}
+Then
+\begin{equation}\label{eq:subexperiment}
+ P_{p,n}G_{n,\rho}=Q_{p,\rho}\big|_{\{N\le n\}},
+\end{equation}
+so calibration transfers at its original level $\alpha$, without an additive sample-count tail penalty.
+
+Among mark-independent permutation-invariant deletion subkernels with output-size weights independent of the data, \eqref{eq:domdelete} is the greatest dominated kernel: every other such kernel has weights $a_k\le\rho(k)$ and hence sends each $f\ge0$ to a value no larger than $G_{n,\rho}f$.
+\end{theorem}
+\begin{proof}
+Tonelli and domination give $\E_PGe_\theta\le\E_Qe_\theta\le1$. For iid samples, a uniform $k$-subsample has law $p^{\otimes k}$, proving \eqref{eq:subexperiment}. A kernel in the stated class has law $\sum_{k\le n}a_kp^{\otimes k}$ on disjoint count components. Domination implies $a_k\le\rho(k)$ by examining the total mass at count $k$, and these inequalities suffice. They also prove pointwise maximality on nonnegative functions.
+\end{proof}
+This maximality is within a precisely declared class, not a statement that no other e-value can be more powerful. The kernel is not normalized: its row mass is $\rho([0,n])$. Accordingly, level preservation does not contradict the positive deficiency in \eqref{eq:poissontails}. The unresolved outcomes contribute zero evidence, sacrificing power rather than coverage. The same deletion proof works for any projectively consistent exchangeable sampling family, provided every count carrying target mass lies in the horizon where that experiment is defined; this includes finite without-replacement families with count laws supported in their available horizon. Conditional renormalization by $\rho([0,n])$ is not generally valid for an e-value calibrated under the original, unconditioned target experiment.
+
+\subsection{Poisson cumulants become fixed-sample convex regions}\label{subsec:fixedpop}
+In the independent-species model, write $\mu_p=\sum_ip_i\delta_{p_i}$ and, for fixed Poisson effort $t$, define
+\[
+ b_r^t(x)=e^{-tx}(tx)^r/r!,\qquad
+ \kappa^t_\lambda(x)=\frac1x\log\left[1+\sum_{r=1}^db_r^t(x)(e^{\lambda_r}-1)\right].
+\]
+The kernel extends to $x=0$, and \cite[Theorem 7.1]{LongI} proves
+\[
+ \E_p\exp\{\lambda^\top\Phi(S_t)-\textstyle\int\kappa^t_\lambda\dd\mu_p\}=1.
+\]
+For fixed directions $\lambda_j$ and weights $w_j>0$ summing to one, put
+\begin{equation}\label{eq:Hpop}
+ H_{j,n}(S_n)=\sum_{k=0}^n\pi_t(k)\binom nk^{-1}
+                 \sum_{|I|=k}e^{\lambda_j^\top\Phi(S_I)},
+ \qquad \pi_t(k)=e^{-t}t^k/k!.
+\end{equation}
+Then
+\begin{equation}\label{eq:fixedpopE}
+ E_{\nu,n}(S_n)=\sum_jw_jH_{j,n}(S_n)
+                         e^{-\int\kappa^t_{\lambda_j}\dd\nu}
+\end{equation}
+is an e-value at $\nu=\mu_p$ under exactly $n$ iid observations. Its sublevel set at $1/\alpha$ is convex over $\Prob([0,1])$ and gives simultaneous population-functional bounds. No independent-species assumption has been imposed on the fixed-size counts; independence was used only in the source Poisson calculation before the dominated transfer.
+
+Keeping just $k=n$ gives the simpler valid calibration
+\[
+ \pi_t(n)\sum_jw_j e^{\lambda_j^\top\Phi(S_n)-\int\kappa^t_{\lambda_j}\dd\nu}.
+\]
+The full deletion version is pointwise at least as large and hence has a contained confidence region, for the same base calibrator. Its computation may be more expensive. Subsample sums can be evaluated exactly by enumerating occurrences or grouped count allocations; neither requires knowing unseen labels.
+
+Once calibrated, the population targets can be those of the fixed-sample experiment rather than the Poisson experiment. For example,
+\begin{equation}\label{eq:fixedtargets}
+ \E M_n=\int(1-x)^n\dd\mu_p,
+ \qquad \E Y_{n,m}=\int\frac{(1-x)^n[1-(1-x)^m]}x\dd\mu_p.
+\end{equation}
+The latter kernel has continuous limit $m$ at zero. Optimizing these targets over \eqref{eq:fixedpopE} is valid. The special two-node Poisson envelopes of \cite[Theorem 5.3]{LongI} do not automatically extremize these new kernels or a region with additional cumulant constraints. Recovery geometry must use the actual retained constraints.
+
+\section{Fixed-sample prediction from Poisson joint calibration}\label{sec:prediction}
+This section supplies a single construction using sampling transfer, recovery geometry, and statistical calibration. Its sharp component is the recovery problem conditional on the declared constraints, not unrestricted prediction-interval optimality.
+
+Let $S_n$ be $n$ iid initial units and $T_m$ be $m$ independent future units from the same mark law. A unit reveals feature weight at most $B<\infty$. Write $D(S)$ for covered feature weight and
+\[
+ Y(S,T)=\sum_Aw_A\ind_{\{X_A(S)=0,\ X_A(T)>0\}}
+\]
+for future novelty. For subsets $I\subseteq[n]$, $J\subseteq[m]$ of sizes $k,\ell$, put $d_I=D(S_n)-D(S_I)\ge0$.
+
+\begin{lemma}[Pathwise deletion bounds for novelty]\label{lem:novelty}
+For every pair of realized samples,
+\begin{equation}\label{eq:pathnovelty}
+ Y(S_I,T_J)-\min\{d_I,B\ell\}
+ \le Y(S_n,T_m)
+ \le Y(S_I,T_J)+B(m-\ell).
+\end{equation}
+The constants one multiplying removed feature weight and future-unit weight cannot be decreased uniformly over such feature systems.
+\end{lemma}
+\begin{proof}
+Features counted on the left-side subsample but not in the full-sample novelty must be revealed by $S_n$ but not by $S_I$, with total weight at most $d_I$. Their weight is also at most $D(T_J)\le B\ell$. Features novel for the full pair but not for the smaller pair must be revealed by the $m-\ell$ removed future units, with weight at most $B(m-\ell)$. Disjoint features newly revealed by each removed future unit attain the upper coefficient. Features revealed only by the removed initial units and repeated in the retained future attain the lower coefficient whenever there is sufficient retained future capacity.
+\end{proof}
+
+\begin{proposition}[Joint dominated transfer]\label{prop:jointdelete}
+Suppose independent Poisson numbers $K\sim\Pois(t)$ and $L\sim\Pois(u)$ of initial and future units admit a nonnegative joint e-value
+\[
+ e_\theta(S,z)=A_\theta(S)e^{\eta z},\qquad
+ \E_\theta e_\theta(S_K,Y(S_K,T_L))\le1,
+\]
+where $\eta\in\R$ is fixed. Define $\eta_+=\max(\eta,0)$ and $\eta_-=\max(-\eta,0)$. Then the following is a joint e-value for the fixed-sample target $Y_{n,m}=Y(S_n,T_m)$:
+\begin{align}\label{eq:genericjoint}
+ \widetilde e_\theta(S_n,y)
+ =\sum_{k=0}^n\sum_{\ell=0}^m\pi_t(k)\pi_u(\ell)\binom nk^{-1}
+ \sum_{|I|=k} A_\theta(S_I)
+ \exp\{\eta y-\eta_+B(m-\ell)-\eta_-\min(d_I,B\ell)\}.
+\end{align}
+Mixtures with fixed nonnegative weights preserve this conclusion. No additive confidence-level penalty is required.
+\end{proposition}
+\begin{proof}
+At the true $y=Y_{n,m}$, \cref{lem:novelty} implies that the exponent involving $y$ and the corrections is at most $\eta Y(S_I,T_J)$. Average over a uniform unobserved future subset $J$ of size $\ell$. Independently chosen initial and future subsamples have the iid $k$- and $\ell$-sample laws, so integrating the right side of the inequality and summing over $k\le n$, $\ell\le m$ gives the part of the original e-value expectation on $K\le n,L\le m$. Nonnegativity bounds it by one. The procedure needs only $S_n$ and the candidate $y$; the subset $J$ is used in the proof, not observed.
+\end{proof}
+This theorem also applies to genuinely dependent features in bounded batches if the input e-value was valid for that full batch law. It does not replace a batch law by independent species counts.
+
+\subsection{An explicit independent-species construction}
+For ordinary single-species units take $B=1$, $D(S)$ the distinct count, and $\Phi(S)$ its first $d$ occupancy counts. The exact joint kernel for Poisson initial/future efforts $t,u>0$ is
+\begin{equation}\label{eq:jointYkernel}
+ \kappa_{\lambda,\eta}^{t,u}(x)
+ =\frac1x\log\left[
+ 1+\sum_{r=1}^d b_r^t(x)(e^{\lambda_r}-1)
+   +e^{-tx}(1-e^{-ux})(e^\eta-1)\right].
+\end{equation}
+At zero its continuous limit is $t(e^{\lambda_1}-1)+u(e^\eta-1)$. Per-species factorization gives
+\[
+ \E_p e^{\lambda^\top\Phi(S_t)+\eta Y_{t,u}}
+ =\exp\left\{\int\kappa_{\lambda,\eta}^{t,u}\dd\mu_p\right\}.
+\]
+For countably many species, the exponent is bounded in absolute value by $C(K+L)$, whose exponential moments are finite. This proves uniform integrability of finite-species truncations. These are precisely the joint-target methods of \cite[Theorem 7.2 and Section 8.3]{LongI}, rather than exponential moments of the possibly unstable full Good--Toulmin error.
+
+Choose $J$ fixed pairs $(\lambda_j,\eta_j)$ and positive weights $w_j$ summing to one. Write $\kappa_j=\kappa_{\lambda_j,\eta_j}^{t,u}$ and define the observable positive coefficients
+\begin{equation}\label{eq:Hpredict}
+\begin{split}
+ H_j(S_n)={}&\sum_{k=0}^n\sum_{\ell=0}^m\pi_t(k)\pi_u(\ell)\binom nk^{-1}
+ \sum_{|I|=k}\exp\Bigl\{\lambda_j^\top\Phi(S_I)\\
+ &\hspace{22mm}-\eta_{j,+}(m-\ell)
+ -\eta_{j,-}\min\{D(S_n)-D(S_I),\ell\}\Bigr\}.
+\end{split}
+\end{equation}
+
+\begin{theorem}[Fixed-sample joint prediction region]\label{thm:fixedprediction}
+For exactly $n$ iid initial observations and $m$ independent future observations, the set
+\begin{equation}\label{eq:fixedjointregion}
+ \mathcal J_\alpha(S_n)=
+ \left\{(\nu,y)\in\Prob([0,1])\times[0,m]:
+ \sum_{j=1}^Jw_jH_j(S_n)
+       e^{\eta_jy-\int\kappa_j\dd\nu}\le\alpha^{-1}\right\}
+\end{equation}
+satisfies
+\[
+ \Pp_p\{(\mu_p,Y_{n,m})\in\mathcal J_\alpha(S_n)\}\ge1-\alpha.
+\]
+It is compact and convex. Its projection onto $y$, intersected with $\mathbb Z$, gives a prediction interval with that coverage. If the region is empty, report $[0,m]\cap\mathbb Z$ instead. No positive lower probability bound is needed.
+\end{theorem}
+\begin{proof}
+Apply \cref{prop:jointdelete} to each normalized exponential term and average with weights $w_j$. Markov's inequality at the true pair gives coverage. Each summand is the exponential of an affine functional of $(\nu,y)$, so the region is convex; continuity of $\kappa_j$ and compactness of $\Prob([0,1])\times[0,m]$ give closedness and compactness. A nonempty convex projection onto the real line is an interval. The integer rounding retains every possible integer true value. True-pair membership guarantees nonemptiness on the coverage event.
+\end{proof}
+The count weights in \eqref{eq:Hpredict} are not renormalized. Keeping just $k=n,\ell=m$ already proves that
+\[
+ \pi_t(n)\pi_u(m)
+ e^{\lambda_j^\top\Phi(S_n)+\eta_j y-\int\kappa_j\dd\nu}
+\]
+is a joint e-value at the true pair. The full construction adds nonnegative valid pieces and consequently yields a contained region for the same mixture. The price is possible computational cost, not an additional error split. This does not prove superiority to every other calibrator.
+
+The direction vectors, $t,u,n,m$, and weights are prescribed independently of the evaluation data unless a separate mixture or sample-splitting argument is used. Coverage is joint frequentist coverage, not conditional on each initial sample and not automatic for a data-selected family of future targets. The target is the actual fixed-sample novelty, not a Poisson novelty with $t,u$ merely relabelled as $n,m$.
+
+\subsection{An exact recovery dual for the calibrated relaxation}
+Set
+\begin{equation}\label{eq:calconstraints}
+ c_j(S_n)=\log H_j(S_n)-\log(1/(\alpha w_j)).
+\end{equation}
+A valid relaxation of \eqref{eq:fixedjointregion} imposes only
+\begin{equation}\label{eq:jointlinear}
+ \int\kappa_j\dd\nu-\eta_jy\ge c_j,
+ \quad j=1,\ldots,J,\quad \nu\in\Prob([0,1]),\quad 0\le y\le m.
+\end{equation}
+The mixture region is contained in this set because it bounds each weighted summand. A union bound applied to the individual joint e-values gives the same coverage directly.
+
+\begin{theorem}[Sharp calibrated projection and finite witnesses]\label{thm:predictiondual}
+If \eqref{eq:jointlinear} is feasible, its largest feasible target value is
+\begin{equation}\label{eq:predictionupperdual}
+ H=\inf_{a\in\R_+^J}\left\{
+ \max_{0\le x\le1}\sum_ja_j\kappa_j(x)
+ -\sum_ja_jc_j
+ +m\left(1-\sum_ja_j\eta_j\right)_+\right\}.
+\end{equation}
+Its smallest value is
+\begin{equation}\label{eq:predictionlowerdual}
+ L=-\inf_{a\in\R_+^J}\left\{
+ \max_{0\le x\le1}\sum_ja_j\kappa_j(x)
+ -\sum_ja_jc_j
+ +m\left(-1-\sum_ja_j\eta_j\right)_+\right\}.
+\end{equation}
+The primal extrema are attained, and each can be represented by a measure with at most $J+1$ atoms. The same finite-atom bound for an endpoint witness holds for the mixture region \eqref{eq:fixedjointregion}. A feasible dual multiplier with a certified continuous maximum gives a rigorous endpoint certificate. Dual attainment is not asserted at every boundary instance.
+\end{theorem}
+\begin{proof}
+For the upper value, use the Lagrangian
+\[
+ y+\sum_ja_j\left(\int\kappa_j\dd\nu-\eta_jy-c_j\right),\qquad a_j\ge0.
+\]
+It majorizes $y$ on the feasible set. Its supremum over the unconstrained compact convex product $\Prob([0,1])\times[0,m]$ is the expression in braces in \eqref{eq:predictionupperdual}. Conversely, its infimum over $a\ge0$ is $y$ at feasible points and $-\infty$ at infeasible ones. Sion's minimax theorem \cite{Sion1958}, or separation of the associated finite-dimensional compact moment body, exchanges these suprema and infima. This proves value duality. Replace $y$ by $-y$ for \eqref{eq:predictionlowerdual}.
+
+Compactness and continuity give primal attainment. At an optimum, the vector of $J$ kernel moments belongs to the convex hull of the continuous curve
+\[
+ x\longmapsto(\kappa_1(x),\ldots,\kappa_J(x)).
+\] Carath\'eodory's theorem represents it by at most $J+1$ nodes, preserving $y$ and every constraint. This applies to the mixture constraint as well.
+\end{proof}
+The interval $[L,H]\cap\mathbb Z$ is sharp for the continuous positive-measure relaxation and target range in \eqref{eq:jointlinear}. It may improve after imposing actual-population integer multiplicities, joint support restrictions, or additional data. It is not claimed to minimize expected length among all valid procedures. A finite grid maximum in \eqref{eq:predictionupperdual} is a lower approximation to the needed continuous maximum and is not by itself an upper certificate.
+
+This construction gives a concrete generative result: a Poisson joint transform, a sample-deletion inequality, and moment duality produce a fixed-size prediction region, its finite-support witnesses, and its endpoint certificates without reusing an invalid unconditional-to-conditional argument.
+
+\section{Bounded batches: exact extraction and transfer limits}\label{sec:batch}
+Let a batch be a finite set $C$ of species with $|C|\le B$, $B\in\N$, drawn iid from an unknown law $Q$. Empty batches are allowed. Write
+\[
+ q_i=Q(i\in C),\qquad \sum_iq_i=\E|C|\le B.
+\]
+At Poisson effort $t$, feature counts need not be independent. Retaining batch boundaries permits all sample-count comparisons in \cref{sec:effort} and all deletion inequalities above at the unit level.
+
+\begin{theorem}[Optimal proportional single-label extraction]\label{thm:batchmark}
+From each batch, output each of its members with probability $1/B$, and output a distinguished null mark with probability $1-|C|/B$. The output is an iid categorical mark with probabilities
+\[
+ r_i=q_i/B,\qquad r_\varnothing=1-\sum_iq_i/B.
+\]
+At Poisson unit effort $t$, the nonnull output counts are independent $\Pois(tr_i)$ variables. Among rules selecting at most one observed member per batch and satisfying $\Pp(\text{output }i)=c q_i$ for every batch law $Q$, the largest possible universal $c$ is exactly $1/B$.
+\end{theorem}
+\begin{proof}
+The formula follows by conditioning on $C$. Independence of units and the Poisson marking theorem give independence of category counts \cite[Theorems 5.6 and 5.8]{LastPenrose2017}. For necessity take $Q$ concentrated on one $B$-member batch. Each member must be selected with probability $c$, so $Bc\le1$. The displayed rule attains equality for every $Q$.
+\end{proof}
+This factor is sharp within the declared extraction class, not among all statistical algorithms using whole batches. It is a known Markov reduction, so all singleton-model calibration applies to the selected observations (with the null category either recorded or explicitly excluded).
+
+For excluded-null fingerprints, the natural size-biased measure is the subprobability
+\[
+ \mu_r=\sum_i r_i\delta_{r_i},\qquad \mu_r([0,1/B])\le1.
+\]
+Independent Poisson cumulants remain linear in this measure. The positive relaxation is now nonnegative measures of mass at most one, not probability measures of mass exactly one. Its linear support function is $\max\{0,\sup_xg(x)\}$; the extra zero represents the null mass. One must make this normalization change before invoking a recovery theorem.
+
+Expected discoveries in the original Poisson batch experiment satisfy the exact target identity
+\begin{equation}\label{eq:batchtarget}
+ F_Q(s)=\sum_i(1-e^{-s q_i})
+       =\int\frac{1-e^{-Bs x}}x\,\mu_r(\dd x),
+\end{equation}
+and expected future discoveries over effort $v$ after $s$ use kernel $e^{-Bs x}(1-e^{-Bv x})/x$. Their limits at zero are $Bs$ and $Bv$. For fixed unit counts $n,m$, replace this by
+\[
+ \frac{(1-Bx)^n[1-(1-Bx)^m]}x,
+ \qquad 0\le x\le1/B.
+\]
+Consequently singleton calibration on the selected marks gives simultaneous valid bounds for these original-batch \emph{expectations}, followed by the correct subprobability recovery calculation. It need not be statistically sharp for data from the original batches.
+
+\subsection{Why marginal extraction does not transfer original-batch prediction}
+Two batch laws can have the same $q_i$ and hence the same selected-label law but different future novelty distributions. For example, let $Q_1$ assign probability $1/2$ to each singleton $\{1\},\{2\}$, and let $Q_2$ assign probability $1/2$ to $\{1,2\}$ and $1/2$ to the empty batch. Both have $q_1=q_2=1/2$; their discovery-count variances at Poisson effort differ. Prediction for the original joint target therefore needs a full batch-law e-value or another batch-valid bound. Proposition~\ref{prop:jointdelete} transfers such a bound to fixed batch counts using the same $B$ and the observed lost-feature weight. It never substitutes the independent-species joint transform for a dependent batch model. Existing work already gives bounded-arity unseen-species prediction results \cite{Eriksson2026}; our result is a conditional transfer mechanism, not a replacement for those within-model theorems.
+
+Known independent within-batch singleton generation would supply an additional model-specific equivalence, but that assumption is not implied by bounded batch size. Similarly, flattening the batches may discard information needed for unit thinning and cannot be treated as an invertible operation.
+
+\section{Consequences, limitations, and constructive workflow}\label{sec:conclusion}
+The manuscript proves an exact normal-operator criterion, finite feasibility and amplification classification, and explicit transfers for the named sampling kernels. It transports moment identities and certificates with their scope, calibration through positive or dominated kernels, and lower bounds only in the justified direction. The unrestricted random-effort comparison has a matching lower bound. The fixed-sample prediction theorem uses all three companion layers and has an exact relaxed recovery dual.
+
+A constructive application consists of specifying the retained observations and parameter class; constructing a positive, signed, dominated, or approximate kernel and its integrability domain; transferring the target or proving its pathwise comparison; and solving the resulting calibrated recovery problem with a certificate. Outputting only a formal inverse omits the essential statistical distinctions.
+
+Several general problems are deliberately not claimed solved. The normal factorization criterion is not an effective decision procedure for arbitrary measurable models. Exact deficiency need not be attained outside the explicit classes treated here. The sharp random-effort lower bound is for unrestricted labelled experiments, not every anonymous species functional. The signed amplification does not determine stochastic minimax rates. Integer-realizable recovery and globally minimum-width prediction intervals remain separate optimizations. General simultaneous future-target or optional-stopping claims require further joint or sequential calibration. The finite code checks below corroborate proofs and implementations, not priority or formal verification.
+
+A useful further question is how the exact effort-deficiency formula changes under quantitative restrictions on the support, smoothness, or minimum probability. Those restrictions rule out parts of the random-support obstruction and may permit genuine data amplification; the general bounds here identify precisely which unrestricted barrier such a result would overcome.
+
+\appendix
+\section{Precise dependence on the companion manuscript}\label{app:crosswalk}
+All references in this table refer to version 0.2 of \cite{LongI}, dated November 12, 2026. The source bundle retains an unchanged copy and its SHA-256 digest. Numbering was obtained by compiling that source, not by inferring numbering from earlier conversational drafts.
+\begin{center}\small
+\begin{tabular}{p{0.24\textwidth}p{0.66\textwidth}}
+\toprule
+Companion location & Use in this manuscript\\
+\midrule
+Theorem 3.1, p.\ 5 & Boolean interaction coordinates for deletion; the positive/signed classification here is proved explicitly.\\[3pt]
+Proposition 3.2, p.\ 5 & Exchangeable subsampling transfer and conditional Jensen; extended here to normal kernels and quantitative residuals.\\[3pt]
+Proposition 3.6, p.\ 9 & Exponential nonintegrability of full long-horizon Good--Toulmin; not overridden by a formal signed inverse.\\[3pt]
+Theorems 4.1--4.2, pp.\ 9--10 & Moment duality and deterministic recovery; distinguished here from comparison of full observation laws.\\[3pt]
+Theorem 5.3, p.\ 12 & Canonical two-moment envelopes; not automatically extremal after adding cumulant kernels or changing the target kernel.\\[3pt]
+Section 6, p.\ 17 & Integer realizability of population measures; remains an additional source of relaxed-versus-actual gaps.\\[3pt]
+Theorems 7.1--7.2, pp.\ 17--18 & Exact fingerprint and joint population--target calibration. The fixed-count formula here transfers these by domination and a pathwise target comparison.\\[3pt]
+Section 8 & Joint missing-mass and future-discovery kernels, error-transform restrictions, and stopping qualifications.\\[3pt]
+Proposition 10.1, p.\ 28 & Tank triangular inverse; its finite-range operator norm is added here.\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Audit ledger and reproducibility}\label{app:audit}
+\begin{longtable}{@{}p{0.25\textwidth}p{0.69\textwidth}@{}}
+\toprule
+Issue & Audited scope\\\midrule\endfirsthead
+\toprule Issue & Audited scope\\\midrule\endhead
+\bottomrule\endfoot
+Finite factorization & Correct for finite parameter and observation spaces. Normalization is obtained by a nullspace correction; the optimal norm is attained.\\[3pt]
+Measurable extension & Standard Borel spaces, countably additive kernels, and bounded-pointwise continuity. Algebraic range inclusion alone is not the asserted criterion.\\[3pt]
+Unbounded inversion & Allowed only on a stated integrability or weighted domain. Uniform variation can be infinite while bounded target statistics still have integrable transferred versions.\\[3pt]
+Signed calibration & Expectations transfer; nonnegativity does not. The bounded affine repair has an explicit amplification cost.\\[3pt]
+Lower-bound direction & A hard target-experiment pair need not be hard in the source. Reverse transfer or a source-law distance calculation is needed.\\[3pt]
+Random-effort sharpness & Full labelled iid experiments, observed parameter-independent counts, and all finite-supported distributions on an infinite label space. Restrictions can reduce deficiency.\\[3pt]
+Dominated deletion & Original error level is preserved without normalization of the truncated count weights. Lost count mass is lost evidence, not an exact simulation.\\[3pt]
+Future target & Transferred by a pathwise novelty sandwich. Observations alone do not establish joint target transfer.\\[3pt]
+Recovery dual & Exact values over the stated compact convex relaxation; finite-atom witnesses exist. Grid maxima alone do not certify continuum dual inequalities.\\[3pt]
+Batches & Whole batches are sampling units. One-label extraction changes marginal rates and the normalization of the mixing measure; it does not identify the full future batch law.\\[3pt]
+Optimality & Exact deficiency, finite norm, proportional extraction, and relaxed moment sharpness are separate criteria. No general target-risk or shortest-interval theorem is asserted.\\[3pt]
+Historical position & Comparison, normal-kernel, Hausdorff-moment, marking, and minimax ingredients are classical. Specialized priority remains subject to a focused independent review.\\
+\end{longtable}
+
+The verification directory contains two independent executable suites: the retained exact-arithmetic finite-transfer checks, and new exact or enumerated checks for the extensions. The latter cover finite count couplings, binomial/hypergeometric factorizations, signed cross-design inversion, the novelty sandwich, joint fixed-sample e-values, the finite-grid recovery dual, and batch extraction. The retained suite passed 2,182 exact checks; the extension suite passed 6,168 exact, symbolic, or numerical checks. These include 120 exactly optimal finite count couplings, 4,096 exhaustive novelty inequalities, 36 finite-law joint e-value enumerations, and four grid primal--dual comparisons. Each report states its arithmetic type; the retained counts are corroboration, not probabilistic validation of the theorems. The machine-readable report, rather than an unqualified count of examples, identifies the computations actually run.
+
+Finite checks are not a proof of the unrestricted deficiency theorem. Its random-support argument is given in full in \cref{thm:effort}. Numerical e-value checks are not a substitute for domination and joint-law proofs. Grid duality checks verify the finite optimization only; the continuum equality follows from \cref{thm:predictiondual}. The bundle includes a source-access audit recording primary references checked and access limitations.
+
+\begingroup\small
+\begin{thebibliography}{99}
+\setlength{\itemsep}{3pt}
+\bibitem{Axelrod2020}
+B. Axelrod, S. Garg, V. Sharan, and G. Valiant.
+Sample amplification: Increasing dataset size even when learning is impossible.
+In \emph{Proceedings of the 37th International Conference on Machine Learning},
+\emph{Proceedings of Machine Learning Research} \textbf{119} (2020), 442--451.
+\href{https://proceedings.mlr.press/v119/axelrod20a.html}{Publisher article and author manuscript}.
+
+\bibitem{Axelrod2024}
+B. Axelrod, S. Garg, Y. Han, V. Sharan, and G. Valiant.
+On the statistical complexity of sample amplification.
+\emph{Annals of Statistics} \textbf{52}(6) (2024), 2767--2790.
+\href{https://doi.org/10.1214/24-AOS2444}{doi:10.1214/24-AOS2444}.
+Author version: \href{https://arxiv.org/abs/2201.04315v2}{arXiv:2201.04315v2}, September 18, 2024.
+
+\bibitem{Blackwell1953}
+D. Blackwell. Equivalent comparisons of experiments.
+\emph{Annals of Mathematical Statistics} \textbf{24}(2) (1953), 265--272.
+\href{https://doi.org/10.1214/aoms/1177729032}{doi:10.1214/aoms/1177729032}.
+
+\bibitem{Eriksson2026}
+E. Eriksson. The unseen species problem revisited.
+Preprint, \href{https://arxiv.org/abs/2602.08769v4}{arXiv:2602.08769v4}, September 9, 2026.
+
+\bibitem{Howard2021}
+S. R. Howard, A. Ramdas, J. McAuliffe, and J. Sekhon.
+Time-uniform, nonparametric, nonasymptotic confidence sequences.
+\emph{Annals of Statistics} \textbf{49}(2) (2021), 1055--1080.
+\href{https://doi.org/10.1214/20-AOS1991}{doi:10.1214/20-AOS1991}.
+
+\bibitem{KuhnKunze2022}
+F. K\"uhn and M. Kunze. Feller generators with measurable lower order terms.
+\emph{Positivity} \textbf{26} (2022), article 85.
+\href{https://doi.org/10.1007/s11117-022-00948-4}{doi:10.1007/s11117-022-00948-4}.
+Author preprint: \href{https://arxiv.org/abs/2108.02542}{arXiv:2108.02542}, Section 2.
+
+\bibitem{LastPenrose2017}
+G. Last and M. Penrose. \emph{Lectures on the Poisson Process}.
+Institute of Mathematical Statistics Textbooks, vol.\ 7. Cambridge University Press, 2017.
+\href{https://doi.org/10.1017/9781316104477}{doi:10.1017/9781316104477}.
+
+\bibitem{LeCam1964}
+L. Le Cam. Sufficiency and approximate sufficiency.
+\emph{Annals of Mathematical Statistics} \textbf{35}(4) (1964), 1419--1455.
+\href{https://doi.org/10.1214/aoms/1177700372}{doi:10.1214/aoms/1177700372}.
+
+\bibitem{LiuPego2016}
+J.-G. Liu and R. L. Pego. On generating functions of Hausdorff moment sequences.
+\emph{Transactions of the American Mathematical Society} \textbf{368} (2016), 8499--8518.
+\href{https://doi.org/10.1090/tran/6618}{doi:10.1090/tran/6618}.
+The classical Hausdorff characterization in Section 1 is also stated in the revised author version
+\href{https://arxiv.org/abs/1401.8052v4}{arXiv:1401.8052v4} (2025).
+
+\bibitem{LongI}
+C. D. Long. \emph{Shape-Constrained Discovery-Rate Inversion: A sampling calculus, recovery geometry, and finite-sample statistical calibration}.
+Internal research manuscript, version 0.2, November 12, 2026, 35 pp.
+Companion source file \texttt{discovery\_rate\_inversion.tex}; retained unchanged with this source bundle. Not asserted to be a published work.
+
+\bibitem{LowZhou2007}
+M. G. Low and H. H. Zhou. A complement to Le Cam's theorem.
+\emph{Annals of Statistics} \textbf{35}(3) (2007), 1146--1165.
+\href{https://doi.org/10.1214/009053607000000091}{doi:10.1214/009053607000000091}.
+
+\bibitem{PolyanskiyWu2021}
+Y. Polyanskiy and Y. Wu. Dualizing Le Cam's method for functional estimation, with applications to estimating the unseens.
+Preprint, \href{https://arxiv.org/abs/1902.05616v2}{arXiv:1902.05616v2}, January 4, 2021; first version 2019.
+
+\bibitem{Sion1958}
+M. Sion. On general minimax theorems.
+\emph{Pacific Journal of Mathematics} \textbf{8}(1) (1958), 171--176.
+\href{https://doi.org/10.2140/pjm.1958.8.171}{doi:10.2140/pjm.1958.8.171}.
+
+\bibitem{Strassen1965}
+V. Strassen. The existence of probability measures with given marginals.
+\emph{Annals of Mathematical Statistics} \textbf{36}(2) (1965), 423--439.
+\href{https://doi.org/10.1214/aoms/1177700153}{doi:10.1214/aoms/1177700153}.
+
+\bibitem{Torgersen1991}
+E. Torgersen. \emph{Comparison of Statistical Experiments}.
+Encyclopedia of Mathematics and its Applications, vol.\ 36. Cambridge University Press, 1991.
+\href{https://doi.org/10.1017/CBO9780511666353}{doi:10.1017/CBO9780511666353}.
+
+\bibitem{Wasserman2020}
+L. Wasserman, A. Ramdas, and S. Balakrishnan. Universal inference.
+\emph{Proceedings of the National Academy of Sciences} \textbf{117}(29) (2020), 16880--16890.
+\href{https://doi.org/10.1073/pnas.1922664117}{doi:10.1073/pnas.1922664117}.
+\end{thebibliography}
+\endgroup
+\end{document}
