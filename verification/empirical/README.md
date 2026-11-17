@@ -23,6 +23,11 @@ running the optimizer, regenerates the random draws from seed 20261117, and
 checks all intervals, coverage counts, exact binomial Monte Carlo intervals,
 mean widths, and their Monte Carlo standard errors.
 
+Floating-point simulation truths and descriptive summaries are compared with
+relative and absolute tolerances of 1e-12 for portability across CPU builds.
+Integer counts and coverage decisions are checked exactly; the separate
+continuum-certificate verifier retains its outward interval checks.
+
 It also reproduces the normal intervals for all abundance datasets, the
 known-removal sunfish estimates and interval, and the point-summary sensitivity
 to disputed taxi and golf-tee source versions. The normal variants illustrate

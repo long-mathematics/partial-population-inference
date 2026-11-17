@@ -82,7 +82,10 @@ def main():
      case=cases[idx];idx+=1
      assert (case['population'],case['n'],case['replicate'],case['target'])==(name,n,rep,target)
      truth=float(sum(p[x==0])) if target=='missing_mass' else int(sum((x==0)&(y>0)))
-     assert case['truth']==truth
+     # NumPy powers and floating sums can differ by a few ulps across CPUs.
+     # Integer discoveries, fingerprints, and coverage decisions stay exact.
+     if target=='missing_mass':close(case['truth'],truth)
+     else:assert case['truth']==truth
      c=sim[case['certificate']];d=Design(**c['design']);phi=fp[:1] if target=='missing_mass' else fp
      assert c['fingerprint']==phi and c['design']['n']==n and c['design']['target']==target
      assert case['intervals']['certified_joint']==c['interval']
