@@ -33,3 +33,7 @@ The supplied review also mentions an ICLR labeling application without identifyi
 Record the target, sample design, population class, and coverage convention for every comparison. Point estimation of support, total missing mass, maximum unseen probability, and prediction of future discoveries answer different questions. Joint unconditional coverage is different from conditional prediction coverage. An empirical width comparison should only follow this alignment.
 
 No third-party paper is copied into this repository; links identify the sources and the manuscript bibliographies carry the formal citations.
+
+## Capture–recapture extension
+
+The November 17 [capture–recapture audit](CAPTURE_RECAPTURE.md#literature-audit-and-positioning) records Chapman, Bailey, Schnabel, Schumacher–Eschmeyer, Horvitz–Thompson, Chao, Lloyd, Pérez-Salvador, and Dettloff, including source-access limits. Their detailed mathematical comparison appears near the end of the capture–recapture paper. In particular, Chao (1987) and Chao–Yip–Lee–Chu (2001) are substantive antecedents to the unification.
