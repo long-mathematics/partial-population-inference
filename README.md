@@ -1,58 +1,63 @@
 # Partial-Population Inference
 
-Research on missing mass, species discovery, population size, and the transfer of inference between sampling experiments.
+Sampling kernels, recovery geometry, and finite-sample calibration for partially observed populations.
 
-The organizing question is when sampling kernels turn additive observations into recoverable population functionals and valid confidence regions. Poisson independence supplies linear cumulant functionals of the abundance measure. Positive and dominated transfers carry calibration to other experiments; signed transfers carry expectations and expose instability. The German tank problem supplies an exact finite decision example. Tag–retag and inverse-coupon inference are part of the research agenda, with their experiment-specific assumptions still to be developed here.
+This project studies missing mass, species discovery, population size, and inference across sampling designs. Its aim is a common mathematical framework for familiar estimators and new confidence procedures: identify the observation kernel, determine which population quantities it recovers, and track what remains valid when the experiment changes.
 
-**Status:** research drafts and computational verification; not peer-reviewed publications. This repository does not establish publication priority, universal minimaxity, or formal proof-assistant verification.
+**Status:** active research drafts with reproducible computational checks.
 
-## Manuscripts and current results
+## Classical estimators and applications
 
-| File | Version | Content |
+| Estimator or method | Inferential target | Treatment in this repository |
 |---|---|---|
-| [Discovery-rate inversion](manuscripts/discovery_rate_inversion.tex) | 0.2, November 12, 2026 | Sampling calculus; moment recovery; simultaneous envelopes; Hill-order anomaly; integer realizability; joint calibration; exact tank game |
-| [Transfer and generation](manuscripts/transfer_generation.tex) | 0.1, November 12, 2026 | Positive/signed transfers; random-effort deficiency; dominated deletion; fixed-size prediction; batch extraction |
-| [Additive cumulants and fixed-sample computation](research/master_identity_and_deletion.tex) | 0.1, November 16, 2026 | Explicit integrability conditions; polynomial deletion algorithms; threshold costs; effort-optimized full-count calibration |
+| **Good–Turing** | Missing mass and discovery rate | Singleton identities, the fixed-sample size shift, and the exact Poissonized relation; joint calibration for realized missing mass. |
+| **Good–Toulmin** | New species in a future sample | Discovery-curve extrapolation, prediction-error moments, and long-horizon instability and repairs. |
+| **Chao-type richness bounds** | Unseen species and total richness | The underlying population moment inequality and sharper moment-based recovery bounds. The observed-count ratio alone is not a confidence bound. |
+| **German tank estimator** | Population size from sampled serial numbers | The classical minimum-variance unbiased estimator, general triangular inversion, exact upper confidence limits, and a finite decision game. |
+| **Lincoln–Petersen** | Population size from two capture samples and their overlap | The tag–retag hypergeometric experiment is stated; explicit treatment of this estimator remains to be incorporated. |
+| **Chapman** | Bias-corrected two-sample capture–recapture estimation | A planned specialization of the same tag–retag experiment; its derivation and calibration are not yet developed here. |
 
-The first two files preserve the most recent versions recovered from prior work. The supplied discovery attachment was version 0.1; the recovered version 0.2 already implements most of the review suggestions. See [source provenance](provenance/SOURCES.md), the [current audit](audit/AUDIT.md), and the [literature audit](audit/LITERATURE.md).
+The current theory also treats collision-based power sums, Hill diversity, and multiple-survey discovery patterns. Tag–retag (capture–recapture) and inverse coupon collection are explicit continuation targets in the [research roadmap](research/ROADMAP.md).
 
-The continuation note proves a useful normalization result. When conditioning different Poisson efforts gives the same fixed-count data score, one can minimize its deterministic cumulant normalizer over effort without splitting the error level. The resulting e-value remains convex in the candidate measure. This does not justify maximizing arbitrary deletion e-values or choosing data-dependent score directions.
+## Mathematical framework
+
+- **Sampling and transfer.** Positive kernels transport decisions and calibration; dominated kernels transport calibration with a loss of power; signed kernels transport expectations and reveal extrapolation instability.
+- **Recovery geometry.** The abundance measure turns discovery curves and other population targets into linear functionals. Moment constraints yield simultaneous envelopes, while integer realizability distinguishes actual populations from relaxed measures.
+- **Calibration and computation.** Independent Poisson species counts give an additive cumulant identity. Joint e-values calibrate observed, realized, and future quantities; dominated deletion carries calibration to fixed-size samples. Polynomial algorithms compute the deletion averages, and common-score conditioning permits deterministic optimization over Poisson effort.
+
+The assumptions depend on the experiment and target. Some richness and envelope results require a known positive lower abundance bound; missing-mass and finite-horizon calibration do not always require one. The German tank model is a separate finite experiment within the framework.
+
+## Read the papers
+
+| Manuscript | Main contents |
+|---|---|
+| [Discovery-rate inversion](manuscripts/discovery_rate_inversion.tex) | Sampling identities; moment recovery and simultaneous envelopes; Hill-order anomaly; integer realizability; joint calibration; exact tank inference. |
+| [Transfer and generation](manuscripts/transfer_generation.tex) | Positive, signed, and dominated transfers; random-effort deficiency; fixed-size calibration and prediction; batch extraction. |
+| [Additive cumulants and fixed-sample computation](research/master_identity_and_deletion.tex) | Master identity with integrability conditions; polynomial deletion algorithms; threshold costs; effort-optimized full-count calibration. |
+
+The manuscript bibliographies contain the references and comparisons with existing literature. See also the [literature audit](audit/LITERATURE.md), [mathematical and computational audit](audit/AUDIT.md), and [source provenance](provenance/SOURCES.md).
 
 ## Reproduce
 
-Use Python 3.12 or later. Install the recorded numerical environment:
+Use Python 3.12 or later:
 
-~~~sh
+```sh
 python -m pip install -r requirements.txt
 make check
-~~~
+```
 
-The three check targets run independently:
+To run an individual verification suite, use `make check-discovery`, `make check-transfer`, or `make check-new`. The suites include exact rational certificates, symbolic identities, and numerical checks.
 
-~~~sh
-make check-discovery
-make check-transfer
-make check-new
-~~~
+To build all three PDFs, install a TeX distribution with `latexmk` and the packages declared in the sources, then run:
 
-Discovery verification distinguishes exact rational certificates, symbolic identities, and floating-point examples. Transfer verification reports 8,350 checks. The new deletion and normalization verifier reports 2,150 checks, using direct subset enumeration and finite-population expectations. Counts overlap in purpose and are not a measure of mathematical assurance.
-
-To compile all three documents, install a TeX distribution with latexmk, Latin Modern, amsmath, microtype, cleveref, and the other packages declared in the sources:
-
-~~~sh
+```sh
 make pdf
-~~~
+```
 
-PDFs are written under build/. The baseline papers describe their original bundle paths; the corresponding code is now under verification/discovery/ and verification/transfer/.
+PDFs are written to `build/`. The [GitHub Actions workflow](https://github.com/long-mathematics/partial-population-inference/actions/workflows/verify.yml) runs the verification suites and publishes compiled PDFs as build artifacts.
 
-## Code
+[src/partial_population/deletion.py](src/partial_population/deletion.py) implements log-domain population and prediction deletion scores and common-score effort optimization. The population polynomial takes O(n²) arithmetic operations and O(n) storage. This is research code; certified projection and numerical error bounds remain [development goals](research/ROADMAP.md).
 
-[src/partial_population/deletion.py](src/partial_population/deletion.py) implements log-domain population and prediction deletion scores, plus effort optimization for a common fixed-count score. This is a research prototype. The population polynomial takes O(n²) arithmetic operations and O(n) storage; the two-sided prediction polynomial also tracks lost species. Log-domain arithmetic reduces numerical overflow but does not supply rigorous error bounds.
+## Author and citation
 
-Directions, mixture weights, sampling windows, and population restrictions must satisfy the conditions in the papers. A lower abundance bound is needed for some recovery targets, especially unrestricted richness, but not for every calibration kernel. Relaxed positive measures and integer-realizable populations are different feasible sets.
-
-## Continuing the research
-
-The next concrete milestones are [listed here](research/ROADMAP.md): certified projected intervals, matched statistical benchmarks, and an explicit tag–retag/inverse-coupon experiment layer. No external dataset has yet been used to validate these methods.
-
-Author: Christopher D. Long. Original code and text are released under the [MIT license](LICENSE). Cited literature retains its own rights; this repository does not redistribute third-party papers.
+Christopher D. Long. Please cite the relevant manuscript and its version; repository citation metadata is in [CITATION.cff](CITATION.cff). Original code and text are released under the [MIT license](LICENSE).
